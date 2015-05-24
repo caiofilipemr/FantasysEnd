@@ -22,6 +22,18 @@ public:
     void doThis(Player &player);
 };
 
+class EquipShield: public Commands {
+public:
+    EquipShield(Item * new_do_in_this_item) : Commands("Equip weapon", new_do_in_this_item) { }
+    void doThis(Player &player);
+};
+
+class EquipArmor : public Commands {
+public:
+    EquipArmor(Item * new_do_in_this_item) : Commands("Equip weapon", new_do_in_this_item) { }
+    void doThis(Player &player);
+};
+
 class Consume : public Commands {
 public:
     Consume(Item * new_do_in_this_item) : Commands("Consume", new_do_in_this_item) { }

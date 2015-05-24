@@ -39,6 +39,8 @@ public:
     void addIntelligence(int intelligence_plus);
     void walk();
     void setWeapon(Weapon * new_weapon);
+    void setShield(Shield * new_shield);
+    void setArmor(Armor * new_armor);
     bool canEquipWeapon(int weight);
     bool canEquipShield(int weight);
     bool canEquipArmor(int weight);
@@ -46,6 +48,8 @@ public:
     Item * removeItemInventory(int item_index);
     Item * removeItemInventory(Item * remove_item);
     Weapon * getWeapon();
+    Shield * getShield();
+    Armor * getArmor();
 };
 
 #endif // PLAYER_H

@@ -4,7 +4,7 @@
 #include "item.h"
 
 
-class Armor : private Item
+class Armor : public Item
 {
 private:
     static const int guard_armor, armor_weight;

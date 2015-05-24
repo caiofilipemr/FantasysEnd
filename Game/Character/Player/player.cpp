@@ -53,6 +53,16 @@ void Player::setWeapon(Weapon * new_weapon)
     weapon = new_weapon;
 }
 
+void Player::setShield(Shield *new_shield)
+{
+    shield = new_shield;
+}
+
+void Player::setArmor(Armor *new_armor)
+{
+    armor = new_armor;
+}
+
 void Player::addStrenght(int strenght_plus)
 {
     strenght += strenght_plus;
@@ -122,6 +132,16 @@ Item *Player::removeItemInventory(Item * remove_item)
 Weapon *Player::getWeapon()
 {
     return weapon;
+}
+
+Shield *Player::getShield()
+{
+    return shield;
+}
+
+Armor *Player::getArmor()
+{
+    return armor;
 }
 
 Player::Player(Weapon * new_weapon,

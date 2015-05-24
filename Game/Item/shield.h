@@ -3,7 +3,7 @@
 
 #include "item.h"
 
-class Shield:private Item
+class Shield : public Item
 {
 private:
     static const int guard_shield, shield_weight;
