@@ -52,7 +52,8 @@ SOURCES += main.cpp\
     Item/inventory.cpp \
     globalfunctions.cpp \
     cellarray.cpp \
-    map.cpp
+    map.cpp \
+    commands.cpp
 
 HEADERS  += game.h \
     Character/Monster/monster.h \
@@ -95,6 +96,7 @@ HEADERS  += game.h \
     globalfunctions.h \
     macros.h \
     cellarray.h \
-    map.h
+    map.h \
+    commands.h
 
 FORMS    += game.ui
