@@ -5,7 +5,6 @@ const int Inventory::mod_weight = 5;
 
 Inventory::Inventory()
 {
-    item = new Item *[max_item];
     index = weight = 0;
 }
 
@@ -17,7 +16,7 @@ void Inventory::setMaxWeight(int strenght)
 bool Inventory::addItem(Item * new_item)
 {
     if (weight + new_item->getWeight() <= weight_max && index < max_item){
-        item[index++] = new_item;
+        itens_list.push_back(new_item);
         weight += new_item->getWeight();
         return true;
     }
@@ -27,11 +26,18 @@ bool Inventory::addItem(Item * new_item)
 Item *Inventory::removeItem(int item_index)
 {
     if (item_index < index) throw "Out of Range! (INVENTORY)";
-    Item * temp_item = item[item_index];
-    for (int i = item_index; i < index; i++)
-        item[i] = item[i+1];
+    Item * temp_item = itens_list[item_index];
+    itens_list.erase(itens_list.begin() + item_index);
     index--;
     return temp_item;
+}
+
+Item *Inventory::removeItem(Item *remove_item)
+{
+    int i;
+    for (i = 0; i < index && remove_item != itens_list[i]; i++);
+    if (i == index) throw "Item not found!";
+    return removeItem(i);
 }
 
 int Inventory::getMaxWeight()

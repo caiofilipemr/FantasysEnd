@@ -110,8 +110,13 @@ void Player::addItemInventory(Item * new_item){
     inventory->addItem(new_item);
 }
 
-Item* Player::removeItemInvetory(int item_index){
+Item* Player::removeItemInventory(int item_index){
     return inventory->removeItem(item_index);
+}
+
+Item *Player::removeItemInventory(Item * remove_item)
+{
+    return inventory->removeItem(remove_item);
 }
 
 Weapon *Player::getWeapon()

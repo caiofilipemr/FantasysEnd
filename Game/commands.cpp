@@ -1,6 +1,6 @@
 #include "commands.h"
 
-Commands::Commands(std::string new_cmd_name) : cmd_name(new_cmd_name)
+Commands::Commands(std::string new_cmd_name, Item *new_do_in_this_item) : cmd_name(new_cmd_name), do_in_this_item(new_do_in_this_item)
 {
 }
 
@@ -10,38 +10,32 @@ std::string Commands::getCmdName()
 }
 
 
-Log EquipWeapon::doThis(Player &player, Item *&do_in_this_item, int pos_item_in_invetory) //Temp int ? Pois para o comando Catch não existiria tal int
+void EquipWeapon::doThis(Player &player) //Temp int ? Pois para o comando Catch não existiria tal int
 {
-    if (player.canEquip()) {
+    if (player.canEquipWeapon(do_in_this_item->getWeight())) {
         if (!player.getWeapon()) {
-            player.setWeapon(do_in_this_item);
-
-            player.removeItemInventory(pos_item_in_invetory);
-
-            //Problema: Vai existir uma ponteiro no inventario para a arma equipada, ou seja, duplicando o mesmo,
-            //se apontar para NULL vai dar problema pois não irá remover do inventário!
-            //Problema resolvido com um int, mas provavelmente não é a melhor solução
+            player.setWeapon((Weapon *)do_in_this_item); //Seta a arma do jogador!!!
+            player.removeItemInventory(do_in_this_item); //Remove a mesma do inventory do player
         } else {
-            Weapon * pt = player.getWeapon();
-            player.setWeapon(do_in_this_item);
-            do_in_this_item = pt;
+            Weapon * pt = player.getWeapon(); //Else troca os ponteiros, ou seja, o ponteiro que apontava arma equipada,
+            player.setWeapon((Weapon *)do_in_this_item); //agora aponta para a nova arma a ser equipada e
+            do_in_this_item = pt; //o ponteiro do inventory aponta para a antiga arma equipada
         }
-        return Log(true, "Weapon equiped");
-    }
-    return Log(false, "Player can't equip the item, is too heavy!");
+    } else throw "Player can't equip the item, is too heavy!";
 }
 
 
-Log Consume::doThis(Player &player, Item *&do_in_this_item, int pos_item_in_invetory) //Temp int ? Pois para o comando Catch não existiria tal int
+void Consume::doThis(Player &player) //Temp int ? Pois para o comando Catch não existiria tal int
 {
      Potion *pt = (Potion *)do_in_this_item;
      pt->doEffect(player);
-     player.removeItemInvetory(pos_item_in_invetory);
+     player.removeItemInventory(do_in_this_item);
+     delete do_in_this_item;
 }
 
 
-Log Drop::doThis(Player &player, Item *&do_in_this_item, int pos_item_in_invetory) //Temp int ? Pois para o comando Catch não existiria tal int
+void Drop::doThis(Player &player) //Temp int ? Pois para o comando Catch não existiria tal int
 {
-    player.removeItemInvetory(pos_item_in_invetory);
-    delete
+    player.removeItemInventory(do_in_this_item);
+    delete do_in_this_item;
 }

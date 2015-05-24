@@ -4,18 +4,20 @@
 #include "Item/item.h"
 #include "globalfunctions.h"
 
+
 class Inventory
 {
 private:
     static const int max_item, mod_weight;
     int weight_max, index, weight;
-    Item **item;
+    std::vector<Item*> itens_list;
 
 public:
     Inventory();
     void setMaxWeight(int strenght);
     bool addItem(Item * new_item);
     Item *removeItem(int item_index);
+    Item *removeItem(Item * remove_item);
     int getMaxWeight();
     int getWeight();
     bool canCarry(Item can_carry_item);

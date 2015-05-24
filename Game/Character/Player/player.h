@@ -43,7 +43,8 @@ public:
     bool canEquipShield(int weight);
     bool canEquipArmor(int weight);
     void addItemInventory(Item * new_item);
-    Item* removeItemInvetory(int item_index);
+    Item * removeItemInventory(int item_index);
+    Item * removeItemInventory(Item * remove_item);
     Weapon * getWeapon();
 };
 

@@ -7,30 +7,31 @@
 
 class Commands
 {
-private:
+protected:
     const std::string cmd_name;
+    Item * do_in_this_item;
 public:
-    Commands(std::string new_cmd_name);
-    virtual Log doThis(Player & player, Item * &do_in_this_item, int pos_item_in_invetory) = 0; //Temp int ? Pois para o comando Catch não existiria tal int
+    Commands(std::string new_cmd_name, Item * new_do_in_this_item);
+    virtual void doThis(Player & player, int pos_item_in_invetory) = 0; //Temp int ? Pois para o comando Catch não existiria tal int
     std::string getCmdName();
 };
 
 class EquipWeapon : public Commands {
 public:
-    EquipWeapon() : Commands("Equip weapon") { }
-    Log doThis(Player &player, Item * &do_in_this_item, int pos_item_in_invetory);
+    EquipWeapon(Item * new_do_in_this_item) : Commands("Equip weapon", new_do_in_this_item) { }
+    void doThis(Player &player);
 };
 
 class Consume : public Commands {
 public:
-    Consume() : Commands("Use") { }
-    Log doThis(Player &player, Item * &do_in_this_item, int pos_item_in_invetory);
+    Consume(Item * new_do_in_this_item) : Commands("Consume", new_do_in_this_item) { }
+    void doThis(Player &player);
 };
 
 class Drop : public Commands {
 public:
-    Drop() : Commands("Drop item") { }
-    Log doThis(Player &player, Item * &do_in_this_item, int pos_item_in_invetory);
+    Drop(Item * new_do_in_this_item) : Commands("Drop item", new_do_in_this_item) { }
+    void doThis(Player &player);
 };
 
 #endif // COMMANDS_H

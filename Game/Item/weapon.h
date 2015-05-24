@@ -3,9 +3,9 @@
 
 #include "item.h"
 
-class Weapon : private Item
+class Weapon : public Item
 {
-private:
+protected:
     int damage, guard;
 public:
     Weapon(int new_item_level, int new_damage,
