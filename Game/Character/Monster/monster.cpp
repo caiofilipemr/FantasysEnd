@@ -1,5 +1,7 @@
 #include "monster.h"
 
+//BitBucketTeste
+
 Monster::Monster(int new_speed, int new_accuracy,
                 int new_dodge, int new_range_damage,
                 int new_critical, int new_pos_i,
