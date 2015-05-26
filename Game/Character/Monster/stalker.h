@@ -8,6 +8,8 @@
 class Stalker : public Walker
 {
 private:
+    Object *player;
+
     void stalk(int end_i, int end_j);
 public:
     Stalker(int new_speed, int new_accuracy,
@@ -15,7 +17,9 @@ public:
             int new_critical, int new_pos_i,
             int new_pos_j, std::string new_img_way,
             Direction new_eye_direction);
-    void walkOrStalk(Object *player);
+    void update();
+    void setStalk(Object *player);
+    void walkOrStalk();
 };
 
 #endif // STALKER_H

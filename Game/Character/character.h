@@ -39,7 +39,7 @@ public:
     int getGuard();
     void setDirection(Direction new_direction);
     virtual void walk() = 0;
-    void update();
+    virtual void update();
     int getCont();
     bool getIsWalking();
 };

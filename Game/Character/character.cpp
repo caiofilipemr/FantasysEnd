@@ -71,18 +71,20 @@ void Character::setDirection(Direction new_direction)
 
 void Character::update()
 {
-    if(is_walking)
-        if(cont < limit)
+    if (is_walking) {
+        if (cont < limit)
             cont ++;
         else {
             is_walking = false;
             cont = 0;
         }
-    else
-        if(walk_direction != SLEEP) {
+    }
+    else {
+        if (walk_direction != SLEEP) {
             is_walking = true;
             walk();
         }
+    }
 }
 
 int Character::getCont()

@@ -17,11 +17,34 @@ Stalker::Stalker(int new_speed, int new_accuracy,
                  int new_pos_j, std::string new_img_way, Direction new_eye_direction = DOWN) : Walker(new_speed, new_accuracy,
                                                                              new_dodge, new_range_damage,
                                                                              new_critical, new_pos_i,
-                                                                             new_pos_j,new_img_way ,new_eye_direction)
+                                                                             new_pos_j,new_img_way ,new_eye_direction), player(NULL)
 {
 }
 
-void Stalker::walkOrStalk(Object *player)
+void Stalker::update()
+{
+    if (is_walking) {
+        if (cont < limit)
+            cont++;
+        else {
+            is_walking = false;
+            cont = 0;
+        }
+    }
+    else {
+        if (walk_direction != SLEEP) {
+            is_walking = true;
+            walkOrStalk();
+        }
+    }
+}
+
+void Stalker::setStalk(Object *player)
+{
+    this->player = player;
+}
+
+void Stalker::walkOrStalk()
 {
     int xb = this->pos_i - 5, xe = this->pos_i + 5, yb = this->pos_j - 5, ye = this->pos_j + 5;
     int end_i = player->getPosI(), end_j = player->getPosJ();
