@@ -7,6 +7,7 @@
 #include "Character/Player/Raca/Elf/archer.h"
 #include "Character/Player/Raca/Elf/mage.h"
 #include "Character/Player/Raca/Orc/troll.h"
+//savio teste
 
 namespace Ui {
 class Game;
