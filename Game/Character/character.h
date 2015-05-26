@@ -7,13 +7,17 @@
 #include "globalfunctions.h"
 
 class Character : public Object {
+private:
+
 protected:
-    int hp, hp_max, mp, mp_max, guard, damage, speed;
+    int hp, hp_max, mp, mp_max, guard, damage, speed, cont;
     const int accuracy, dodge, range_damage, critical;
     Special *special;
     Condition *condition;
     Animation *animacao;
     Direction walk_direction, eye_direction;
+    bool is_walking;
+    static const int limit;
 
     virtual void setHP() = 0;
     virtual void setMP() = 0;
@@ -34,6 +38,9 @@ public:
     int getGuard();
     void setDirection(Direction new_direction);
     virtual void walk() = 0;
+    void update();
+    int getCont();
+    bool getIsWalking();
 };
 
 #endif // CHARACTER_H

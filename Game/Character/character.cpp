@@ -1,4 +1,6 @@
-#include "character.h"
+﻿#include "character.h"
+
+const int Character::limit = 16;
 
 Character::Character(int new_speed, int new_accuracy,
                      int new_dodge, int new_range_damage,
@@ -6,7 +8,7 @@ Character::Character(int new_speed, int new_accuracy,
                      int new_pos_j, std::string new_img_way, Direction new_eye_direction) : Object(new_pos_i, new_pos_j, new_img_way), speed(new_speed),
                                       accuracy(new_accuracy), dodge(new_dodge),
                                       range_damage(new_range_damage), critical(new_critical),
-                                      walk_direction(SLEEP), eye_direction(new_eye_direction)
+                                      walk_direction(SLEEP), eye_direction(new_eye_direction), cont(0), is_walking(false)
 {
 }
 
@@ -66,3 +68,30 @@ void Character::setDirection(Direction new_direction)
 {
     walk_direction = new_direction;
 }
+
+void Character::update()
+{
+    if(is_walking)
+        if(cont < limit)
+            cont ++;
+        else {
+            is_walking = false;
+            cont = 0;
+        }
+    else
+        if(walk_direction != SLEEP) {
+            is_walking = true;
+            walk();
+        }
+}
+
+int Character::getCont()
+{
+    return cont;
+}
+
+bool Character::getIsWalking()
+{
+    return is_walking;
+}
+
