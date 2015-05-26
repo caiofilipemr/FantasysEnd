@@ -1,7 +1,8 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#include "item.h"
+#include "Item/item.h"
+#include "commands.h"
 
 class Weapon : public Item
 {
@@ -14,6 +15,7 @@ public:
     ~Weapon();
     int getGuard();
     int getDamage();
+    std::vector<Commands *> getCommands();
 };
 
 #endif // WEAPON_H

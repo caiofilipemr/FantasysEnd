@@ -21,3 +21,11 @@ int Weapon::getDamage()
     return damage;
 }
 
+std::vector<Commands *> Weapon::getCommands()
+{
+    std::vector<Commands *> list_of_cmd;
+    list_of_cmd.push_back(new EquipWeapon(this));
+    list_of_cmd.push_back(new Drop(this));
+    return list_of_cmd;
+}
+

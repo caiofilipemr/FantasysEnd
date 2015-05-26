@@ -12,3 +12,11 @@ Potion::~Potion()
 
 }
 
+std::vector<Commands *> Potion::getCommands()
+{
+    std::vector<Commands *> list_of_cmd;
+    list_of_cmd.push_back(new Consume(this));
+    list_of_cmd.push_back(new Drop(this));
+    return list_of_cmd;
+}
+

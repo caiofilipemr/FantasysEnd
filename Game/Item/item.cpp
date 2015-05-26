@@ -1,6 +1,6 @@
 #include "item.h"
 
-Item::Item(int new_item_level, int new_weigh, std::string new_img_way): img_way(new_img_way)
+Item::Item(int new_item_level, int new_weigh, std::string new_img_way) : img_way(new_img_way)
 {
     if (!new_item_level) {
         new_item_level = random(100) + 1;

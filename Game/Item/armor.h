@@ -2,7 +2,7 @@
 #define ARMOR_H
 
 #include "item.h"
-
+#include "commands.h"
 
 class Armor : public Item
 {
@@ -13,6 +13,7 @@ public:
     Armor(std::string new_img_way, int new_item_level);
     ~Armor();
     int getGuard();
+    std::vector<Commands *> getCommands();
 };
 
 #endif // ARMOR_H

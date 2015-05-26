@@ -18,3 +18,11 @@ int Shield::getGuard()
     return guard;
 }
 
+std::vector<Commands *> Shield::getCommands()
+{
+    std::vector<Commands *> list_of_cmd;
+    list_of_cmd.push_back(new EquipShield(this));
+    list_of_cmd.push_back(new Drop(this));
+    return list_of_cmd;
+}
+

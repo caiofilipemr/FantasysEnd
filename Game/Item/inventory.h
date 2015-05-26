@@ -20,7 +20,7 @@ public:
     Item *removeItem(Item * remove_item);
     int getMaxWeight();
     int getWeight();
-    bool canCarry(Item can_carry_item);
+    bool canCarry(Item * can_carry_item);
 };
 
 #endif // INVENTORY_H

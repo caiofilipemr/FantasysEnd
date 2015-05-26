@@ -2,7 +2,6 @@
 #define COMMANDS_H
 
 #include "Character/Player/player.h"
-#include "Item/item.h"
 #include "Item/Potion/potion.h"
 
 class Commands
@@ -12,7 +11,7 @@ protected:
     Item * do_in_this_item;
 public:
     Commands(std::string new_cmd_name, Item * new_do_in_this_item);
-    virtual void doThis(Player & player, int pos_item_in_invetory) = 0; //Temp int ? Pois para o comando Catch não existiria tal int
+    virtual void doThis(Player & player) = 0; //Temp int ? Pois para o comando Catch não existiria tal int
     std::string getCmdName();
 };
 

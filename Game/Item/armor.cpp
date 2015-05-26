@@ -18,3 +18,11 @@ int Armor::getGuard()
     return guard;
 }
 
+std::vector<Commands *> Armor::getCommands()
+{
+    std::vector<Commands *> list_of_cmd;
+    list_of_cmd.push_back(new EquipArmor(this));
+    list_of_cmd.push_back(new Drop(this));
+    return list_of_cmd;
+}
+

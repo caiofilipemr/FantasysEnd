@@ -3,7 +3,7 @@
 
 #include "object.h"
 
-class Chest : private Object
+class Chest : public Object
 {
 private:
     Item * item;

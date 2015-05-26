@@ -10,12 +10,13 @@ class Character : public Object {
 private:
 
 protected:
-    int hp, hp_max, mp, mp_max, guard, damage, speed, cont;
+    int hp, hp_max, mp, mp_max, guard, damage, speed;
     const int accuracy, dodge, range_damage, critical;
     Special *special;
     Condition *condition;
     Animation *animacao;
     Direction walk_direction, eye_direction;
+    int cont;
     bool is_walking;
     static const int limit;
 

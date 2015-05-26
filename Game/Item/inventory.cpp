@@ -50,7 +50,7 @@ int Inventory::getWeight()
     return weight;
 }
 
-bool Inventory::canCarry(Item can_carry_item)
+bool Inventory::canCarry(Item * can_carry_item)
 {
-    return ((can_carry_item.getWeight() + weight) <= weight_max);
+    return ((can_carry_item->getWeight() + weight) <= weight_max);
 }
