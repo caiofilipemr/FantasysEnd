@@ -6,6 +6,7 @@
 #include "Character/Monster/sleeper.h"
 #include "Character/Monster/walker.h"
 #include "Character/Player/player.h"
+#include "globalfunctions.h"
 
 class Engine
 {
@@ -13,6 +14,7 @@ private:
 
 public:
     Engine();
+
 };
 
 #endif // ENGINE_H
