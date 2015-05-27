@@ -60,3 +60,13 @@ Map::~Map()
 {
 
 }
+
+int **Map::getColision()
+{
+    return m_col;
+}
+
+Cordenates Map::getCordenates()
+{
+    return Cordenates(size_i,size_j);
+}

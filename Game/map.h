@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include "globalfunctions.h"
 using namespace std;
 
 class Map
@@ -14,6 +15,8 @@ private:
 public:
     Map(string new_arch_map, string new_img_way);
     ~Map();
+    int ** getColision();
+    Cordenates getCordenates();
 };
 
-#endif // MAP_H
+#endif // MAP0_H
