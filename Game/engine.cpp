@@ -8,7 +8,7 @@ Engine::Engine()
 
 void Engine::update()
 {
-    my_player->walk();
+    my_player->update();
 }
 
 void Engine::setPlayerDirection(Direction new_direction)
