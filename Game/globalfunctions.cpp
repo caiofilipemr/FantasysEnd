@@ -1,5 +1,30 @@
 #include "globalfunctions.h"
 
+Cordenates Cordenates::operator+(Direction dir)
+{
+    switch (dir) {
+    case UP:
+        i--;
+        break;
+
+    case DOWN:
+        i++;
+        break;
+
+    case LEFT:
+        j--;
+        break;
+
+    case RIGHT:
+        j++;
+        break;
+
+    default:
+        break;
+    }
+    return *this;
+}
+
 int random(int num_rand) {
     srand(time(NULL));
     return (rand() % num_rand);
@@ -66,5 +91,7 @@ std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j)
     }
     return path;
 }
+
+
 
 

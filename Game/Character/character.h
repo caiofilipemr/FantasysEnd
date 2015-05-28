@@ -38,6 +38,7 @@ public:
     int getMP();
     int getGuard();
     void setDirection(Direction new_direction);
+    Direction getDirection();
     virtual void walk() = 0;
     virtual void update();
     int getCont();

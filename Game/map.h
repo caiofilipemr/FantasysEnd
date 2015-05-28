@@ -17,6 +17,7 @@ public:
     ~Map();
     int ** getColision();
     Cordenates getCordenates();
+    bool hasColision(Cordenates cord);
 };
 
 #endif // MAP0_H

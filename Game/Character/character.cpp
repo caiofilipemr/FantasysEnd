@@ -69,6 +69,11 @@ void Character::setDirection(Direction new_direction)
     walk_direction = new_direction;
 }
 
+Direction Character::getDirection()
+{
+    return walk_direction;
+}
+
 void Character::update()
 {
     if (is_walking) {

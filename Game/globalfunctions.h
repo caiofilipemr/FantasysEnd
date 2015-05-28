@@ -12,8 +12,9 @@
 #include <queue>
 
 struct Cordenates {
-    const int i, j;
+    int i, j;
     Cordenates(int new_i, int new_j): i(new_i), j(new_j) {}
+    Cordenates operator+ (Direction dir);
 };
 
 template <typename T>

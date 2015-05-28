@@ -70,3 +70,8 @@ Cordenates Map::getCordenates()
 {
     return Cordenates(size_i,size_j);
 }
+
+bool Map::hasColision(Cordenates cord)
+{
+    return !bool(m_col[cord.i][cord.j]);
+}

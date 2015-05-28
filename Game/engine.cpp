@@ -8,7 +8,7 @@ Engine::Engine()
 
 void Engine::update()
 {
-    my_player->update();
+    if (my_map->hasColision(my_player->getCordenates() + my_player->getDirection())) my_player->update();
 }
 
 void Engine::setPlayerDirection(Direction new_direction)
