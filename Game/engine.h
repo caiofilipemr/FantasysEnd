@@ -15,9 +15,9 @@
 class Engine
 {
 private:
-    Map my_map;
-    Monster mobs[5];
-    Player my_player;
+    Map *my_map;
+    Monster **mobs;
+    Player *my_player;
     Stone * my_stones;
     Chest * my_chests;
 public:
