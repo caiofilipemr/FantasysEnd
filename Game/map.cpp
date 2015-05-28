@@ -13,17 +13,25 @@ Map::Map(string new_arch_map, string new_img_way)
     arch_map >> size_i >> size_j;
 
     arch_map >> buffercleaner;
-    m_base = new int*[size_i];
+    m_col = new int*[size_i];
     for (i = 0; i < size_i; i++){
-        *m_base = new int[size_j];
+        m_col[i] = new int[size_j];
         for (j = 0; j < size_j; j++) {
             arch_map >> m_col[i][j];
         }
     }
     arch_map >> buffercleaner;
+    m_base = new int*[size_i];
+    for (i = 0; i < size_i; i++){
+        m_base[i] = new int[size_j];
+        for (j = 0; j < size_j; j++) {
+            arch_map >> m_base[i][j];
+        }
+    }
+    arch_map >> buffercleaner;
     m_s_base = new int*[size_i];
     for (i = 0; i < size_i; i++){
-        *m_s_base = new int[size_j];
+        m_s_base[i] = new int[size_j];
         for (j = 0; j < size_j; j++) {
             arch_map >> m_s_base[i][j];
         }
@@ -31,7 +39,7 @@ Map::Map(string new_arch_map, string new_img_way)
     arch_map >> buffercleaner;
     m_obj = new int*[size_i];
     for (i = 0; i < size_i; i++){
-        *m_obj = new int[size_j];
+        m_obj[i] = new int[size_j];
         for (j = 0; j < size_j; j++) {
             arch_map >> m_obj[i][j];
         }
@@ -39,21 +47,20 @@ Map::Map(string new_arch_map, string new_img_way)
     arch_map >> buffercleaner;
     m_iso = new int*[size_i];
     for (i = 0; i < size_i; i++){
-        *m_iso = new int[size_j];
+        m_iso[i] = new int[size_j];
         for (j = 0; j < size_j; j++) {
             arch_map >> m_iso[i][j];
         }
     }
     arch_map >> buffercleaner;
-    m_col = new int*[size_i];
-    for (i = 0; i < size_i; i++){
-        *m_col = new int[size_j];
-        for (j = 0; j < size_j; j++) {
-            arch_map >> m_col[i][j];
-        }
-    }
-    arch_map >> buffercleaner;
     arch_map.close();
+
+    for (i = 0; i < size_i; i++){
+        for (j = 0; j < size_j; j++) {
+            cerr << m_iso[i][j] << " ";
+        }
+        cerr << endl;
+    }
 }
 
 Map::~Map()
