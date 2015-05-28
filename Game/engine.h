@@ -24,6 +24,7 @@ public:
     void update();
     void setPlayerDirection(Direction new_direction);
     Cordenates getPlayerCordenates();
+    Cordenates getTemp();
 };
 
 #endif // ENGINE_H

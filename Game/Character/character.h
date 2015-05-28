@@ -20,10 +20,6 @@ protected:
     bool is_walking;
     static const int limit;
 
-    virtual void setHP() = 0;
-    virtual void setMP() = 0;
-    virtual void setGuard() = 0;
-    virtual void setDamage() = 0;
 public:
     Character(int new_speed, int new_accuracy,
               int new_dodge, int new_range_damage,

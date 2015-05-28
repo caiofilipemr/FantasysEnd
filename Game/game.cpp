@@ -48,5 +48,6 @@ void Game::myUpdate()
     //cerr << atual_direction;
     my_engine.setPlayerDirection(atual_direction);
     my_engine.update();
-    //cerr << "Player- I =" <<my_engine.getPlayerCordenates().i<<" J =" << my_engine.getPlayerCordenates().j;
+    cerr << "Player- I =" <<my_engine.getPlayerCordenates().i<<" J =" << my_engine.getPlayerCordenates().j<< endl;
+    cerr << "Monster - I =" <<my_engine.getTemp().i<<" J =" << my_engine.getTemp().j<< endl;
 }

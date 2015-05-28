@@ -8,10 +8,12 @@ class Monster : public Character
 protected:
     int drop_xp, monster_level;
     Inventory *drop;
-
+    Object *player;
     void move();
 public:
-    Monster(int new_speed, int new_accuracy,
+    Monster(int new_hp, int new_mp,
+            int new_damage, int new_guard,
+            int new_speed, int new_accuracy,
             int new_dodge, int new_range_damage,
             int new_critical, int new_pos_i,
             int new_pos_j, std::string new_img_way,
@@ -19,6 +21,9 @@ public:
     int getDropXP();
     int getMonsterLevel();
     Inventory *getDrop();
+    void setStalk(Object *player);
+
+
 };
 
 #endif // MONSTER_H

@@ -11,18 +11,25 @@ void Stalker::stalk(int end_i, int end_j)
     }
 }
 
-Stalker::Stalker(int new_speed, int new_accuracy,
+Stalker::Stalker(int new_hp, int new_mp,
+                 int new_damage, int new_guard,
+                 int new_speed, int new_accuracy,
                  int new_dodge, int new_range_damage,
                  int new_critical, int new_pos_i,
-                 int new_pos_j, std::string new_img_way, Direction new_eye_direction = DOWN) : Walker(new_speed, new_accuracy,
-                                                                             new_dodge, new_range_damage,
-                                                                             new_critical, new_pos_i,
-                                                                             new_pos_j,new_img_way ,new_eye_direction), player(NULL)
+                 int new_pos_j, std::string new_img_way,
+                 Direction new_eye_direction = DOWN) : Walker(new_hp, new_mp,
+                                                              new_damage, new_guard,
+                                                              new_speed, new_accuracy,
+                                                              new_dodge, new_range_damage,
+                                                              new_critical, new_pos_i,
+                                                              new_pos_j,new_img_way ,new_eye_direction)
 {
 }
 
 void Stalker::update()
 {
+    //algo esta errado
+    std::cerr <<"Entro aqui"<<std::endl;
     if (is_walking) {
         if (cont < limit)
             cont++;
@@ -37,11 +44,6 @@ void Stalker::update()
             walkOrStalk();
         }
     }
-}
-
-void Stalker::setStalk(Object *player)
-{
-    this->player = player;
 }
 
 void Stalker::walkOrStalk()
