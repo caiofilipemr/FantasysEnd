@@ -7,6 +7,7 @@
 #include "Character/Monster/walker.h"
 #include "Character/Player/player.h"
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "stone.h"
 #include "chest.h"
 #include "globalfunctions.h"
@@ -14,6 +15,8 @@
 =======
 #include "globalfunctions.h"
 >>>>>>> 81ea6d2bef33c9d41b8d698f19ab5384d4ab9560
+=======
+>>>>>>> 7247a688f2448ae1c689263bb542b7d193a1d38f
 
 class Engine
 {
