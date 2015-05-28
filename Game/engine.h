@@ -4,8 +4,7 @@
 #include "map.h"
 #include "Character/Monster/stalker.h"
 #include "Character/Monster/sleeper.h"
-#include "Character/Monster/walker.h"
-#include "Character/Player/player.h"
+#include "Character/Player/Raca/Elf/archer.h"
 #include "stone.h"
 #include "chest.h"
 #include "globalfunctions.h"
@@ -22,7 +21,7 @@ private:
     Chest * my_chests;
 public:
     Engine();
-
+    void setPlayerDirection(Direction new_direction);
 };
 
 #endif // ENGINE_H
