@@ -1,6 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 #include <iostream>
+#include "globalfunctions.h"
 
 class Special;
 class Weapon;
@@ -40,6 +41,7 @@ public:
     Object(int new_pos_i, int new_pos_j, std::string new_img_way);
     int getPosI();
     int getPosJ();
+    Cordenates getCordenates();
     std::string getImgWay();
 };
 

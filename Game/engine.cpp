@@ -10,3 +10,8 @@ void Engine::setPlayerDirection(Direction new_direction)
 {
     my_player->setDirection(new_direction);
 }
+
+Cordenates Engine::getPlayerCordenates()
+{
+    return my_player->getCordenates();
+}

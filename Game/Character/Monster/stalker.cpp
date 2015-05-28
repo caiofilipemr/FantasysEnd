@@ -47,7 +47,7 @@ void Stalker::setStalk(Object *player)
 void Stalker::walkOrStalk()
 {
     int xb = this->pos_i - 5, xe = this->pos_i + 5, yb = this->pos_j - 5, ye = this->pos_j + 5;
-    int end_i = player->getPosI(), end_j = player->getPosJ();
+    int end_i = player->getCordenates().i, end_j = player->getCordenates().j;
     if (hasPoint(end_i, end_j)) stalk(end_i, end_j);
     else walk();
 }

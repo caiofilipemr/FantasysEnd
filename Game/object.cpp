@@ -4,12 +4,7 @@ Object::Object(int new_pos_i, int new_pos_j, std::string new_img_way) : pos_i(ne
 {
 }
 
-int Object::getPosI()
+Cordenates Object::getCordenates()
 {
-    return pos_i;
-}
-
-int Object::getPosJ()
-{
-    return pos_j;
+    return Cordenates(pos_i, pos_j);
 }

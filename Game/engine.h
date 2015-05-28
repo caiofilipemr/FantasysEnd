@@ -22,6 +22,7 @@ private:
 public:
     Engine();
     void setPlayerDirection(Direction new_direction);
+    Cordenates getPlayerCordenates();
 };
 
 #endif // ENGINE_H

@@ -14,7 +14,7 @@ void Stone::defense(int attack)
 {
     hp_var = hp_var - attack;
     if (hp_var < 1){
-        Cordenates c(this->getPosI(), this->getPosJ());
+        Cordenates c(this->pos_i, this->pos_j);
         throw c;
     }
 }
