@@ -45,8 +45,8 @@ void Game::keyReleaseEvent(QKeyEvent * event)
 
 void Game::myUpdate()
 {
-    cerr << atual_direction;
+    //cerr << atual_direction;
     my_engine.setPlayerDirection(atual_direction);
     my_engine.update();
-    cerr << "Player- I =" <<my_engine.getPlayerCordenates().i<<" J =" << my_engine.getPlayerCordenates().j;
+    //cerr << "Player- I =" <<my_engine.getPlayerCordenates().i<<" J =" << my_engine.getPlayerCordenates().j;
 }
