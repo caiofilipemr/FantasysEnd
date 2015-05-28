@@ -10,7 +10,7 @@
 #include "globalfunctions.h"
 #include "Enums.h"
 #include "globalfunctions.h"
-
+//alt
 class Engine
 {
 private:
@@ -21,6 +21,7 @@ private:
     Chest * my_chests;
 public:
     Engine();
+    void update();
     void setPlayerDirection(Direction new_direction);
     Cordenates getPlayerCordenates();
 };
