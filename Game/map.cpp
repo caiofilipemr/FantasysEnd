@@ -2,6 +2,8 @@
 
 Map::Map(string new_arch_map, string new_img_way)
 {
+    can_go = new bool[4];
+
     ifstream arch_map;
 
     img_way = new_img_way;
@@ -57,7 +59,7 @@ Map::Map(string new_arch_map, string new_img_way)
 
 //    for (i = 0; i < size_i; i++){
 //        for (j = 0; j < size_j; j++) {
-//            cerr << m_iso[i][j] << " ";
+//            cerr << m_col[i][j] << " ";
 //        }
 //        cerr << endl;
 //    }
@@ -75,10 +77,20 @@ int **Map::getColision()
 
 Cordenates Map::getCordenates()
 {
-    return Cordenates(size_i,size_j);
+    return Cordenates(size_i, size_j);
 }
 
 bool Map::hasColision(Cordenates cord)
 {
     return !bool(m_col[cord.i][cord.j]);
+}
+
+bool *Map::getCanGo(Cordenates cord)
+{
+    can_go[UP] = can_go[DOWN] = can_go[RIGHT] = can_go[LEFT] = true;
+    if (m_col[(cord + UP).i][(cord + UP).j]) can_go[UP] = false;
+    if (m_col[(cord + DOWN).i][(cord + DOWN).j]) can_go[DOWN] = false;
+    if (m_col[(cord + RIGHT).i][(cord + RIGHT).j]) can_go[RIGHT] = false;
+    if (m_col[(cord + LEFT).i][(cord + LEFT).j]) can_go[LEFT] = false;
+    return can_go;
 }

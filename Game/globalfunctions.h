@@ -10,6 +10,7 @@
 #include "cellarray.h"
 #include <stack>
 #include <queue>
+#include <iostream>
 
 struct Cordenates {
     int i, j;

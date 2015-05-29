@@ -10,6 +10,8 @@ protected:
     Inventory *drop;
     Object *player;
     void move();
+    int per[4], chance[4], back_chance[4];
+    bool *can_go;
 public:
     Monster(int new_hp, int new_mp,
             int new_damage, int new_guard,
@@ -22,7 +24,7 @@ public:
     int getMonsterLevel();
     Inventory *getDrop();
     void setStalk(Object *player);
-
+    void setCanGo(bool *can);
 
 };
 

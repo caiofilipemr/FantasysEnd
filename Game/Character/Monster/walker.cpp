@@ -18,11 +18,6 @@ Walker::Walker(int new_hp, int new_mp,
     back_chance[UP] = back_chance[DOWN] = back_chance[LEFT] = back_chance[RIGHT] = 0;
 }
 
-void Walker::setCanGo(bool * can)
-{
-    can_go = can;
-}
-
 void Walker::walk()
 {
     //falta verificar se o change nao esta muito grande, para nao dar estouro

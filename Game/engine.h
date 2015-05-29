@@ -10,6 +10,7 @@
 #include "globalfunctions.h"
 #include "Enums.h"
 #include "globalfunctions.h"
+#include "cellarray.h"
 //alt
 class Engine
 {
@@ -19,6 +20,7 @@ private:
     Player *my_player;
     Stone * my_stones;
     Chest * my_chests;
+    //bool * aux_can_go;
 public:
     Engine();
     void update();

@@ -2,27 +2,28 @@
 
 Cordenates Cordenates::operator+(Direction dir)
 {
+    Cordenates cord = *this;
     switch (dir) {
     case UP:
-        i--;
+        cord.i--;
         break;
 
     case DOWN:
-        i++;
+        cord.i++;
         break;
 
     case LEFT:
-        j--;
+        cord.j--;
         break;
 
     case RIGHT:
-        j++;
+        cord.j++;
         break;
 
     default:
         break;
     }
-    return *this;
+    return cord;
 }
 
 int random(int num_rand) {
@@ -34,6 +35,15 @@ std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j)
 {
 
     Cell **pto = CellArray::instance()->get();
+    int i, j, xb = begin_i - 5, xe = begin_i + 5, yb = begin_j - 5, ye = begin_j + 5;
+    for (int i = xb; i < xe; i++){
+        for (int j = yb; j < ye; j++) {
+            pto[i+1][j].back_cell = NULL;
+            pto[i+1][j].back_direction = SLEEP;
+            pto[i+1][j].visited = false;
+        }
+        std::cerr << std::endl;
+    }
     std::stack<Direction> path;
     std::queue<Cell*> short_pass_queue;
     pto[begin_i][begin_j].pos_i = begin_i;
@@ -44,13 +54,13 @@ std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j)
 
 
     Cell * first;
-    int i, j, xb = begin_i - 5, xe = begin_i + 5, yb = begin_j - 5, ye = begin_j + 5;
     while (!short_pass_queue.empty() && (short_pass_queue.front()->pos_i != end_i || short_pass_queue.front()->pos_j != end_j)) {
 
         first = short_pass_queue.front();
         short_pass_queue.pop();
         i = first->pos_i;
         j = first->pos_j;
+
         if (hasPoint(i+1, j) && pto[i+1][j].free && !pto[i+1][j].visited) {
             pto[i+1][j].back_cell = &pto[i][j];
             pto[i+1][j].back_direction = DOWN;

@@ -63,3 +63,8 @@ void Monster::move()
         break;
     }
 }
+
+void Monster::setCanGo(bool * can)
+{
+    can_go = can;
+}

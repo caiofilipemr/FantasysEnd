@@ -28,8 +28,6 @@ Stalker::Stalker(int new_hp, int new_mp,
 
 void Stalker::update()
 {
-    //algo esta errado
-    std::cerr <<"Entro aqui"<<std::endl;
     if (is_walking) {
         if (cont < limit)
             cont++;
