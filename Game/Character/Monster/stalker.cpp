@@ -2,8 +2,12 @@
 
 void Stalker::stalk(int end_i, int end_j)
 {
-    std::stack<Direction> directions_stack;
-    directions_stack = shortPass(pos_i, pos_j, end_i, end_j);
+    if (end_i != old_end_i || end_j != old_end_j) {
+        directions_stack = shortPass(pos_i, pos_j, end_i, end_j);
+        std::cerr << "asdada\n";
+        old_end_i = end_i;
+        old_end_j = end_j;
+    }
     for (int i = 0; i < speed; i++) {
         setDirection(directions_stack.top());
         directions_stack.pop();
@@ -24,6 +28,7 @@ Stalker::Stalker(int new_hp, int new_mp,
                                                               new_critical, new_pos_i,
                                                               new_pos_j,new_img_way ,new_eye_direction)
 {
+    old_end_i = old_end_j = -1;
 }
 
 void Stalker::update()

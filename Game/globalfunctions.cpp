@@ -36,13 +36,12 @@ std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j)
 
     Cell **pto = CellArray::instance()->get();
     int i, j, xb = begin_i - 5, xe = begin_i + 5, yb = begin_j - 5, ye = begin_j + 5;
-    for (int i = xb; i < xe; i++){
-        for (int j = yb; j < ye; j++) {
+    for (int i = xb; i <= xe; i++){ //zerando todo o range do monstro na matriz Cell
+        for (int j = yb; j <= ye; j++) {
             pto[i+1][j].back_cell = NULL;
             pto[i+1][j].back_direction = SLEEP;
             pto[i+1][j].visited = false;
         }
-        std::cerr << std::endl;
     }
     std::stack<Direction> path;
     std::queue<Cell*> short_pass_queue;

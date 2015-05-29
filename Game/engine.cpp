@@ -2,11 +2,11 @@
 
 Engine::Engine()
 {
-    my_player = new Archer(5, 9, DOWN);
+    my_player = new Archer(1, 1, DOWN);
     my_map = new Map("mapa.txt", "roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
     mobs = new Monster*[5];
-    mobs[0] = new Stalker(10, 10, 10, 10, 1, 90, 6, 5, 3, 8, 8, "", DOWN);
+    mobs[0] = new Stalker(10, 10, 10, 10, 1, 90, 6, 5, 3, 19, 27, "", DOWN);
 }
 
 void Engine::update()

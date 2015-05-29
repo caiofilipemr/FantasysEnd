@@ -8,7 +8,8 @@
 class Stalker : public Walker
 {
 private:
-
+    std::stack<Direction> directions_stack;
+    int old_end_i, old_end_j;
     void stalk(int end_i, int end_j);
 public:
     Stalker(int new_hp, int new_mp,
