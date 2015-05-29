@@ -21,7 +21,9 @@ private:
     CellArray &operator = (const CellArray &);
 public:
     ~CellArray(){}
+
     Cell ** get() const { return colision; }
+
     void setCell(int x, int y, int ** mat) {
         this->x = x; this->y = y;
         colision = new Cell*[x];
@@ -38,6 +40,18 @@ public:
                 else
                     colision[i][j].free = true;
             }
+        }
+    }
+
+    void clearCell(int xb, int xe, int yb, int ye) {
+        xb = xb < 0 ? 0 : xb; xe = xe >= x ? x : xe; //Para não estourar as bordas
+        yb = yb < 0 ? 0 : yb; ye = ye >= y ? y : ye;
+        for (int i = xb; i <= xe; i++){ //zerando todo o range do monstro na matriz Cell
+          for (int j = yb; j <= ye; j++) {
+              colision[i][j].back_cell = NULL;
+              colision[i][j].back_direction = SLEEP;
+              colision[i][j].visited = false;
+          }
         }
     }
 

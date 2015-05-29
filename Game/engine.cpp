@@ -2,6 +2,7 @@
 
 Engine::Engine()
 {
+    CellArray::instance();
     my_player = new Archer(1, 1, DOWN);
     my_map = new Map("mapa.txt", "roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
