@@ -69,9 +69,19 @@ void Character::setDirection(Direction new_direction)
     walk_direction = new_direction;
 }
 
+void Character::setEyeDirection(Direction new_eye_direction)
+{
+    eye_direction = new_eye_direction;
+}
+
 Direction Character::getDirection()
 {
     return walk_direction;
+}
+
+Direction Character::getEyeDirection()
+{
+    return eye_direction;
 }
 
 void Character::update()

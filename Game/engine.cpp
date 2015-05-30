@@ -1,13 +1,15 @@
 #include "engine.h"
 
+const int Engine::number_of_mobs = 1;
+
 Engine::Engine()
 {
     CellArray::instance();
-    my_player = new Archer(1, 1, DOWN);
+    my_player = new Archer(10, 10, DOWN);
     my_map = new Map("mapa.txt", "roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
-    mobs = new Monster*[5];
-    mobs[0] = new Stalker(10, 10, 10, 10, 1, 90, 6, 5, 3, 19, 27, "", DOWN);
+    mobs = new Monster*[number_of_mobs];
+    mobs[0] = new Stalker(10, 10, 10, 10, 1, 90, 6, 5, 3, 2, 1, "", DOWN);
 }
 
 void Engine::update()
@@ -34,4 +36,17 @@ Cordenates Engine::getPlayerCordenates()
 Cordenates Engine::getTemp()
 {
     return mobs[0]->getCordenates();
+}
+
+bool Engine::isBattle()
+{
+    for (int i = 0; i < number_of_mobs; i++) {
+        if (mobs[i]) {
+            if ((mobs[i]->getCordenates() + mobs[i]->getEyeDirection()) == my_player->getCordenates()) {
+                battle_mob = mobs[i];
+                return true;
+            }
+        }
+    }
+    return false;
 }

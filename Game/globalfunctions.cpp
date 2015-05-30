@@ -26,6 +26,11 @@ Cordenates Cordenates::operator+(Direction dir)
     return cord;
 }
 
+bool Cordenates::operator==(Cordenates cord)
+{
+    return (i == cord.i && j == cord.j);
+}
+
 int random(int num_rand) {
     srand(time(NULL));
     return (rand() % num_rand);

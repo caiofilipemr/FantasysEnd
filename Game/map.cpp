@@ -55,6 +55,14 @@ Map::Map(string new_arch_map, string new_img_way)
         }
     }
     arch_map >> buffercleaner;
+    m_s_iso = new int*[size_i];
+    for (i = 0; i < size_i; i++){
+        m_s_iso[i] = new int[size_j];
+        for (j = 0; j < size_j; j++) {
+            arch_map >> m_s_iso[i][j];
+        }
+    }
+    arch_map >> buffercleaner;
     arch_map.close();
 
 //    for (i = 0; i < size_i; i++){

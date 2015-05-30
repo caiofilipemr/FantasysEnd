@@ -15,18 +15,21 @@
 class Engine
 {
 private:
+    static const int number_of_mobs;
+
     Map *my_map;
     Monster **mobs;
     Player *my_player;
-    Stone * my_stones;
-    Chest * my_chests;
-    //bool * aux_can_go;
+    Stone *my_stones;
+    Chest *my_chests;
+    Monster *battle_mob;
 public:
     Engine();
     void update();
     void setPlayerDirection(Direction new_direction);
     Cordenates getPlayerCordenates();
     Cordenates getTemp();
+    bool isBattle();
 };
 
 #endif // ENGINE_H

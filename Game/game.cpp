@@ -45,9 +45,12 @@ void Game::keyReleaseEvent(QKeyEvent * event)
 
 void Game::myUpdate()
 {
-    //cerr << atual_direction;
     my_engine.setPlayerDirection(atual_direction);
-    my_engine.update();
+    if (my_engine.isBattle()) {
+        clock->stop();
+        cerr << "BATALHA MODAFOCA!\n";
+    }
+    else my_engine.update();
     cerr << "Player- I =" <<my_engine.getPlayerCordenates().i<<" J =" << my_engine.getPlayerCordenates().j<< endl;
     cerr << "Monster - I =" <<my_engine.getTemp().i<<" J =" << my_engine.getTemp().j<< endl;
 }

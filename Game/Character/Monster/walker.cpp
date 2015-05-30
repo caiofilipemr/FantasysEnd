@@ -39,7 +39,7 @@ void Walker::walk()
     }
     rand = random(per[RIGHT]);
     for( i = 0, logic = true; i < 4; i++)
-        rand <= per[i] && logic ? setDirection(Direction(i)), logic = false : chance[i]++;
+        rand <= per[i] && logic ? setDirection(Direction(i)), setEyeDirection(Direction(i)), logic = false : chance[i]++;
 
     move();
 

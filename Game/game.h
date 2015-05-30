@@ -35,7 +35,6 @@ private:
     QTimer *clock;
     Engine my_engine;
     Direction atual_direction;
-
 };
 
 #endif // GAME_H
