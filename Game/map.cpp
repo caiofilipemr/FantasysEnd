@@ -102,3 +102,12 @@ bool *Map::getCanGo(Cordenates cord)
     if (m_col[(cord + LEFT).i][(cord + LEFT).j]) can_go[LEFT] = false;
     return can_go;
 }
+
+void Map::updateColision()
+{
+    for (int i = 0; !mov_objects.empty(); i++) {
+            aux = mov_objects[i];
+
+    }
+
+}

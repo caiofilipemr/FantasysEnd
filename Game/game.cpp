@@ -35,6 +35,12 @@ void Game::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Right:
        atual_direction = RIGHT;
         break;
+    case Qt::Key_Pause:
+        clock->stop();
+        break;
+    case Qt::Key_Enter:
+        clock->start();
+        break;
     }
 }
 
