@@ -16,6 +16,7 @@ struct Cordenates {
     int i, j;
     Cordenates(int new_i, int new_j): i(new_i), j(new_j) {}
     Cordenates operator+ (Direction dir);
+    Cordenates operator- (Direction dir);
     bool operator== (Cordenates cord);
 };
 
