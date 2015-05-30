@@ -14,7 +14,7 @@ class CellArray
 {
 private:
     Cell ** colision;
-    int x, y;
+    int x, y, **original_colision;
     CellArray() { }
 
     CellArray(const CellArray &);
@@ -24,8 +24,10 @@ public:
 
     Cell ** get() const { return colision; }
 
+    int ** getOriginal() const { return original_colision; }
+
     void setCell(int x, int y, int ** mat) {
-        this->x = x; this->y = y;
+        this->x = x; this->y = y; original_colision = mat;
         colision = new Cell*[x];
         for (int i = 0; i < x; i++) {
             colision[i] = new Cell[y];
