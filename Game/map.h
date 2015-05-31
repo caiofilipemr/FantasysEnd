@@ -5,6 +5,7 @@
 #include <fstream>
 #include "globalfunctions.h"
 #include "object.h"
+#include "Character/character.h"
 using namespace std;
 
 class Map

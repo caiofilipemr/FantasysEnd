@@ -105,9 +105,15 @@ bool *Map::getCanGo(Cordenates cord)
 
 void Map::updateColision()
 {
+    Character * temp;
+    Cordenates temp_cord;
+    Direction temp_dir;
     for (int i = 0; !mov_objects.empty(); i++) {
-            aux = mov_objects[i];
-
+        temp = mov_objects[mov_objects.begin() + i];
+        temp_cord = temp->getCordenates();
+        temp_dir = temp->getDirection();
+        m_col[(temp_cord - temp_dir).i][(temp_cord - temp_dir).j] = 0;
+        m_col[temp_cord.i][temp_cord.j] = 1;
     }
 
 }
