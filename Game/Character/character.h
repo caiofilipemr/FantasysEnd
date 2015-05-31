@@ -5,6 +5,7 @@
 #include "object.h"
 #include "Enums.h"
 #include "globalfunctions.h"
+#include "map.h"
 
 class Character : public Object {
 private:
@@ -38,7 +39,7 @@ public:
     Direction getDirection();
     Direction getEyeDirection();
     virtual void walk() = 0;
-    virtual void update();
+    virtual void update(Map * my_map);
     int getCont();
     bool getIsWalking();
 };

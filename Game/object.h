@@ -31,6 +31,7 @@ class Barbaro;
 class Rogue;
 class Troll;
 class Urukhay;
+class Map;
 
 class Object
 {

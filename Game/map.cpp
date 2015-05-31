@@ -90,7 +90,7 @@ Cordenates Map::getCordenates()
 
 bool Map::hasColision(Cordenates cord)
 {
-    return !bool(m_col[cord.i][cord.j]);
+    return bool(m_col[cord.i][cord.j]);
 }
 
 bool *Map::getCanGo(Cordenates cord)
@@ -103,17 +103,17 @@ bool *Map::getCanGo(Cordenates cord)
     return can_go;
 }
 
-void Map::updateColision()
+void Map::updateColision(Character *update_character)
 {
-    Character * temp;
-    Cordenates temp_cord;
-    Direction temp_dir;
-    for (int i = 0; !mov_objects.empty(); i++) {
-        temp = mov_objects[mov_objects.begin() + i];
-        temp_cord = temp->getCordenates();
-        temp_dir = temp->getDirection();
-        m_col[(temp_cord - temp_dir).i][(temp_cord - temp_dir).j] = 0;
-        m_col[temp_cord.i][temp_cord.j] = 1;
-    }
+    Cordenates temp_cord = update_character->getCordenates();
+    Direction temp_dir = update_character->getDirection();
+    m_col[(temp_cord - temp_dir).i][(temp_cord - temp_dir).j] = 0;
+    m_col[temp_cord.i][temp_cord.j] = 2;
 
+    for (int i = 0; i < size_i; i++){
+        for (int j = 0; j < size_j; j++) {
+            cerr << m_col[i][j] << " ";
+        }
+        cerr << endl;
+    }
 }

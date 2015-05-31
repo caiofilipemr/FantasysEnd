@@ -6,6 +6,7 @@
 #include "globalfunctions.h"
 #include "object.h"
 #include "Character/character.h"
+
 using namespace std;
 
 class Map
@@ -15,7 +16,6 @@ private:
     int size_i, size_j;
     int **m_base, **m_s_base, **m_obj, **m_iso, **m_s_iso, **m_col;
     bool *can_go;
-    vector<Character *> mov_objects;
 public:
     Map(string new_arch_map, string new_img_way);
     ~Map();
@@ -23,7 +23,7 @@ public:
     Cordenates getCordenates();
     bool hasColision(Cordenates cord);
     bool * getCanGo(Cordenates cord);
-    void updateColision();
+    void updateColision(Character * update_character);
 };
 
 #endif // MAP0_H

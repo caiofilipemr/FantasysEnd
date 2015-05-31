@@ -2,16 +2,21 @@
 
 void Stalker::stalk(int end_i, int end_j)
 {
-    if (end_i != old_end_i || end_j != old_end_j) {
-        directions_stack = shortPass(pos_i, pos_j, end_i, end_j);
-        old_end_i = end_i;
-        old_end_j = end_j;
-    }
-    for (int i = 0; i < speed; i++) {
-        setDirection(directions_stack.top());
-        setEyeDirection(directions_stack.top());
-        directions_stack.pop();
-        move();
+    try {
+        if (end_i != old_end_i || end_j != old_end_j) {
+            directions_stack = shortPass(pos_i, pos_j, end_i, end_j);
+            old_end_i = end_i;
+            old_end_j = end_j;
+        }
+        for (int i = 0; i < speed; i++) {
+            setDirection(directions_stack.top());
+            setEyeDirection(directions_stack.top());
+            directions_stack.pop();
+            move();
+        }
+    } catch (const char * err) {
+        cerr << err;
+        walk();
     }
 }
 
@@ -31,7 +36,7 @@ Stalker::Stalker(int new_hp, int new_mp,
     old_end_i = old_end_j = -1;
 }
 
-void Stalker::update()
+void Stalker::update(Map * my_map)
 {
     if (is_walking) {
         if (cont < limit)
@@ -45,6 +50,8 @@ void Stalker::update()
         if (walk_direction != SLEEP) {
             is_walking = true;
             walkOrStalk();
+            cerr << "\nStalker\n\n";
+            my_map->updateColision(this);
         }
     }
 }

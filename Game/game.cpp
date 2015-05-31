@@ -57,6 +57,6 @@ void Game::myUpdate()
         cerr << "BATALHA MODAFOCA!\n";
     }
     else my_engine.update();
-    cerr << "Player- I =" <<my_engine.getPlayerCordenates().i<<" J =" << my_engine.getPlayerCordenates().j<< endl;
-    cerr << "Monster - I =" <<my_engine.getTemp().i<<" J =" << my_engine.getTemp().j<< endl;
+    //cerr << "Player- I =" <<my_engine.getPlayerCordenates().i<<" J =" << my_engine.getPlayerCordenates().j<< endl;
+    //cerr << "Monster - I =" <<my_engine.getTemp().i<<" J =" << my_engine.getTemp().j<< endl;
 }

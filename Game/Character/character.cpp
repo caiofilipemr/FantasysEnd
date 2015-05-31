@@ -84,20 +84,22 @@ Direction Character::getEyeDirection()
     return eye_direction;
 }
 
-void Character::update()
+void Character::update(Map *my_map)
 {
     if (is_walking) {
         if (cont < limit)
-            cont ++;
+            cont++;
         else {
             is_walking = false;
             cont = 0;
         }
     }
     else {
-        if (walk_direction != SLEEP) {
+        if (walk_direction != SLEEP && !my_map->hasColision(Cordenates(this->pos_i, this->pos_j) + walk_direction)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
             is_walking = true;
             walk();
+            cerr << "\nPlayer\n\n";
+            my_map->updateColision(this);
         }
     }
 }
