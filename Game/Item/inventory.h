@@ -18,6 +18,7 @@ public:
     bool addItem(Item * new_item);
     Item *removeItem(int item_index);
     Item *removeItem(Item * remove_item);
+    Item * getItem(int item_index);
     int getMaxWeight();
     int getWeight();
     bool canCarry(Item * can_carry_item);

@@ -24,6 +24,8 @@ public:
     bool hasColision(Cordenates cord);
     bool * getCanGo(Cordenates cord);
     void updateColision(Character * update_character);
+    void setAcolision(Cordenates new_col);
+    void removeAcolision(Cordenates remove_col);
 };
 
 #endif // MAP0_H

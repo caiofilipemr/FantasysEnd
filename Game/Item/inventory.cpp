@@ -18,6 +18,7 @@ bool Inventory::addItem(Item * new_item)
     if (weight + new_item->getWeight() <= weight_max && index < max_item){
         itens_list.push_back(new_item);
         weight += new_item->getWeight();
+        index++;
         return true;
     }
     return false;
@@ -38,6 +39,12 @@ Item *Inventory::removeItem(Item *remove_item)
     for (i = 0; i < index && remove_item != itens_list[i]; i++);
     if (i == index) throw "Item not found!";
     return removeItem(i);
+}
+
+Item *Inventory::getItem(int item_index)
+{
+    if(itens_list.size() < item_index) throw "Item not found";
+    return itens_list[item_index];
 }
 
 int Inventory::getMaxWeight()

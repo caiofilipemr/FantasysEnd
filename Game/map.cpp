@@ -117,3 +117,12 @@ void Map::updateColision(Character *update_character)
         cerr << endl;
     }
 }
+
+void Map::setAcolision(Cordenates new_col)
+{
+    m_col[new_col.i][new_col.j] = 1;
+}
+void Map::removeAcolision(Cordenates remove_col)
+{
+    m_col[remove_col.i][remove_col.j] = 0;
+}
