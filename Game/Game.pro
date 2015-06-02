@@ -54,7 +54,8 @@ SOURCES += main.cpp\
     cellarray.cpp \
     map.cpp \
     commands.cpp \
-    engine.cpp
+    engine.cpp \
+    interation.cpp
 
 HEADERS  += game.h \
     Character/Monster/monster.h \
@@ -99,6 +100,7 @@ HEADERS  += game.h \
     cellarray.h \
     map.h \
     commands.h \
-    engine.h
+    engine.h \
+    interation.h
 
 FORMS    += game.ui
