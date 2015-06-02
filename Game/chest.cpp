@@ -1,12 +1,12 @@
 #include "chest.h"
 const int Chest::max_item = 5;
-
+std::string Chest::chest_img_way = "";
 void Chest::randItem(int rand)
 {
 
 }
 
-Chest::Chest(int new_pos_i, int new_pos_j, std::string new_img_way) : Object(new_pos_i, new_pos_j, new_img_way)
+Chest::Chest(int new_pos_i, int new_pos_j) : Object(new_pos_i, new_pos_j, chest_img_way)
 {
 
 }
@@ -37,5 +37,10 @@ bool Chest::addItem(Item *new_item)
         return true;
     }
     return false;
+}
+
+void Chest::setImgWay(std::string new_img_way)
+{
+    chest_img_way = new_img_way;
 }
 

@@ -14,13 +14,13 @@ public:
 class OpenChest : public Interation
 {
 public:
-    Interation();
+    OpenChest(std::string new_cmd_name);
 };
 
 class AttackStone : public Interation
 {
 public:
-    Interation();
+    AttackStone(std::string new_cmd_name);
 };
 
 
