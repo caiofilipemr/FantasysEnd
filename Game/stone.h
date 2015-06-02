@@ -5,15 +5,17 @@
 #include "Enums.h"
 #include "object.h"
 
-class Stone : private Object
+class Stone : public Object
 {
 private:
-    static const int hp ;
+    static const int hp;
     int hp_var;
+    static std::string stone_img_way;
 public:
-    Stone(int new_pos_i, int new_pos_j, std::string new_img_way);
+    Stone(int new_pos_i, int new_pos_j);
     ~Stone();
     void defense(int attack);
+    static void setImgWay(std::string new_img_way);
     //void addHP(int hp);
 };
 
