@@ -3,7 +3,6 @@
 #define FOR_INI for (pto = ini.prox; i; i--, pto = pto->prox);
 #define FOR_FIM for (pto = fim.ant; i; i--, pto = pto->ant);
 
-#include <time.h>
 #include <cstdlib>
 #include "Enums.h"
 #include "macros.h"

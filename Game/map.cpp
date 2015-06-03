@@ -1,8 +1,9 @@
 #include "map.h"
-const int Map::max_chest = 8;
+
 const int Map::min_chest = 5;
-const int Map::max_stone = 15;
-const int Map::min_stone = 10;
+const int Map::max_chest = 8;
+const int Map::min_stone = 7;
+const int Map::max_stone = 10;
 
 Map::Map(string new_arch_map, string new_img_way)
 {
@@ -89,6 +90,36 @@ int **Map::getColision()
     return m_col;
 }
 
+int **Map::getBase()
+{
+    return m_base;
+}
+
+int **Map::getSuperBase()
+{
+    return m_s_base;
+}
+
+int **Map::getObjects()
+{
+    return m_obj;
+}
+
+int **Map::getIsometric()
+{
+    return m_iso;
+}
+
+int **Map::getSuperIsometric()
+{
+    return m_s_iso;
+}
+
+string Map::getImgWay()
+{
+    return img_way;
+}
+
 Cordenates Map::getCordenates()
 {
     return Cordenates(size_i, size_j);
@@ -124,11 +155,11 @@ void Map::updateColision(Character *update_character)
 //    }
 }
 
-void Map::setAcolision(Cordenates new_col)
+void Map::setAColision(Cordenates new_col)
 {
     m_col[new_col.i][new_col.j] = 2;
 }
-void Map::removeAcolision(Cordenates remove_col)
+void Map::removeAColision(Cordenates remove_col)
 {
     m_col[remove_col.i][remove_col.j] = 0;
 }
@@ -136,49 +167,49 @@ void Map::removeAcolision(Cordenates remove_col)
 void Map::randMapInteration()
 {
     int qtd_chest, qtd_stone;
-    int obj_posI, obj_posJ, k;
+    int obj_pos_i, obj_pos_j, k;
     qtd_chest = (random((max_chest + 1) - min_chest) + min_chest);
-//    chest_list = new Chest*[qtd_chest];
+    chest_list = new Chest*[qtd_chest];
     qtd_stone = (random((max_stone + 1) - min_chest) + min_stone);
-//    stone_list = new Stone*[qtd_stone];
+    stone_list = new Stone*[qtd_stone];
 
-//    m_interation = new Object**[size_i];
-//    for (int i = 0; i < size_i; i++){
-//        m_interation[i] = new Object *[size_j];
-//    }
+    m_interation = new Object**[size_i];
+    for (int i = 0; i < size_i; i++){
+        m_interation[i] = new Object *[size_j];
+    }
     // Random Cordenates Chest
     k = 0;
     while ( k < qtd_chest ) {
-        obj_posI = random(size_i);
-        obj_posJ = random(size_j);
-        if(!m_col[obj_posI][obj_posJ]) {
-            setAcolision(Cordenates(obj_posI,obj_posJ));
-            //chest_list[k] = new Chest(obj_posI,obj_posJ);
-            //m_interation[obj_posI][obj_posJ] = chest_list[k];
+        obj_pos_i = random(size_i);
+        obj_pos_j = random(size_j);
+        if(!m_col[obj_pos_i][obj_pos_j]) {
+            setAColision(Cordenates(obj_pos_i,obj_pos_j));
+            chest_list[k] = new Chest(obj_pos_i,obj_pos_j);
+            m_interation[obj_pos_i][obj_pos_j] = chest_list[k];
             k++;
         }
-        cerr << "Size I =" <<obj_posI << "Size J ="<<obj_posJ<<endl;
+        cerr << "Size I =" <<obj_pos_i << "Size J ="<<obj_pos_j<<endl;
     }
 
-    //randon Cordenates Stone
+    //random Cordenates Stone
     k = 0;
     while ( k < qtd_stone ) {
-        obj_posI = random(size_i);
-        obj_posJ = random(size_j);
-        if(!m_col[obj_posI][obj_posJ]) {
-            setAcolision(Cordenates(obj_posI,obj_posJ));
-            //stone_list[k] = new Stone(obj_posI,obj_posJ);
-            //m_interation[obj_posI][obj_posJ] = stone_list[k];
+        obj_pos_i = random(size_i);
+        obj_pos_j = random(size_j);
+        if(!m_col[obj_pos_i][obj_pos_j]) {
+            setAColision(Cordenates(obj_pos_i,obj_pos_j));
+            stone_list[k] = new Stone(obj_pos_i,obj_pos_j);
+            m_interation[obj_pos_i][obj_pos_j] = stone_list[k];
             k++;
         }
-        //cerr << "teste\n";
+        cerr << "Size I =" <<obj_pos_i << "Size J ="<<obj_pos_j<<endl;
     }
 
-    for (int i = 0; i < size_i; i++){
-        for (int j = 0; j < size_j; j++) {
-            cerr << m_col[i][j] << " ";
-        }
-        cerr << endl;
-    }
+//    for (int i = 0; i < size_i; i++){
+//        for (int j = 0; j < size_j; j++) {
+//            cerr << m_col[i][j] << " ";
+//        }
+//        cerr << endl;
+//    }
 
 }

@@ -41,6 +41,7 @@ public:
     void setWeapon(Weapon * new_weapon);
     void setShield(Shield * new_shield);
     void setArmor(Armor * new_armor);
+    void setDirection(Direction new_direction);
     bool canEquipWeapon(int weight);
     bool canEquipShield(int weight);
     bool canEquipArmor(int weight);
@@ -50,6 +51,7 @@ public:
     Weapon * getWeapon();
     Shield * getShield();
     Armor * getArmor();
+    void update(Map * my_map);
 };
 
 #endif // PLAYER_H

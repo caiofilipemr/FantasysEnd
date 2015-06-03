@@ -8,3 +8,8 @@ Cordenates Object::getCordenates()
 {
     return Cordenates(pos_i, pos_j);
 }
+
+std::string Object::getImgWay()
+{
+    return img_way;
+}

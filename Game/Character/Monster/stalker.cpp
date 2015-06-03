@@ -50,7 +50,7 @@ void Stalker::update(Map * my_map)
         if (walk_direction != SLEEP) {
             is_walking = true;
             walkOrStalk();
-            cerr << "\nStalker\n\n";
+            //cerr << "\nStalker\n\n";
             my_map->updateColision(this);
         }
     }

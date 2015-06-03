@@ -1,7 +1,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-enum Direction { UP, DOWN, LEFT, RIGHT, SLEEP };
+enum Direction { DOWN, LEFT, RIGHT, UP, SLEEP };
 enum Atributes { STRENGHT, AGILITY, INTELLIGENCE };
 enum Exceptions { PLAYER_DIE, MONSTER_DIE,
                   MISS, DODGE, BROKEN_STONE};

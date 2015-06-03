@@ -26,15 +26,22 @@ private:
 public:
     Map(string new_arch_map, string new_img_way);
     ~Map();
-    int ** getColision();
     Cordenates getCordenates();
     bool hasColision(Cordenates cord);
-    bool * getCanGo(Cordenates cord);
     void updateColision(Character * update_character);
-    void setAcolision(Cordenates new_col);
-    void removeAcolision(Cordenates remove_col);
+    void setAColision(Cordenates new_col);
+    void removeAColision(Cordenates remove_col);
     void randMapInteration();
     Interation * getInteration(Cordenates cord);
+
+    bool * getCanGo(Cordenates cord);
+    int ** getColision();
+    int ** getBase();
+    int ** getSuperBase();
+    int ** getObjects();
+    int ** getIsometric();
+    int ** getSuperIsometric();
+    std::string getImgWay();
 };
 
 #endif // MAP0_H

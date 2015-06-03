@@ -31,13 +31,13 @@ void Walker::walk()
         chance[i] = chance[i]*int(can_go[i]);
         sum += chance[i];
     }
-    per[UP] = (chance[UP] / sum) * 100;
-    chance[UP] = back_chance[UP];
+    per[DOWN] = (chance[DOWN] / sum) * 100;
+    chance[DOWN] = back_chance[DOWN];
     for(i = 1; i < 4; i++){
         per[i] = (chance[i] / sum) * 100 + per[i - 1];
         chance[i] = back_chance[i];
     }
-    rand = random(per[RIGHT]);
+    rand = random(per[UP]);
     for( i = 0, logic = true; i < 4; i++)
         rand <= per[i] && logic ? setDirection(Direction(i)), setEyeDirection(Direction(i)), logic = false : chance[i]++;
 

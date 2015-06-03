@@ -10,7 +10,8 @@
 #include "Character/Player/Raca/Elf/mage.h"
 #include "Character/Player/Raca/Orc/troll.h"
 #include "engine.h"
-//savio teste
+#include <QPainter>
+#include "guiqt.h"
 
 namespace Ui {
 class Game;
@@ -25,6 +26,7 @@ public:
     ~Game();
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent * event);
+    void paintEvent(QPaintEvent * event);
 
 public slots:
     void myUpdate();
@@ -33,8 +35,10 @@ public slots:
 private:
     Ui::Game *ui;
     QTimer *clock;
-    Engine my_engine;
+    Engine *my_engine;
     Direction atual_direction;
+    QPainter * painter;
+    GUIQT * my_GUI;
 };
 
 #endif // GAME_H

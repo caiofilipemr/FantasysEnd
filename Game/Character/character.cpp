@@ -1,6 +1,6 @@
 ﻿#include "character.h"
 
-const int Character::limit = 50;
+const int Character::limit = 16;
 
 Character::Character(int new_speed, int new_accuracy,
                      int new_dodge, int new_range_damage,
@@ -97,7 +97,7 @@ void Character::update(Map *my_map)
     else {
         if (walk_direction != SLEEP && !my_map->hasColision(Cordenates(this->pos_i, this->pos_j) + walk_direction)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
             is_walking = true;
-            walk();
+            this->walk();
             cerr << "\nPlayer\n\n";
             my_map->updateColision(this);
         }

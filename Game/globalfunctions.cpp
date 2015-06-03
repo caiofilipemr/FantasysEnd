@@ -58,7 +58,6 @@ bool Cordenates::operator==(Cordenates cord)
 }
 
 int random(int num_rand) {
-    srand(time(NULL));
     return (rand() % num_rand);
 }
 

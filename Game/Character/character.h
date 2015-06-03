@@ -34,7 +34,7 @@ public:
     int getHP();
     int getMP();
     int getGuard();
-    void setDirection(Direction new_direction);
+    virtual void setDirection(Direction new_direction);
     void setEyeDirection(Direction new_eye_direction);
     Direction getDirection();
     Direction getEyeDirection();

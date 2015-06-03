@@ -43,7 +43,7 @@ Item *Inventory::removeItem(Item *remove_item)
 
 Item *Inventory::getItem(int item_index)
 {
-    if(itens_list.size() < item_index) throw "Item not found";
+    if(int(itens_list.size()) < item_index) throw "Item not found";
     return itens_list[item_index];
 }
 

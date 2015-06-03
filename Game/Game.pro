@@ -55,7 +55,8 @@ SOURCES += main.cpp\
     map.cpp \
     commands.cpp \
     engine.cpp \
-    interation.cpp
+    interation.cpp \
+    guiqt.cpp
 
 HEADERS  += game.h \
     Character/Monster/monster.h \
@@ -101,6 +102,7 @@ HEADERS  += game.h \
     map.h \
     commands.h \
     engine.h \
-    interation.h
+    interation.h \
+    guiqt.h
 
 FORMS    += game.ui
