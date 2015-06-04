@@ -23,9 +23,6 @@ void GUIQT::drawMap()
     range = range + aux;
     int pos_i =(player_cordenates - aux).i;
     int pos_j = (player_cordenates - aux).j;
-    int new_pos_i = player_cordenates.i;
-    int new_pos_j = player_cordenates.j;
-    int size_i = draw_map->getCordenates().i, size_j = draw_map->getCordenates().j;
     int cont_frames = draw_player->getCont();
     int row = 0, column = 0, limit = ppt / Character::getLimit();
     int **m_base = draw_map->getBase(),
@@ -94,7 +91,7 @@ void GUIQT::drawMap()
             if (m_s_base[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_s_base[i][j]-1) % 57) * 17, (m_s_base[i][j] / 57) * 17, 16, 16));
             if (m_obj[i][j]) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, tile->copy(((m_obj[i][j]-1) % 57) * 17, (m_obj[i][j] / 57) * 17, 16, 16));
             if (m_col[i][j] == 2) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, tile->copy(26 * 17, 8 * 17, 16, 16));
-            if (m_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_iso[i][j]-1) % 57) * 17, (m_iso[i][j] / 57) * 17, 16, 16));
+            //if (m_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_iso[i][j]-1) % 57) * 17, (m_iso[i][j] / 57) * 17, 16, 16));
             if (m_s_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_s_iso[i][j]-1) % 57) * 17, (m_s_iso[i][j] / 57) * 17, 16, 16));
         }
     }
@@ -102,28 +99,42 @@ void GUIQT::drawMap()
     //Desenha a metade de baixo do jogador
     painter->drawPixmap((range_j + dif_j) * ppt, (range_i + dif_i) * ppt, ppt, 16, player_image.copy(0,8,16,8));
 
-    //Redesenha a camada isometrica de onde o jogador está indo
-    if (m_iso[player_cordenates.i][player_cordenates.j])
-        painter->drawPixmap((range.j) * ppt + column, range.i * ppt + row, ppt, ppt, tile->copy(((m_iso[player_cordenates.i][player_cordenates.j]-1) % 57) * 17, (m_iso[player_cordenates.i][player_cordenates.j] / 57) * 17, 16, 16));
-    //Redesenha a camada isometrica de onde o jogador saiu
-    if (m_iso[(player_cordenates - aux).i][(player_cordenates - aux).j])
-        painter->drawPixmap((range_j) * ppt + column, range_i * ppt + row, ppt, ppt, tile->copy(((m_iso[(player_cordenates - aux).i][(player_cordenates - aux).j]-1) % 57) * 17, (m_iso[(player_cordenates - aux).i][(player_cordenates - aux).j] / 57) * 17, 16, 16));
+//    OPÇÃO DE DESENHO DA SUPER ISOMETRICA COM MENOS CÓDIGO E PIOR DESEMPENHO!!!
+    for (i = begin_i, index_i = -1; index_i < size_x + 1; index_i++, i++) {
+        for (j = begin_j, index_j = -1; index_j < size_y + 1; index_j++, j++)
+            if (m_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_iso[i][j]-1) % 57) * 17, (m_iso[i][j] / 57) * 17, 16, 16));
+    }
+
+//    OPÇÃO DE DESENHO DA ISOMETRICA COM MAIS CÓDIGO E MELHOR DESEMPENHO!!!
+//    //Redesenha a camada isometrica de onde o jogador está indo
+//    if (m_iso[player_cordenates.i][player_cordenates.j])
+//        painter->drawPixmap((range.j) * ppt + column, range.i * ppt + row, ppt, ppt, tile->copy(((m_iso[player_cordenates.i][player_cordenates.j]-1) % 57) * 17, (m_iso[player_cordenates.i][player_cordenates.j] / 57) * 17, 16, 16));
+//    //Redesenha a camada isometrica de onde o jogador saiu
+//    if (m_iso[(player_cordenates - aux).i][(player_cordenates - aux).j])
+//        painter->drawPixmap((range_j) * ppt + column, range_i * ppt + row, ppt, ppt, tile->copy(((m_iso[(player_cordenates - aux).i][(player_cordenates - aux).j]-1) % 57) * 17, (m_iso[(player_cordenates - aux).i][(player_cordenates - aux).j] / 57) * 17, 16, 16));
 
     //Desenha a metade de cima do jogador
     painter->drawPixmap(((range_j) + dif_j) * ppt, (((range_i) + dif_i) - 1) * ppt + 16, ppt, 16, player_image.copy(0,0,16,8));//cabeça
 
-    //Redesenha a camada super isometrica de onde a metade de baixo do jogador esta indo
-    if (m_s_iso[player_cordenates.i][player_cordenates.j])
-        painter->drawPixmap((range.j) * ppt + column, range.i * ppt + row, ppt, ppt, tile->copy(((m_s_iso[player_cordenates.i][player_cordenates.j]-1) % 57) * 17, (m_s_iso[player_cordenates.i][player_cordenates.j] / 57) * 17, 16, 16));
-    //Redesenha a camada super isometrica de onde a metade de baixo do jogador saiu
-    if (m_s_iso[(player_cordenates - aux).i][(player_cordenates - aux).j])
-        painter->drawPixmap((range_j) * ppt + column, range_i * ppt + row, ppt, ppt, tile->copy(((m_s_iso[(player_cordenates - aux).i][(player_cordenates - aux).j]-1) % 57) * 17, (m_s_iso[(player_cordenates - aux).i][(player_cordenates - aux).j] / 57) * 17, 16, 16));
-    //Redesenha a camada super isometrica de onde a metade de cima do jogador esta indo
-    if (m_s_iso[player_cordenates.i-1][player_cordenates.j])
-        painter->drawPixmap((range.j) * ppt + column, (range.i-1) * ppt + row, ppt, ppt, tile->copy(((m_s_iso[player_cordenates.i-1][player_cordenates.j]-1) % 57) * 17, (m_s_iso[player_cordenates.i-1][player_cordenates.j] / 57) * 17, 16, 16));
-    //Redesenha a camada super isometrica de onde a metade de cima do jogador saiu
-    if (m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j])
-        painter->drawPixmap((range_j) * ppt + column, (range_i-1) * ppt + row, ppt, ppt, tile->copy(((m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j]-1) % 57) * 17, (m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j] / 57) * 17, 16, 16));
+//    OPÇÃO DE DESENHO DA SUPER ISOMETRICA COM MENOS CÓDIGO E PIOR DESEMPENHO!!!
+    for (i = begin_i, index_i = -1; index_i < size_x + 1; index_i++, i++) {
+        for (j = begin_j, index_j = -1; index_j < size_y + 1; index_j++, j++)
+            if (m_s_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_s_iso[i][j]-1) % 57) * 17, (m_s_iso[i][j] / 57) * 17, 16, 16));
+    }
+
+//    OPÇÃO DE DESENHO DA SUPER ISOMETRICA COM MAIS CÓDIGO E MELHOR DESEMPENHO!!!
+//    //Redesenha a camada super isometrica de onde a metade de baixo do jogador esta indo
+//    if (m_s_iso[player_cordenates.i][player_cordenates.j])
+//        painter->drawPixmap((range.j) * ppt + column, range.i * ppt + row, ppt, ppt, tile->copy(((m_s_iso[player_cordenates.i][player_cordenates.j]-1) % 57) * 17, (m_s_iso[player_cordenates.i][player_cordenates.j] / 57) * 17, 16, 16));
+//    //Redesenha a camada super isometrica de onde a metade de baixo do jogador saiu
+//    if (m_s_iso[(player_cordenates - aux).i][(player_cordenates - aux).j])
+//        painter->drawPixmap((range_j) * ppt + column, range_i * ppt + row, ppt, ppt, tile->copy(((m_s_iso[(player_cordenates - aux).i][(player_cordenates - aux).j]-1) % 57) * 17, (m_s_iso[(player_cordenates - aux).i][(player_cordenates - aux).j] / 57) * 17, 16, 16));
+//    //Redesenha a camada super isometrica de onde a metade de cima do jogador esta indo
+//    if (m_s_iso[player_cordenates.i-1][player_cordenates.j])
+//        painter->drawPixmap((range.j) * ppt + column, (range.i-1) * ppt + row, ppt, ppt, tile->copy(((m_s_iso[player_cordenates.i-1][player_cordenates.j]-1) % 57) * 17, (m_s_iso[player_cordenates.i-1][player_cordenates.j] / 57) * 17, 16, 16));
+//    //Redesenha a camada super isometrica de onde a metade de cima do jogador saiu
+//    if (m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j])
+//        painter->drawPixmap((range_j) * ppt + column, (range_i-1) * ppt + row, ppt, ppt, tile->copy(((m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j]-1) % 57) * 17, (m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j] / 57) * 17, 16, 16));
 }
 
 void GUIQT::drawInventory()
