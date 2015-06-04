@@ -7,9 +7,8 @@
 class Bar
 {
 public:
-    Bar(int width, int height, int size);
+    Bar(int width, int height, int size, const char * color);
     ~Bar();
-    void setImage(QPixmap *begin, QPixmap *mid, QPixmap *end);
     void setSizeBar(int size_bar);
     QPixmap getBegin();
     QPixmap getMid();

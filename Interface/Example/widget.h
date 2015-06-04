@@ -2,6 +2,8 @@
 #define WIDGET_H
 
 #include <QMainWindow>
+#include <QMouseEvent>
+#include "inventory.h"
 #include "bar.h"
 
 namespace Ui {
@@ -16,10 +18,12 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
     void paintEvent(QPaintEvent *);
+    void mousePressEvent(QMouseEvent *);
 
 private:
     Ui::Widget *ui;
     Bar *barra;
+    Inventory *inv;
 };
 
 #endif // WIDGET_H

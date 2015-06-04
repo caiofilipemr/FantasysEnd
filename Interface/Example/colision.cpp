@@ -7,3 +7,13 @@ Colision::Colision(int x, int y):
 Colision::~Colision()
 {}
 
+int Colision::getX()
+{
+  return x;
+}
+
+int Colision::getY()
+{
+  return y;
+}
+
