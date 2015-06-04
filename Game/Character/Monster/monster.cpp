@@ -72,5 +72,8 @@ void Monster::setCanGo(bool * can)
 void Monster::die(Map *my_map)
 {
     my_map->removeAColision(Cordenates(this->pos_i, this->pos_j));
+    Chest * chest_temp = new Chest(this->pos_i,this->pos_j);
+    //falta add a img do "mostro morto" aqui
+    my_map->addObjects(chest_temp,Cordenates(this->pos_i,this->pos_j));
     //addObject quando for criado, add um Chest sem colisão e com uma imagem de um "monstro morto"
 }
