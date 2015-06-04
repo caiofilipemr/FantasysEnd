@@ -17,6 +17,7 @@ protected:
     Inventory *inventory;
     Shield *shield;
     Armor *armor;
+    Cordenates back_cordenates;
 
     void setHP();
     void setMP();
@@ -53,6 +54,7 @@ public:
     Armor * getArmor();
     void update(Map * my_map);
     void die(Map * my_map);
+    Cordenates getBackCordenates();
 };
 
 #endif // PLAYER_H

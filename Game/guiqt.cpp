@@ -14,15 +14,16 @@ void GUIQT::drawMap()
 {
     int begin_i, begin_j, index_i, index_j, i, j, ppt = pix_per_tile;
     int dif_i = 0, dif_j = 0;
-    Direction aux = SLEEP;
-    if (draw_player->getIsWalking()) {
-        aux = draw_player->getEyeDirection();
-    }
-    Cordenates player_cordenates = draw_player->getCordenates();
-    Cordenates range(range_i, range_j);
-    range = range + aux;
-    int pos_i =(player_cordenates - aux).i;
-    int pos_j = (player_cordenates - aux).j;
+//    Direction aux = SLEEP;
+//    if (draw_player->getIsWalking()) {
+//        aux = draw_player->getEyeDirection();
+//    }
+    //Cordenates player_cordenates = draw_player->getCordenates();
+    Cordenates back_player_cordenates = draw_player->getBackCordenates();
+    //Cordenates range(range_i, range_j);
+    //range = range + aux;
+    int pos_i =(back_player_cordenates).i;
+    int pos_j = (back_player_cordenates).j;
     int cont_frames = draw_player->getCont();
     int row = 0, column = 0, limit = ppt / Character::getLimit();
     int **m_base = draw_map->getBase(),
@@ -31,7 +32,7 @@ void GUIQT::drawMap()
         **m_iso = draw_map->getIsometric(),
         **m_s_iso = draw_map->getSuperIsometric(),
         **m_col = draw_map->getColision();
-    bool mov_map = true;
+
     Direction player_direction = draw_player->getEyeDirection();
 
     QPixmap *tile = new QPixmap(QString::fromStdString(draw_map->getImgWay()));
@@ -64,24 +65,22 @@ void GUIQT::drawMap()
     begin_i = pos_i - (range_i + 1);
     begin_j = pos_j - (range_j + 1);
 
-    if (mov_map) {
-        switch (int(player_direction)) {
-        case LEFT:
-            column = cont_frames * limit;
-            break;
+    switch (int(player_direction)) {
+    case LEFT:
+        column = cont_frames * limit;
+        break;
 
-        case UP:
-            row = cont_frames * limit;
-            break;
+    case UP:
+        row = cont_frames * limit;
+        break;
 
-        case RIGHT:
-            column = cont_frames * -limit;
-            break;
+    case RIGHT:
+        column = cont_frames * -limit;
+        break;
 
-        case DOWN:
-            row = cont_frames * -limit;
-            break;
-        }
+    case DOWN:
+        row = cont_frames * -limit;
+        break;
     }
 
     //Desenha todas as camadas

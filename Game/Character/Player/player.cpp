@@ -66,7 +66,7 @@ void Player::setArmor(Armor *new_armor)
 void Player::setDirection(Direction new_direction)
 {
     if (this->eye_direction == new_direction || new_direction == SLEEP) this->walk_direction = new_direction;
-    else this->eye_direction = new_direction;
+    else if (!(this->is_walking)) this->eye_direction = new_direction;
 }
 
 void Player::addStrenght(int strenght_plus)
@@ -158,13 +158,15 @@ void Player::update(Map *my_map)
         else {
             is_walking = false;
             cont = 0;
+            back_cordenates.i = this->pos_i;
+            back_cordenates.j = this->pos_j;
+            walk_direction = SLEEP;
         }
     }
     else {
         if (walk_direction != SLEEP && !my_map->hasColision(Cordenates(this->pos_i, this->pos_j) + walk_direction)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
             is_walking = true;
             this->walk();
-            cerr << "\nPlayer\n\n";
         }
     }
 }
@@ -172,6 +174,11 @@ void Player::update(Map *my_map)
 void Player::die(Map *my_map)
 {
     throw GAME_OVER;
+}
+
+Cordenates Player::getBackCordenates()
+{
+    return back_cordenates;
 }
 
 Player::Player(Weapon * new_weapon,
@@ -183,7 +190,7 @@ Player::Player(Weapon * new_weapon,
                                                                  new_dodge, new_range_damage,
                                                                  new_critical, new_pos_i,
                                                                  new_pos_j, new_img_way, new_eye_direction),
-                                                       weapon(new_weapon)
+                                                                 weapon(new_weapon), back_cordenates(new_pos_i, new_pos_j)
 
 {
     armor = NULL;
