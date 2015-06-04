@@ -10,7 +10,7 @@ class GUIQT : public GUI
 protected:
     QPainter * painter;
 
-    static const int size_x, size_y, range_i, range_j;
+    static const int size_x, size_y, range_i, range_j, pix_per_tile;
 public:
     GUIQT(/*QPainter *new_painter*/);
     void drawMap(/*Player * draw_player, Map *draw_map*/);

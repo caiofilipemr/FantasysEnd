@@ -5,7 +5,7 @@ const int Engine::number_of_mobs = 1;
 Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
 {
     CellArray::instance();
-    my_player = new Archer(30, 30, DOWN);
+    my_player = new Archer(40, 60, DOWN);
     my_map = new Map("mapa.txt", "roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
     mobs.push_back(new Stalker(10, 10, 10, 10, 1, 90, 6, 5, 3, 30, 31, "", DOWN));
@@ -13,6 +13,7 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     engine_GUI->setDrawPlayer(my_player);
     engine_GUI->setDrawMap(my_map);
     my_battle = NULL;
+    is_battle = false;
 }
 
 void Engine::update()
@@ -46,7 +47,6 @@ Cordenates Engine::getTemp()
 bool Engine::isBattle()
 {
     //Arrumar uma solução MELHOR!!!
-    bool is_battle = false;
     for (int i = 0; i < number_of_mobs; i++) {
         if (mobs[i]) {
             if ((mobs[i]->getCordenates() + UP) == my_player->getCordenates()) {
@@ -78,44 +78,50 @@ bool Engine::isBattle()
 
 void Engine::battle(BattleOptions op)
 {
-    switch (op) {
-    case ATTACK:
-        std::cerr << "HP player: " << my_player->getHP();
-        std::cerr << "HP player: " << mobs.front()->getHP();
-        try {
-            my_battle->attack();
-        } catch (Exceptions exc) {
-            throw;
-        } catch (Character * dead_character) {
+    if (is_battle) {
+        switch (op) {
+        case ATTACK:
+            //std::cerr << "HP player: " << my_player->getHP();
+            //std::cerr << "HP monster: " << mobs.front()->getHP();
             try {
-                (dead_character)->die(my_map);
-                size_t i;
-                for (i = 0; i < mobs.size() && mobs[i] != (dead_character); i++);
-                if (i == mobs.size()) throw "Error!";
-                my_player->addXP(mobs[i]->getDropXP());
-                delete mobs[i];
-                mobs.erase(mobs.begin() + i);
+                my_battle->attack();
             } catch (Exceptions exc) {
-                if (exc == GAME_OVER) gameOver();
-                else throw;
+                throw;
+            } catch (Character * dead_character) {
+                try {
+                    (dead_character)->die(my_map);
+                    size_t i;
+                    for (i = 0; i < mobs.size() && mobs[i] != (dead_character); i++);
+                    if (i == mobs.size()) throw "Error!";
+                    my_player->addXP(mobs[i]->getDropXP());
+                    delete mobs[i];
+                    mobs.erase(mobs.begin() + i);
+                    is_battle = false;
+                    throw CHARACTER_DIE;
+                } catch (Exceptions exc) {
+                    if (exc == GAME_OVER) {
+                        is_battle = false;
+                        gameOver();
+                    } else throw;
+                }
             }
+            break;
+
+        case MAGIC_SPECIAL:
+
+            break;
+
+        case ITEM:
+
+            break;
+
+        case RUN:
+
+            break;
+
+        default:
+            break;
         }
-        break;
-
-    case MAGIC_SPECIAL:
-
-        break;
-
-    case ITEM:
-
-        break;
-
-    case RUN:
-
-        break;
-
-    default:
-        break;
     }
 }
 

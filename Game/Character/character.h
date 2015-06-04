@@ -43,6 +43,7 @@ public:
     int getCont();
     bool getIsWalking();
     virtual void die(Map * my_map) = 0;
+    static int getLimit();
 };
 
 #endif // CHARACTER_H

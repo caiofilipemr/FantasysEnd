@@ -1,6 +1,6 @@
 ﻿#include "character.h"
 
-const int Character::limit = 16;
+const int Character::limit = 32;
 
 Character::Character(int new_speed, int new_accuracy,
                      int new_dodge, int new_range_damage,
@@ -114,5 +114,10 @@ int Character::getCont()
 bool Character::getIsWalking()
 {
     return is_walking;
+}
+
+int Character::getLimit()
+{
+    return limit;
 }
 

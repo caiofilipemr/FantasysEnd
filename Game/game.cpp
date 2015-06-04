@@ -57,8 +57,10 @@ void Game::keyPressEvent(QKeyEvent *event)
             } catch (Exceptions exc) {
                 if (exc == GAME_OVER) {
                     cerr << "GAME OVER\n";
+                } else if (exc == CHARACTER_DIE) {
+                    clock->start();
+                    is_battle = false;
                 }
-                clock->start();
             } catch (const char * err) {
                 cerr << err;
             }
@@ -70,13 +72,10 @@ void Game::keyPressEvent(QKeyEvent *event)
 void Game::keyReleaseEvent(QKeyEvent * event)
 {
     atual_direction = SLEEP;
-    //cerr << event->key();
 }
 
 void Game::paintEvent(QPaintEvent *event)
 {
-    //my_GUI->setQPainter(painter);
-    std::cout << "aaa\n";
     painter->begin(this);
     my_GUI->drawMap();
     painter->end();
@@ -90,6 +89,6 @@ void Game::myUpdate()
         clock->stop();
     }
     else { my_engine->update(); repaint(); }
-    cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
+    //cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
     //cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
 }

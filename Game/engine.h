@@ -51,6 +51,7 @@ public:
     bool isBattle();
     void battle(BattleOptions op);
     void gameOver();
+    bool is_battle;
 };
 
 #endif // ENGINE_H
