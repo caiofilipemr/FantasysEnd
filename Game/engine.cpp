@@ -19,7 +19,7 @@ void Engine::update()
 {
     try {
         my_player->update(my_map);
-        for (int i = 0; i < mobs.size(); i++) {
+        for (size_t i = 0; i < mobs.size(); i++) {
             mobs[i]->setDirection(DOWN);
             mobs[i]->setCanGo(my_map->getCanGo(mobs[i]->getCordenates()));
             mobs[i]->update(my_map);
@@ -69,8 +69,7 @@ bool Engine::isBattle()
                 mobs[i]->setEyeDirection(LEFT);
                 is_battle = true;
             }
-            Character *temp1 = my_player, *temp2 = mobs[i];
-            my_battle = new Battle(&temp1, &temp2);
+            my_battle = new Battle(my_player, mobs[i]);
             return is_battle;
         }
     }
@@ -87,11 +86,11 @@ void Engine::battle(BattleOptions op)
             my_battle->attack();
         } catch (Exceptions exc) {
             throw;
-        } catch (Character ** dead_character) {
+        } catch (Character * dead_character) {
             try {
-                (*dead_character)->die(my_map);
+                (dead_character)->die(my_map);
                 size_t i;
-                for (i = 0; i < mobs.size() && mobs[i] != (*dead_character); i++);
+                for (i = 0; i < mobs.size() && mobs[i] != (dead_character); i++);
                 if (i == mobs.size()) throw "Error!";
                 my_player->addXP(mobs[i]->getDropXP());
                 delete mobs[i];
