@@ -33,6 +33,8 @@ public:
     void removeAColision(Cordenates remove_col);
     void randMapInteration();
     Interation * getInteration(Cordenates cord);
+    void addObjects(Object *new_object, Cordenates cord_object);
+    void removeObjects(Cordenates cord_remove);
 
     bool * getCanGo(Cordenates cord);
     int ** getColision();

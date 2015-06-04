@@ -215,3 +215,13 @@ void Map::randMapInteration()
 //    }
 
 }
+
+void Map::addObjects(Object * new_object, Cordenates cord_object)
+{
+    m_interation[cord_object.i][cord_object.j] = new_object;
+}
+
+void Map::removeObjects(Cordenates cord_remove)
+{
+    m_interation[cord_remove.i][cord_remove.j] = NULL;
+}
