@@ -42,6 +42,7 @@ public:
     virtual void update(Map * my_map);
     int getCont();
     bool getIsWalking();
+    virtual void die(Map * my_map) = 0;
 };
 
 #endif // CHARACTER_H

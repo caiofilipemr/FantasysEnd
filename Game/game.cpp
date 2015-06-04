@@ -21,6 +21,7 @@ Game::Game(QWidget *parent) :
     clock->start();
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
+    is_battle = false;
 }
 
 Game::~Game()
@@ -49,6 +50,20 @@ void Game::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Enter:
         clock->start();
         break;
+    case Qt::Key_1:
+        if (is_battle) {
+            try {
+                my_engine->battle(ATTACK);
+            } catch (Exceptions exc) {
+                if (exc == GAME_OVER) {
+                    cerr << "GAME OVER\n";
+                }
+                clock->start();
+            } catch (const char * err) {
+                cerr << err;
+            }
+        }
+        break;
     }
 }
 
@@ -70,9 +85,9 @@ void Game::paintEvent(QPaintEvent *event)
 void Game::myUpdate()
 {
     my_engine->setPlayerDirection(atual_direction);
-    if (my_engine->isBattle()) {
+    is_battle = my_engine->isBattle();
+    if (is_battle) {
         clock->stop();
-        cerr << "BATALHA MODAFOCA!\n";
     }
     else { my_engine->update(); repaint(); }
     cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;

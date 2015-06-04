@@ -56,7 +56,8 @@ SOURCES += main.cpp\
     commands.cpp \
     engine.cpp \
     interation.cpp \
-    guiqt.cpp
+    guiqt.cpp \
+    battle.cpp
 
 HEADERS  += game.h \
     Character/Monster/monster.h \
@@ -103,6 +104,10 @@ HEADERS  += game.h \
     commands.h \
     engine.h \
     interation.h \
-    guiqt.h
+    guiqt.h \
+    battle.h
 
 FORMS    += game.ui
+
+RESOURCES += \
+    Images.qrc

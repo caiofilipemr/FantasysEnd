@@ -25,7 +25,7 @@ public:
     Inventory *getDrop();
     void setStalk(Object *player);
     void setCanGo(bool *can);
-
+    void die(Map * my_map);
 };
 
 #endif // MONSTER_H

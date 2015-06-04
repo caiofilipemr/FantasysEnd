@@ -32,15 +32,15 @@ void GUIQT::drawMap()
 
     QPixmap *tile = new QPixmap(QString::fromStdString(draw_map->getImgWay()));
     QPixmap player_image(QString::fromStdString(draw_player->getImgWay()));
-    player_image = player_image.copy((3 + cont_frames % 3) * 16, int(player_direction) * 16, 16, 16);
+    player_image = player_image.copy((3 + (cont_frames / 5) % 3) * 16, int(player_direction) * 16, 16, 16);
 
     if (pos_i - range_i <= 0) {//Verifica se não vai mostrar mapa inexistente (I NEGATIVO)
         begin_i = 0;
         dif_i = pos_i - range_i;
         //mov_map = false;
     }
-    else if (pos_i + range_i >= size_i) { //Verifica se não vai mostrar mapa inexistente (I MAIOR QUE O MAPA)
-        begin_i = size_i - 2 * range_i;
+    else if (pos_i + range_i > size_i) { //Verifica se não vai mostrar mapa inexistente (I MAIOR QUE O MAPA)
+        begin_i = size_i - (2 * range_i + 1);
         dif_i = pos_i + range_i - size_i;
         //mov_map = false;
     } else begin_i = pos_i - (range_i + 1); //VERIFICAR O PORQUÊ DO + 1
@@ -50,7 +50,7 @@ void GUIQT::drawMap()
         //mov_map = false;
     }
     else if (pos_j + range_j >= size_j) { //Idem com o J (J MAIOR QUE O MAPA)
-        begin_j = size_i - 2 * range_j;
+        begin_j = size_j - 2 * range_j;
         dif_j = pos_j + range_j - size_j;
         //mov_map = false;
     } else begin_j = pos_j - (range_j + 1); //VERIFICAR O PORQUÊ DO + 1

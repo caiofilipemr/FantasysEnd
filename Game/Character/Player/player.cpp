@@ -169,6 +169,11 @@ void Player::update(Map *my_map)
     }
 }
 
+void Player::die(Map *my_map)
+{
+    throw GAME_OVER;
+}
+
 Player::Player(Weapon * new_weapon,
                int new_accuracy, int new_dodge,
                int new_range_damage, int new_critical,
