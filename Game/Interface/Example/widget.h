@@ -24,7 +24,6 @@ private:
     Ui::Widget *ui;
     Bar *barra;
     Inventory *inv;
-    Rectangle *test;
 };
 
 #endif // WIDGET_H
