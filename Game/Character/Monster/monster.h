@@ -11,6 +11,7 @@ protected:
     Object *player;
     void move();
     int per[4], chance[4], back_chance[4];
+    static std::string img_monster_die;
     bool *can_go;
 public:
     Monster(int new_hp, int new_mp,
@@ -27,6 +28,7 @@ public:
     void setStalk(Object *player);
     void setCanGo(bool *can);
     void die(Map * my_map);
+    static void setImgMonsterDie(std::string new_img_die);
 };
 
 #endif // MONSTER_H

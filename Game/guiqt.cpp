@@ -27,7 +27,7 @@ void GUIQT::drawMap()
     int new_pos_j = player_cordenates.j;
     int size_i = draw_map->getCordenates().i, size_j = draw_map->getCordenates().j;
     int cont_frames = draw_player->getCont();
-    int row = 0, column = 0, limit = Character::getLimit() / ppt;
+    int row = 0, column = 0, limit = ppt / Character::getLimit();
     int **m_base = draw_map->getBase(),
         **m_s_base = draw_map->getSuperBase(),
         **m_obj = draw_map->getObjects(),
@@ -41,26 +41,31 @@ void GUIQT::drawMap()
     QPixmap player_image(QString::fromStdString(draw_player->getImgWay()));
     player_image = player_image.copy((3 + (cont_frames / 5) % 3) * 16, int(player_direction) * 16, 16, 16);
 
-    if (pos_i - range_i <= 0) {//Verifica se não vai mostrar mapa inexistente (I NEGATIVO)
-        begin_i = 0;
-        dif_i = pos_i - range_i;
-        //mov_map = false;
-    }
-    else if (pos_i + range_i > size_i) { //Verifica se não vai mostrar mapa inexistente (I MAIOR QUE O MAPA)
-        begin_i = size_i - (2 * range_i + 1);
-        dif_i = pos_i + range_i - size_i;
-        //mov_map = false;
-    } else begin_i = pos_i - (range_i + 1); //VERIFICAR O PORQUÊ DO + 1
-    if (pos_j - range_j <= 0) { //Idem com o J (J NEGATIVO)
-        begin_j = 0;
-        dif_j = pos_j - range_j;
-        //mov_map = false;
-    }
-    else if (pos_j + range_j >= size_j) { //Idem com o J (J MAIOR QUE O MAPA)
-        begin_j = size_j - 2 * range_j;
-        dif_j = pos_j + range_j - size_j;
-        //mov_map = false;
-    } else begin_j = pos_j - (range_j + 1); //VERIFICAR O PORQUÊ DO + 1
+//    VERIFICAÇÃO DAS BORDAS. POR ENQUANTO NÃO USAREMOS
+//    if (pos_i - range_i <= 0) {//Verifica se não vai mostrar mapa inexistente (I NEGATIVO)
+//        begin_i = 0;
+//        dif_i = pos_i - range_i;
+//        //mov_map = false;
+//    }
+//    else if (pos_i + range_i > size_i) { //Verifica se não vai mostrar mapa inexistente (I MAIOR QUE O MAPA)
+//        begin_i = size_i - (2 * range_i + 1);
+//        dif_i = pos_i + range_i - size_i;
+//        //mov_map = false;
+//    } else begin_i = pos_i - (range_i + 1); //VERIFICAR O PORQUÊ DO + 1
+
+//    if (pos_j - range_j <= 0) { //Idem com o J (J NEGATIVO)
+//        begin_j = 0;
+//        dif_j = pos_j - range_j;
+//        //mov_map = false;
+//    }
+//    else if (pos_j + range_j >= size_j) { //Idem com o J (J MAIOR QUE O MAPA)
+//        begin_j = size_j - 2 * range_j;
+//        dif_j = pos_j + range_j - size_j;
+//        //mov_map = false;
+//    } else begin_j = pos_j - (range_j + 1); //VERIFICAR O PORQUÊ DO + 1
+
+    begin_i = pos_i - (range_i + 1);
+    begin_j = pos_j - (range_j + 1);
 
     if (mov_map) {
         switch (int(player_direction)) {
