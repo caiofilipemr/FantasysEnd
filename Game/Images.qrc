@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>Images/characters_1.png</file>
+        <file>Images/mapa.txt</file>
+        <file>Images/roguelikeSheet_transparent.png</file>
+    </qresource>
+</RCC>

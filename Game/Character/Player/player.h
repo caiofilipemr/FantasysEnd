@@ -52,6 +52,7 @@ public:
     Shield * getShield();
     Armor * getArmor();
     void update(Map * my_map);
+    void die(Map * my_map);
 };
 
 #endif // PLAYER_H

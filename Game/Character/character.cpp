@@ -14,10 +14,12 @@ Character::Character(int new_speed, int new_accuracy,
 
 int Character::attack()
 {
-    if ((random(100) + 1) > accuracy)
+    int rand = 0;
+    if ((random(100) + 1) > (this->accuracy))
         throw MISS;
-    int dam_min = (damage - range_damage), dam_max = (damage + range_damage);
-    if ((random(100) + 1) > critical)
+    int dam_min = damage - range_damage;
+    int dam_max = damage + range_damage;
+    if ((rand = (random(100) + 1)) > (this->critical))
         return (random(dam_max - dam_min + 1) + dam_min);
     return (random(dam_max - dam_min + 1) + dam_min) * 2;
 }
@@ -29,7 +31,7 @@ void Character::defense(int attack)
     if((attack - guard) > 0) {
         hp = hp - (attack - guard);
         if (hp < 1)
-            throw PLAYER_DIE;
+            throw CHARACTER_DIE;
     }
 }
 

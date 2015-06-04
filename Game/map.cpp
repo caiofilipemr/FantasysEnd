@@ -1,5 +1,7 @@
 #include "map.h"
 
+//Adicionar os metodos addObject e removeObject
+
 const int Map::min_chest = 5;
 const int Map::max_chest = 8;
 const int Map::min_stone = 7;

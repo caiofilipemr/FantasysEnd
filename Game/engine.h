@@ -11,6 +11,7 @@
 #include "Enums.h"
 #include "globalfunctions.h"
 #include "cellarray.h"
+#include "battle.h"
 
 class GUI
 {
@@ -34,12 +35,13 @@ private:
     static const int number_of_mobs;
 
     Map *my_map;
-    Monster **mobs;
+    vector<Monster *> mobs;
     Player *my_player;
     Stone *my_stones;
     Chest *my_chests;
     Monster *battle_mob;
     GUI *engine_GUI;
+    Battle *my_battle;
 public:
     Engine(GUI * new_engine_GUI);
     void update();
@@ -47,6 +49,8 @@ public:
     Cordenates getPlayerCordenates();
     Cordenates getTemp();
     bool isBattle();
+    void battle(BattleOptions op);
+    void gameOver();
 };
 
 #endif // ENGINE_H

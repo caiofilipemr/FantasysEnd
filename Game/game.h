@@ -39,6 +39,7 @@ private:
     Direction atual_direction;
     QPainter * painter;
     GUIQT * my_GUI;
+    bool is_battle;
 };
 
 #endif // GAME_H
