@@ -40,7 +40,7 @@ public:
     Direction getEyeDirection();
     virtual void walk() = 0;
     virtual void update(Map * my_map);
-    int getCont();
+    virtual int getCont();
     bool getIsWalking();
     virtual void die(Map * my_map) = 0;
     static int getLimit();

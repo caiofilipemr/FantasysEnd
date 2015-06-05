@@ -97,12 +97,11 @@ void Character::update(Map *my_map)
         }
     }
     else {
-        if (walk_direction != SLEEP && !my_map->hasColision(Cordenates(this->pos_i, this->pos_j) + walk_direction)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
+        //if (walk_direction != SLEEP/* && !my_map->hasColision(Cordenates(this->pos_i, this->pos_j) + walk_direction)*/) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
             is_walking = true;
             this->walk();
-            cerr << "\nPlayer\n\n";
             my_map->updateColision(this);
-        }
+        //}
     }
 }
 

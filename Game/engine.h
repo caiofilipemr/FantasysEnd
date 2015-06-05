@@ -18,6 +18,7 @@ class GUI
 protected:
     Player * draw_player;
     Map *draw_map;
+    std::vector<Monster *> *draw_mobs;
 public:
     virtual void drawMap(/*Player * draw_player, Map *draw_map*/) = 0;
     virtual void drawInventory() = 0;
@@ -25,6 +26,7 @@ public:
     virtual void drawBrokenStone() = 0;
     virtual void setDrawPlayer(Player * new_draw_player) = 0;
     virtual void setDrawMap(Map * new_draw_map) = 0;
+    virtual void setDrawMobs(std::vector<Monster *> * new_draw_mobs) = 0;
 };
 
 
@@ -42,6 +44,7 @@ private:
     Monster *battle_mob;
     GUI *engine_GUI;
     Battle *my_battle;
+    bool is_battle;
 public:
     Engine(GUI * new_engine_GUI);
     void update();
@@ -51,7 +54,7 @@ public:
     bool isBattle();
     void battle(BattleOptions op);
     void gameOver();
-    bool is_battle;
+    bool isWalking();
 };
 
 #endif // ENGINE_H

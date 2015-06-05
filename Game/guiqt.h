@@ -20,6 +20,7 @@ public:
 
     void setDrawPlayer(Player * new_draw_player);
     void setDrawMap(Map * new_draw_map);
+    void setDrawMobs(std::vector<Monster *> * new_draw_mobs);
     void setQPainter(QPainter * new_painter);
 };
 

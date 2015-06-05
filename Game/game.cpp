@@ -86,6 +86,7 @@ void Game::myUpdate()
     my_engine->setPlayerDirection(atual_direction);
     is_battle = my_engine->isBattle();
     if (is_battle) {
+        repaint();
         clock->stop();
     }
     else { my_engine->update(); repaint(); }

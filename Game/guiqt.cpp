@@ -37,7 +37,12 @@ void GUIQT::drawMap()
 
     QPixmap *tile = new QPixmap(QString::fromStdString(draw_map->getImgWay()));
     QPixmap player_image(QString::fromStdString(draw_player->getImgWay()));
-    player_image = player_image.copy((3 + (cont_frames / 5) % 3) * 16, int(player_direction) * 16, 16, 16);
+    player_image = player_image.copy((3 + (cont_frames / (Character::getLimit() / 3) % 3)) * 16, int(player_direction) * 16, 16, 16);
+    QPixmap mobs_images[draw_mobs->size()];
+    for (i = 0; i < int(draw_mobs->size()); i++) {
+        mobs_images[i] = QString::fromStdString((*draw_mobs)[i]->getImgWay());
+        mobs_images[i] = mobs_images[i].copy((9 + ((*draw_mobs)[i]->getCont() / (Character::getLimit() / 3) % 3)) * 16, int((*draw_mobs)[i]->getEyeDirection()) * 16+64, 16, 16);
+    }
 
 //    VERIFICAÇÃO DAS BORDAS. POR ENQUANTO NÃO USAREMOS
 //    if (pos_i - range_i <= 0) {//Verifica se não vai mostrar mapa inexistente (I NEGATIVO)
@@ -89,15 +94,44 @@ void GUIQT::drawMap()
             if (m_base[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_base[i][j]-1) % 57) * 17, (m_base[i][j] / 57) * 17, 16, 16));
             if (m_s_base[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_s_base[i][j]-1) % 57) * 17, (m_s_base[i][j] / 57) * 17, 16, 16));
             if (m_obj[i][j]) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, tile->copy(((m_obj[i][j]-1) % 57) * 17, (m_obj[i][j] / 57) * 17, 16, 16));
-            if (m_col[i][j] == 2) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, tile->copy(26 * 17, 8 * 17, 16, 16));
+            //if (m_col[i][j] == 2) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, tile->copy(26 * 17, 8 * 17, 16, 16));
             //Descomentar as duas proximas linhas caso queira usar a opção com melhor desempenho!!!
             //if (m_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_iso[i][j]-1) % 57) * 17, (m_iso[i][j] / 57) * 17, 16, 16));
             //if (m_s_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_s_iso[i][j]-1) % 57) * 17, (m_s_iso[i][j] / 57) * 17, 16, 16));
         }
     }
 
+    int xb = begin_i - 1, xe = begin_i + size_x + 2, yb = begin_j - 1, ye = begin_j + size_y + 2;
+    Cordenates mob_cordenates;
+
+    int row_monster = 0, column_monster = 0;
     //Desenha a metade de baixo do jogador
     painter->drawPixmap((range_j + dif_j) * ppt, (range_i + dif_i) * ppt, ppt, 16, player_image.copy(0,8,16,8));
+    for (i = 0; i < int(draw_mobs->size()); i++) {
+        mob_cordenates = (*draw_mobs)[i]->getCordenates();
+        if (hasPoint(mob_cordenates.i, mob_cordenates.j)){
+            if ((*draw_mobs)[i]->getIsWalking()) mob_cordenates = mob_cordenates - (*draw_mobs)[i]->getEyeDirection();
+            cont_frames = (*draw_mobs)[i]->getCont();
+            switch (int((*draw_mobs)[i]->getDirection())) {
+            case LEFT:
+                column_monster = cont_frames * limit;
+                break;
+
+            case UP:
+                row_monster = cont_frames * limit;
+                break;
+
+            case RIGHT:
+                column_monster = cont_frames * -limit;
+                break;
+
+            case DOWN:
+                row_monster = cont_frames * -limit;
+                break;
+            }
+            painter->drawPixmap((mob_cordenates.j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates.i - begin_i - 1) * ppt - row_monster + row, ppt, 16, mobs_images[i].copy(0,8,16,8));
+        }
+    }
 
 //    OPÇÃO DE DESENHO DA SUPER ISOMETRICA COM MENOS CÓDIGO E PIOR DESEMPENHO!!!
     for (i = begin_i, index_i = -1; index_i < size_x + 1; index_i++, i++) {
@@ -114,7 +148,13 @@ void GUIQT::drawMap()
 //        painter->drawPixmap((range_j) * ppt + column, range_i * ppt + row, ppt, ppt, tile->copy(((m_iso[(player_cordenates - aux).i][(player_cordenates - aux).j]-1) % 57) * 17, (m_iso[(player_cordenates - aux).i][(player_cordenates - aux).j] / 57) * 17, 16, 16));
 
     //Desenha a metade de cima do jogador
-    painter->drawPixmap(((range_j) + dif_j) * ppt, (((range_i) + dif_i) - 1) * ppt + 16, ppt, 16, player_image.copy(0,0,16,8));//cabeça
+    painter->drawPixmap(((range_j) + dif_j) * ppt, (((range_i) + dif_i) - 1) * ppt + ppt / 2, ppt, 16, player_image.copy(0,0,16,8));//cabeça
+    for (i = 0; i < int(draw_mobs->size()); i++) {
+        if (hasPoint(mob_cordenates.i, mob_cordenates.j)){
+            painter->drawPixmap((mob_cordenates.j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates.i - begin_i - 2) * ppt + ppt / 2 - row_monster + row, ppt, 16, mobs_images[i].copy(0,0,16,8));
+            //painter->drawPixmap((mob_cordenates.j - begin_j - 1) * ppt + column_monster + column, (mob_cordenates.i - begin_i - 1) * ppt + row_monster + row, ppt, 16, mobs_images[i].copy(0,8,16,8));
+        }
+    }
 
 //    OPÇÃO DE DESENHO DA SUPER ISOMETRICA COM MENOS CÓDIGO E PIOR DESEMPENHO!!!
     for (i = begin_i, index_i = -1; index_i < size_x + 1; index_i++, i++) {
@@ -160,6 +200,11 @@ void GUIQT::setDrawPlayer(Player *new_draw_player)
 void GUIQT::setDrawMap(Map *new_draw_map)
 {
     this->draw_map = new_draw_map;
+}
+
+void GUIQT::setDrawMobs(std::vector<Monster *> *new_draw_mobs)
+{
+    this->draw_mobs = new_draw_mobs;
 }
 
 void GUIQT::setQPainter(QPainter *new_painter)

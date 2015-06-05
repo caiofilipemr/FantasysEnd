@@ -21,4 +21,10 @@ Sleeper::Sleeper(int new_hp, int new_mp,
 void Sleeper::walk()
 {
     eye_direction = Direction(random(4));
+    walk_direction = SLEEP;
+}
+
+int Sleeper::getCont()
+{
+    return 0;
 }

@@ -16,6 +16,7 @@ public:
             int new_pos_j, std::string new_img_way,
             Direction new_eye_direction);
     void walk();
+    int getCont();
 };
 
 #endif // SLEEPER_H
