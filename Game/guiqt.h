@@ -2,6 +2,7 @@
 #define GUIQT_H
 
 #include "engine.h"
+#include "Interface/Inventory/inventinterface.h"
 #include <QPainter>
 #include <QPixmap>
 
@@ -9,6 +10,7 @@ class GUIQT : public GUI
 {
 protected:
     QPainter * painter;
+    InventInterface *inventory;
 
     static const int size_x, size_y, range_i, range_j, pix_per_tile;
 public:

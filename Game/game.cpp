@@ -15,13 +15,14 @@ Game::Game(QWidget *parent) :
     painter = new QPainter(this);
     my_GUI = new GUIQT(/*painter*/);
     my_engine = new Engine((GUI *)my_GUI);
+
     clock = new QTimer(this);
     clock->setInterval(1000/60);
     connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
     clock->start();
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
-    is_battle = false;
+    is_battle = is_inventory = false;
 }
 
 Game::~Game()
@@ -66,6 +67,10 @@ void Game::keyPressEvent(QKeyEvent *event)
             }
         }
         break;
+     case Qt::Key_I:
+        is_inventory = true;
+        //cerr << "Inventory";
+        break;
     }
 }
 
@@ -78,6 +83,9 @@ void Game::paintEvent(QPaintEvent *event)
 {
     painter->begin(this);
     my_GUI->drawMap();
+    if(is_inventory){
+      my_GUI->drawInventory();
+    }
     painter->end();
 }
 

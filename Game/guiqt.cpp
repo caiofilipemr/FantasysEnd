@@ -175,11 +175,12 @@ void GUIQT::drawMap()
 //    //Redesenha a camada super isometrica de onde a metade de cima do jogador saiu
 //    if (m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j])
 //        painter->drawPixmap((range_j) * ppt + column, (range_i-1) * ppt + row, ppt, ppt, tile->copy(((m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j]-1) % 57) * 17, (m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j] / 57) * 17, 16, 16));
+    inventory = new InventInterface(360,222,10,10);
 }
 
 void GUIQT::drawInventory()
 {
-
+  inventory->draw(painter);
 }
 
 void GUIQT::drawBattle()

@@ -12,6 +12,7 @@
 #include "engine.h"
 #include <QPainter>
 #include "guiqt.h"
+#include "Interface/Inventory/inventinterface.h"
 
 namespace Ui {
 class Game;
@@ -31,7 +32,6 @@ public:
 public slots:
     void myUpdate();
 
-
 private:
     Ui::Game *ui;
     QTimer *clock;
@@ -39,7 +39,7 @@ private:
     Direction atual_direction;
     QPainter * painter;
     GUIQT * my_GUI;
-    bool is_battle;
+    bool is_battle, is_inventory;
 };
 
 #endif // GAME_H
