@@ -28,6 +28,7 @@ public:
     virtual void setDrawPlayer(Player * new_draw_player) = 0;
     virtual void setDrawMap(Map * new_draw_map) = 0;
     virtual void setDrawMobs(std::vector<Monster *> * new_draw_mobs) = 0;
+    void setCursor(int x, int y);
 };
 
 

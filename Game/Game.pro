@@ -58,7 +58,13 @@ SOURCES += main.cpp\
     engine.cpp \
     interation.cpp \
     guiqt.cpp \
-    battle.cpp
+    battle.cpp \
+    Interface/Bar/bar.cpp \
+    Interface/Inventory/inventinterface.cpp \
+    Interface/Inventory/Colision/colision.cpp \
+    Interface/Inventory/Colision/rectangle.cpp \
+    Mouse/mouse.cpp \
+    Interface/Inventory/messagebox.cpp
 
 HEADERS  += game.h \
     Character/Monster/monster.h \
@@ -106,7 +112,13 @@ HEADERS  += game.h \
     engine.h \
     interation.h \
     guiqt.h \
-    battle.h
+    battle.h \
+    Interface/Bar/bar.h \
+    Interface/Inventory/inventinterface.h \
+    Interface/Inventory/Colision/colision.h \
+    Interface/Inventory/Colision/rectangle.h \
+    Mouse/mouse.h \
+    Interface/Inventory/messagebox.h
 
 FORMS    += game.ui
 

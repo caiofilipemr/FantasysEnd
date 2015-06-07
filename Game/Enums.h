@@ -9,5 +9,6 @@ enum Base_Item_ID { AGILITY_UP, HEAL_HP, HEAL_MP, INTELLIGENCE_UP,
 
 enum Item_ID { ARMOR, SHIELD, WEAPON, POTION};
 enum BattleOptions { ATTACK, MAGIC_SPECIAL, ITEM, RUN };
+enum Button { PRESS, RELEASE };
 
 #endif // ENUMS_H

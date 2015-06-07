@@ -8,6 +8,7 @@ const int GUIQT::pix_per_tile = 32;
 
 GUIQT::GUIQT()
 {
+  inventory = new InventInterface(400,246,15*32,11*32);
 }
 
 void GUIQT::drawMap()
@@ -175,11 +176,12 @@ void GUIQT::drawMap()
 //    //Redesenha a camada super isometrica de onde a metade de cima do jogador saiu
 //    if (m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j])
 //        painter->drawPixmap((range_j) * ppt + column, (range_i-1) * ppt + row, ppt, ppt, tile->copy(((m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j]-1) % 57) * 17, (m_s_iso[(player_cordenates - aux).i-1][(player_cordenates - aux).j] / 57) * 17, 16, 16));
+
 }
 
 void GUIQT::drawInventory()
 {
-
+  inventory->draw(painter);
 }
 
 void GUIQT::drawBattle()
@@ -215,4 +217,9 @@ void GUIQT::setDrawMobs(std::vector<Monster *> *new_draw_mobs)
 void GUIQT::setQPainter(QPainter *new_painter)
 {
     painter = new_painter;
+}
+
+void GUIQT::setCursor(int x, int y)
+{
+    this->inventory->setCursor(x, y);
 }

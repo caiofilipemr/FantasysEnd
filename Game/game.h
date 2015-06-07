@@ -8,12 +8,14 @@
 #include <QPainter>
 #include <QMediaPlayer>
 #include <QFileInfo>
+#include <QMouseEvent>
 
 #include "Character/Player/Raca/Elf/archer.h"
 #include "Character/Player/Raca/Elf/mage.h"
 #include "Character/Player/Raca/Orc/troll.h"
 #include "engine.h"
 #include "guiqt.h"
+#include "Interface/Inventory/inventinterface.h"
 
 namespace Ui {
 class Game;
@@ -29,10 +31,10 @@ public:
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent * event);
     void paintEvent(QPaintEvent * event);
+    void mousePressEvent(QMouseEvent * event);
 
 public slots:
     void myUpdate();
-
 
 private:
     Ui::Game *ui;
@@ -42,7 +44,10 @@ private:
     QPainter * painter;
     GUIQT * my_GUI;
     QMediaPlayer *mp;
-    bool is_battle, game_over;
+    bool game_over;
+    bool is_battle, is_inventory;
+
+    int x_mouse, y_mouse;
 };
 
 #endif // GAME_H

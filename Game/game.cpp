@@ -8,6 +8,8 @@ Game::Game(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Game)
 {
+    x_mouse = y_mouse = 0;
+
     ui->setupUi(this);
     this->setMaximumHeight(11 * 32); //Constanstes, passar pra static const int depois
     this->setMinimumHeight(11 * 32);
@@ -16,6 +18,7 @@ Game::Game(QWidget *parent) :
     painter = new QPainter(this);
     my_GUI = new GUIQT(/*painter*/);
     my_engine = new Engine((GUI *)my_GUI);
+
     clock = new QTimer(this);
     clock->setInterval(1000/60);
     connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
@@ -23,6 +26,7 @@ Game::Game(QWidget *parent) :
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
     is_battle = game_over = false;
+    is_battle = is_inventory = false;
 }
 
 Game::~Game()
@@ -73,6 +77,15 @@ void Game::keyPressEvent(QKeyEvent *event)
             }
         }
         break;
+     case Qt::Key_I:
+        if(is_inventory) {
+            is_inventory = false;
+        }
+        else {
+            is_inventory = true;
+        }
+        //cerr << "Inventory";
+        break;
     }
 }
 
@@ -86,7 +99,21 @@ void Game::paintEvent(QPaintEvent *event)
     painter->begin(this);
     my_GUI->drawMap();
     if (game_over) my_GUI->drawGameOver();
+    if(is_inventory){
+      my_GUI->drawInventory();
+    }
     painter->end();
+}
+
+void Game::mousePressEvent(QMouseEvent *event)
+{
+    this->x_mouse = event->x();
+    this->y_mouse = event->y();
+    my_GUI->setCursor(x_mouse, y_mouse);
+    if(event->button() == Qt::RightButton) {
+
+    }
+    repaint();
 }
 
 void Game::myUpdate()
@@ -107,4 +134,6 @@ void Game::myUpdate()
     }
     cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
     cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
+    //cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
+    //cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
 }
