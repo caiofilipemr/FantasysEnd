@@ -5,20 +5,20 @@ const int InventInterface::inv_i = 3;
 const int InventInterface::inv_j = 5;
 const int InventInterface::chest_i = 5;
 
-InventInterface::InventInterface(int width, int height, int x, int y):
-  width(width), height(height), x(x), y(y)
+InventInterface::InventInterface(int width, int height, int widthGUI, int heightGUI):
+  width(width), height(height), x(widthGUI/2 - width/2), y(heightGUI/2 - height/2),
+  widthGUI(widthGUI), heightGUI(heightGUI)
 {
-  x_mouse = y_mouse = 0;
   squary = new QPixmap("Inventory/squary_press.png");
   back = new QPixmap("Inventory/inventory.png");
   inv = new Rectangle(181 + x, 55 + y, 168, 100);
   chest = new Rectangle(181 + x, 180 + y, 168, 32);
 }
 
-void InventInterface::setCursor(int x_mouse, int y_mouse)
+void InventInterface::setCursor(int x, int y)
 {
-  this->x_mouse = x_mouse;
-  this->y_mouse = y_mouse;
+  this->x_mouse = x;
+  this->y_mouse = y;
 }
 
 void InventInterface::setNumberItemInv(int number)
@@ -46,6 +46,8 @@ InventInterface::~InventInterface()
 
 void InventInterface::draw(QPainter *obj)
 {
+  setCursor(x_mouse, y_mouse);
+  obj->drawPixmap(0, 0, widthGUI, heightGUI, *(this->squary));
   obj->drawPixmap(x, y, width, height, *(this->back));
   if(inv->is_colision(x_mouse, y_mouse)){
 
@@ -54,7 +56,6 @@ void InventInterface::draw(QPainter *obj)
     obj->drawPixmap(column*32 + inv->getX() + margin*column, line*32 + inv->getY() + line*margin, 32, 32, *squary);
 
     setNumberItemInv(line*5 + (column%5));
-    //std::cerr << getNumberItemInv();
 
   }else if(chest->is_colision(x_mouse, y_mouse)){
 

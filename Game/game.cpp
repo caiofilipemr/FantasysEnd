@@ -7,6 +7,8 @@ Game::Game(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Game)
 {
+    x_mouse = y_mouse = 0;
+
     ui->setupUi(this);
     this->setMaximumHeight(11 * 32); //Constanstes, passar pra static const int depois
     this->setMinimumHeight(11 * 32);
@@ -68,7 +70,12 @@ void Game::keyPressEvent(QKeyEvent *event)
         }
         break;
      case Qt::Key_I:
-        is_inventory = true;
+        if(is_inventory) {
+            is_inventory = false;
+        }
+        else {
+            is_inventory = true;
+        }
         //cerr << "Inventory";
         break;
     }
@@ -89,6 +96,17 @@ void Game::paintEvent(QPaintEvent *event)
     painter->end();
 }
 
+void Game::mousePressEvent(QMouseEvent *event)
+{
+    this->x_mouse = event->x();
+    this->y_mouse = event->y();
+    my_GUI->setCursor(x_mouse, y_mouse);
+    if(event->button() == Qt::RightButton) {
+
+    }
+    repaint();
+}
+
 void Game::myUpdate()
 {
     my_engine->setPlayerDirection(atual_direction);
@@ -97,7 +115,10 @@ void Game::myUpdate()
         repaint();
         clock->stop();
     }
-    else { my_engine->update(); repaint(); }
+    else {
+        my_engine->update();
+        repaint();
+    }
     //cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
     //cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
 }

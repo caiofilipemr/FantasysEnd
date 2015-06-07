@@ -3,14 +3,16 @@
 
 #include <QPainter>
 #include "Colision/rectangle.h"
+#include "Mouse/mouse.h"
+#include "Enums.h"
 
-class InventInterface
+class InventInterface: public Mouse
 {
 public:
-  InventInterface(int width, int height, int x, int y);
+  InventInterface(int width, int height, int widthGUI, int heightGUI);
   ~InventInterface();
 
-  void setCursor(int x_mouse, int y_mouse);
+  void setCursor(int x, int y);
   void draw(QPainter *obj);
 
   //Funções interessantes para Engine
@@ -22,7 +24,7 @@ public:
 private:
   static const int inv_i, inv_j, chest_i;
   enum{ INVENTORY, CHEST };
-  int width, height, x, y, x_mouse, y_mouse, number_item[2];
+  int width, height, x, y, widthGUI, heightGUI, number_item[2];
   Rectangle *inv, *chest;
   QPixmap *squary, *back;
 

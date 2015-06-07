@@ -5,6 +5,7 @@
 #include <iostream>
 #include <QTimer>
 #include <QKeyEvent>
+#include <QMouseEvent>
 
 #include "Character/Player/Raca/Elf/archer.h"
 #include "Character/Player/Raca/Elf/mage.h"
@@ -28,6 +29,7 @@ public:
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent * event);
     void paintEvent(QPaintEvent * event);
+    void mousePressEvent(QMouseEvent * event);
 
 public slots:
     void myUpdate();
@@ -40,6 +42,8 @@ private:
     QPainter * painter;
     GUIQT * my_GUI;
     bool is_battle, is_inventory;
+
+    int x_mouse, y_mouse;
 };
 
 #endif // GAME_H
