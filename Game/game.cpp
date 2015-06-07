@@ -57,7 +57,7 @@ void Game::keyPressEvent(QKeyEvent *event)
         clock->start();
         break;
     case Qt::Key_1:
-        if (is_battle) {
+        if (is_battle) { //temp
             try {
                 my_engine->battle(ATTACK);
             } catch (Exceptions exc) {
@@ -80,9 +80,12 @@ void Game::keyPressEvent(QKeyEvent *event)
      case Qt::Key_I:
         if(is_inventory) {
             is_inventory = false;
+            clock->start();
         }
         else {
             is_inventory = true;
+            clock->stop();
+            repaint();
         }
         //cerr << "Inventory";
         break;
@@ -110,10 +113,18 @@ void Game::mousePressEvent(QMouseEvent *event)
     this->x_mouse = event->x();
     this->y_mouse = event->y();
     my_GUI->setCursor(x_mouse, y_mouse);
-    if(event->button() == Qt::RightButton) {
-
-    }
     repaint();
+    if(event->button() == Qt::RightButton) {
+        if (is_inventory) {
+            try {
+                std::vector<string> cmd_name = my_engine->getCommands(my_GUI->getIndexItemInventory()); //Zé, esse metodo retorna dum std::vector<string> que contem os nomes dos comandos, pra poder passar pra interface do inventario
+                //Zé, como vamos saber se não clicou em nada ?
+                cerr << cmd_name[0];
+            } catch (const char * err) {
+                cerr << err;
+            }
+        }
+    }
 }
 
 void Game::myUpdate()
@@ -122,7 +133,7 @@ void Game::myUpdate()
     is_battle = my_engine->isBattle();
     if (is_battle) {
         repaint();
-        while (my_engine->isWalking()) {
+        while (my_engine->isWalking()) { //temp
             my_engine->update();
             repaint();
         }

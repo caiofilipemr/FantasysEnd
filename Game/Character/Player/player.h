@@ -49,6 +49,7 @@ public:
     void addItemInventory(Item * new_item);
     Item * removeItemInventory(int item_index);
     Item * removeItemInventory(Item * remove_item);
+    std::vector<Commands *> getCommands(int index);
     Weapon * getWeapon();
     Shield * getShield();
     Armor * getArmor();

@@ -141,3 +141,11 @@ bool Engine::isWalking() //talvez temp, estou com sono, nao sei kk
     }
     return false;
 }
+
+std::vector<string> Engine::getCommands(int index)
+{
+    std::vector <Commands *> cmds = my_player->getCommands(index);
+    std::vector<string> cmd_name;
+    for (size_t i = 0; i < cmds.size(); i++) cmd_name[i] = cmds[i]->getCmdName();
+    return cmd_name;
+}

@@ -57,6 +57,7 @@ public:
     void battle(BattleOptions op);
     void gameOver();
     bool isWalking();
+    std::vector<string> getCommands(int index);
 };
 
 #endif // ENGINE_H

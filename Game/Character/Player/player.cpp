@@ -135,6 +135,11 @@ Item *Player::removeItemInventory(Item * remove_item)
     return inventory->removeItem(remove_item);
 }
 
+std::vector<Commands *> Player::getCommands(int index)
+{
+    return inventory->getItem(index)->getCommands();
+}
+
 Weapon *Player::getWeapon()
 {
     return weapon;

@@ -9,6 +9,8 @@
 
 class GUIQT : public GUI, public Mouse
 {
+private:
+    void setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit);
 protected:
     QPainter * painter;
     InventInterface *inventory;
@@ -16,6 +18,7 @@ protected:
     static const int size_x, size_y, range_i, range_j, pix_per_tile;
 public:
     GUIQT(/*QPainter *new_painter*/);
+    ~GUIQT();
     void drawMap(/*Player * draw_player, Map *draw_map*/);
     void drawInventory();
     void drawBattle();
@@ -27,6 +30,7 @@ public:
     void setDrawMobs(std::vector<Monster *> * new_draw_mobs);
     void setQPainter(QPainter * new_painter);
     void setCursor(int x, int y);
+    int getIndexItemInventory();
 };
 
 #endif // GUIQT_H
