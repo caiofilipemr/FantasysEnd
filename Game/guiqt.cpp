@@ -5,6 +5,7 @@ const int GUIQT::size_y = 15;
 const int GUIQT::range_i = 5;
 const int GUIQT::range_j = 7;
 const int GUIQT::pix_per_tile = 32;
+const int GUIQT::n_battle_options = 2;
 
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
 {
@@ -28,14 +29,18 @@ void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_
     }
 }
 
-GUIQT::GUIQT()
+GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), width_options(new int[n_battle_options])
 {
     inventory = new InventInterface(400,246,15*32,11*32);
+    width_options[ATTACK] = 0;
+    width_options[ITEM] = 3 * 32 - 10;
+    selected_option = 0;
 }
 
 GUIQT::~GUIQT()
 {
     delete inventory;
+    delete width_options;
 }
 
 void GUIQT::drawMap()
@@ -155,7 +160,8 @@ void GUIQT::drawInventory()
 
 void GUIQT::drawBattle()
 {
-
+    painter->drawPixmap(0, 0, size_y * pix_per_tile, size_x * pix_per_tile, bg_battle);
+    painter->drawPixmap(width_options[selected_option], 10*32 + 2,16,16,cursor_battle);
 }
 
 void GUIQT::drawBrokenStone()
@@ -196,4 +202,35 @@ void GUIQT::setCursor(int x, int y)
 int GUIQT::getIndexItemInventory()
 {
     return inventory->getNumberItemInv();
+}
+
+bool GUIQT::moveCursorBattle(Direction dir)
+{
+    bool ret = false;
+    switch (dir) {
+    case UP:
+        selected_option--;
+        ret = true;
+        break;
+
+    case DOWN:
+        selected_option++;
+        ret = true;
+        break;
+    default:
+        break;
+    }
+    if (selected_option == n_battle_options) selected_option = 0;
+    else if (selected_option < 0) selected_option = n_battle_options - 1;
+    return ret;
+}
+
+BattleOptions GUIQT::getSelectedOption()
+{
+    return BattleOptions(selected_option);
+}
+
+void GUIQT::resetSelectedOption()
+{
+    selected_option = 0;
 }

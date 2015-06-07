@@ -14,10 +14,12 @@ private:
 protected:
     QPainter * painter;
     InventInterface *inventory;
+    QPixmap bg_battle, cursor_battle;
+    int *width_options, selected_option;
 
-    static const int size_x, size_y, range_i, range_j, pix_per_tile;
+    static const int size_x, size_y, range_i, range_j, pix_per_tile, n_battle_options;
 public:
-    GUIQT(/*QPainter *new_painter*/);
+    GUIQT();
     ~GUIQT();
     void drawMap(/*Player * draw_player, Map *draw_map*/);
     void drawInventory();
@@ -31,6 +33,9 @@ public:
     void setQPainter(QPainter * new_painter);
     void setCursor(int x, int y);
     int getIndexItemInventory();
+    bool moveCursorBattle(Direction dir);
+    BattleOptions getSelectedOption();
+    void resetSelectedOption();
 };
 
 #endif // GUIQT_H

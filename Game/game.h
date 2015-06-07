@@ -35,6 +35,7 @@ public:
 
 public slots:
     void myUpdate();
+    void myBattle();
 
 private:
     Ui::Game *ui;
@@ -45,8 +46,7 @@ private:
     GUIQT * my_GUI;
     QMediaPlayer *mp;
     bool game_over;
-    bool is_battle, is_inventory;
-
+    bool is_battle, is_inventory, interactive_button;
     int x_mouse, y_mouse;
 };
 

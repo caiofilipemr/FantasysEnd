@@ -54,7 +54,7 @@ public:
     Cordenates getPlayerCordenates();
     Cordenates getTemp();
     bool isBattle();
-    void battle(BattleOptions op);
+    int battle(BattleOptions op);
     void gameOver();
     bool isWalking();
     std::vector<string> getCommands(int index);

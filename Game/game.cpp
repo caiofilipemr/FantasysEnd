@@ -16,7 +16,7 @@ Game::Game(QWidget *parent) :
     this->setMaximumWidth(15 * 32);
     this->setMinimumWidth(15 * 32);
     painter = new QPainter(this);
-    my_GUI = new GUIQT(/*painter*/);
+    my_GUI = new GUIQT();
     my_engine = new Engine((GUI *)my_GUI);
 
     clock = new QTimer(this);
@@ -25,13 +25,13 @@ Game::Game(QWidget *parent) :
     clock->start();
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
-    is_battle = game_over = false;
-    is_battle = is_inventory = false;
+    is_battle = game_over = is_inventory = interactive_button = false;
+    mp = new QMediaPlayer;
 }
 
 Game::~Game()
 {
-    delete mp;
+    if (mp) delete mp;
     delete ui;
 }
 
@@ -56,27 +56,6 @@ void Game::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Enter:
         clock->start();
         break;
-    case Qt::Key_1:
-        if (is_battle) { //temp
-            try {
-                my_engine->battle(ATTACK);
-            } catch (Exceptions exc) {
-                if (exc == GAME_OVER) {
-                    cerr << "GAME OVER\n";
-                    game_over = true;
-                    mp = new QMediaPlayer;
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Sunrise over Clear Skies_0.mp3").absoluteFilePath()));
-                    mp->play();
-                    repaint();
-                } else if (exc == CHARACTER_DIE) {
-                    clock->start();
-                    is_battle = false;
-                }
-            } catch (const char * err) {
-                cerr << err;
-            }
-        }
-        break;
      case Qt::Key_I:
         if(is_inventory) {
             is_inventory = false;
@@ -89,22 +68,27 @@ void Game::keyPressEvent(QKeyEvent *event)
         }
         //cerr << "Inventory";
         break;
+    case Qt::Key_Space:
+        interactive_button = true;
+        break;
     }
 }
 
 void Game::keyReleaseEvent(QKeyEvent * event)
 {
-    atual_direction = SLEEP;
+    if (!is_battle) atual_direction = SLEEP;
 }
 
 void Game::paintEvent(QPaintEvent *event)
 {
     painter->begin(this);
-    my_GUI->drawMap();
-    if (game_over) my_GUI->drawGameOver();
+    /*if (!is_battle)*/ my_GUI->drawMap();
+    if (game_over)
+        my_GUI->drawGameOver();
     if(is_inventory){
       my_GUI->drawInventory();
     }
+    if (is_battle) my_GUI->drawBattle();
     painter->end();
 }
 
@@ -129,7 +113,10 @@ void Game::mousePressEvent(QMouseEvent *event)
 
 void Game::myUpdate()
 {
-    my_engine->setPlayerDirection(atual_direction);
+    if (game_over) {
+        clock->stop();
+        return;
+    }
     is_battle = my_engine->isBattle();
     if (is_battle) {
         repaint();
@@ -137,9 +124,14 @@ void Game::myUpdate()
             my_engine->update();
             repaint();
         }
-        clock->stop();
+        my_GUI->resetSelectedOption();
+        atual_direction = SLEEP;
+        clock->setInterval(1000/7);
+        disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+        connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
     }
     else {
+        my_engine->setPlayerDirection(atual_direction);
         my_engine->update();
         repaint();
     }
@@ -147,4 +139,39 @@ void Game::myUpdate()
     cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
     //cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
     //cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
+}
+
+void Game::myBattle()
+{
+    if (!is_battle) {
+        disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+        connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+        clock->setInterval(1000/60);
+    } else {
+        if (interactive_button) {
+            try {
+                int ret = my_engine->battle(my_GUI->getSelectedOption());
+                mp->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                mp->play();
+                interactive_button = false;
+            } catch (Exceptions exc) {
+                if (exc == GAME_OVER) {
+                    game_over = true;
+                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+                    mp->play();
+                    is_battle = false;
+                    repaint();
+                } else if (exc == CHARACTER_DIE) {
+                    is_battle = false;
+                }
+            } catch (const char * err) {
+                cerr << err;
+            }
+        } else if (my_GUI->moveCursorBattle(atual_direction)) {
+            mp->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
+            mp->play();
+        }
+    }
+    atual_direction = SLEEP;
+    repaint();
 }
