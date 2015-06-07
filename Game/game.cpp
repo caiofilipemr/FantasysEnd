@@ -1,6 +1,7 @@
 #include "game.h"
 #include "ui_game.h"
 
+
 using namespace std;
 
 Game::Game(QWidget *parent) :
@@ -21,11 +22,12 @@ Game::Game(QWidget *parent) :
     clock->start();
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
-    is_battle = false;
+    is_battle = game_over = false;
 }
 
 Game::~Game()
 {
+    delete mp;
     delete ui;
 }
 
@@ -57,6 +59,11 @@ void Game::keyPressEvent(QKeyEvent *event)
             } catch (Exceptions exc) {
                 if (exc == GAME_OVER) {
                     cerr << "GAME OVER\n";
+                    game_over = true;
+                    mp = new QMediaPlayer;
+                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Sunrise over Clear Skies_0.mp3").absoluteFilePath()));
+                    mp->play();
+                    repaint();
                 } else if (exc == CHARACTER_DIE) {
                     clock->start();
                     is_battle = false;
@@ -78,6 +85,7 @@ void Game::paintEvent(QPaintEvent *event)
 {
     painter->begin(this);
     my_GUI->drawMap();
+    if (game_over) my_GUI->drawGameOver();
     painter->end();
 }
 
@@ -87,9 +95,16 @@ void Game::myUpdate()
     is_battle = my_engine->isBattle();
     if (is_battle) {
         repaint();
+        while (my_engine->isWalking()) {
+            my_engine->update();
+            repaint();
+        }
         clock->stop();
     }
-    else { my_engine->update(); repaint(); }
-    //cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
-    //cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
+    else {
+        my_engine->update();
+        repaint();
+    }
+    cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
+    cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
 }

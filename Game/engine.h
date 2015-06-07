@@ -24,6 +24,7 @@ public:
     virtual void drawInventory() = 0;
     virtual void drawBattle() = 0;
     virtual void drawBrokenStone() = 0;
+    virtual void drawGameOver() = 0;
     virtual void setDrawPlayer(Player * new_draw_player) = 0;
     virtual void setDrawMap(Map * new_draw_map) = 0;
     virtual void setDrawMobs(std::vector<Monster *> * new_draw_mobs) = 0;

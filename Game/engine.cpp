@@ -8,7 +8,7 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     my_player = new Archer(40, 60, DOWN);
     my_map = new Map("mapa.txt", "roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
-    mobs.push_back(new Walker(10, 10, 10, 10, 1, 90, 6, 5, 3, 35, 50, "characters_1.png", DOWN));
+    mobs.push_back(new Walker(2000, 10, 100, 10, 1, 90, 6, 5, 3, 35, 50, "characters_1.png", DOWN));
     mobs[0]->setStalk(my_player);
     engine_GUI->setDrawPlayer(my_player);
     engine_GUI->setDrawMap(my_map);
@@ -40,7 +40,9 @@ Cordenates Engine::getPlayerCordenates()
 
 Cordenates Engine::getTemp()
 {
-    return mobs[0]->getCordenates();
+    if (mobs.size())
+        return mobs[0]->getCordenates();
+    return Cordenates(0,0);
 }
 
 bool Engine::isBattle()
@@ -80,11 +82,12 @@ void Engine::battle(BattleOptions op)
     if (is_battle) {
         switch (op) {
         case ATTACK:
-            //std::cerr << "HP player: " << my_player->getHP();
-            //std::cerr << "HP monster: " << mobs.front()->getHP();
+            std::cerr << "HP player: " << my_player->getHP() << '\t';
+            std::cerr << "HP monster: " << mobs.front()->getHP();
             try {
                 my_battle->attack();
             } catch (Exceptions exc) {
+                cerr << endl;
                 throw;
             } catch (Character * dead_character) {
                 try {
@@ -101,6 +104,7 @@ void Engine::battle(BattleOptions op)
                     if (exc == GAME_OVER) {
                         is_battle = false;
                         gameOver();
+                        throw;
                     } else throw;
                 }
             }
