@@ -6,6 +6,8 @@
 #include "Colision/rectangle.h"
 #include "Mouse/mouse.h"
 
+//Caio, isso aqui era para o cara selecionar
+//Não sabia da classe Comands, utiliza ela aqui se precisar
 class MessageBox: public Mouse{
 public:
 

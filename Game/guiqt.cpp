@@ -8,7 +8,7 @@ const int GUIQT::pix_per_tile = 32;
 
 GUIQT::GUIQT()
 {
-  inventory = new InventInterface(360,222,15*32,11*32);
+  inventory = new InventInterface(400,246,15*32,11*32);
 }
 
 void GUIQT::drawMap()
