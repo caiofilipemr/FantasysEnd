@@ -13,12 +13,19 @@ InventInterface::InventInterface(int width, int height, int widthGUI, int height
   back = new QPixmap("Inventory/inventory.png");
   inv = new Rectangle(width*0.503 + x, height*0.25 + y, width*0.467, height*0.4505);
   chest = new Rectangle(width*0.503 + x, height*0.811 + y, width*0.467, height*0.1441);
+  message = false;
+  messagebox = new MessageBox();
 }
 
 void InventInterface::setCursor(int x, int y)
 {
   this->x_mouse = x;
   this->y_mouse = y;
+  if(message) {
+    messagebox->setPosition(x,y);
+  }else{
+    message = false;
+  }
 }
 
 void InventInterface::setNumberItemInv(int number)
@@ -65,4 +72,18 @@ void InventInterface::draw(QPainter *obj)
     setNumberItemChest(column%5);
     //std::cerr << getNumberItemChest();
   }
+
+  if(message) {
+    messagebox->draw(obj);
+  }
+}
+
+void InventInterface::isMessage()
+{
+  message = true;
+}
+
+void InventInterface::notMessage()
+{
+  message = false;
 }

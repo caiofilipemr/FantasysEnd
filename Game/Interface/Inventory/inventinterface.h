@@ -5,6 +5,7 @@
 #include "Colision/rectangle.h"
 #include "Mouse/mouse.h"
 #include "Enums.h"
+#include "Interface/Inventory/messagebox.h"
 
 class InventInterface: public Mouse
 {
@@ -14,6 +15,8 @@ public:
 
   void setCursor(int x, int y);
   void draw(QPainter *obj);
+  void isMessage();
+  void notMessage();
 
   //Funções interessantes para Engine
   void setNumberItemInv(int number);
@@ -27,7 +30,8 @@ private:
   int width, height, x, y, widthGUI, heightGUI, number_item[2];
   Rectangle *inv, *chest;
   QPixmap *squary, *back;
-
+  MessageBox *messagebox;
+  bool message;
 };
 
 #endif // INVENTINTERFACE_H

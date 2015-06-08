@@ -6,19 +6,19 @@
 #include "Colision/rectangle.h"
 #include "Mouse/mouse.h"
 
-//Caio, isso aqui era para o cara selecionar
-//Não sabia da classe Comands, utiliza ela aqui se precisar
-class MessageBox: public Mouse{
+class MessageBox : public Mouse{
 public:
 
   MessageBox();
   ~MessageBox();
   void setCursor(int x, int y);
+  void draw(QPainter* painter);
+  void setPosition(int x, int y);
 
 private:
-  QPixmap *back, *button[2];
-  Rectangle *del, *add, *all;
-
+  QPixmap *back, *squary;
+  Rectangle *rect;
+  int x, y;
 };
 
 #endif // MESSAGEBOX_H
