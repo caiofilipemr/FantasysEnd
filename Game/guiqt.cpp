@@ -263,3 +263,13 @@ void GUIQT::setBattleText(QString new_battle_text, QColor color, bool new_text_r
     battle_text_color = color;
     text_right = new_text_right;
 }
+
+void GUIQT::rightButton()
+{
+  inventory->isMessage();
+}
+
+void GUIQT::leftButton()
+{
+  inventory->notMessage();
+}

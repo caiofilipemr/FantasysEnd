@@ -11,10 +11,11 @@ Game::Game(QWidget *parent) :
     x_mouse = y_mouse = 0;
 
     ui->setupUi(this);
-    this->setMaximumHeight(11 * 32); //Constanstes, passar pra static const int depois
-    this->setMinimumHeight(11 * 32);
-    this->setMaximumWidth(15 * 32);
-    this->setMinimumWidth(15 * 32);
+    static const int w = 15*32, h = 11*32;
+    this->setMaximumHeight(h);
+    this->setMinimumHeight(h);
+    this->setMaximumWidth(w);
+    this->setMinimumWidth(w);
     painter = new QPainter(this);
     my_GUI = new GUIQT();
     my_engine = new Engine((GUI *)my_GUI);
@@ -66,7 +67,6 @@ void Game::keyPressEvent(QKeyEvent *event)
             clock->stop();
             repaint();
         }
-        //cerr << "Inventory";
         break;
     case Qt::Key_Space:
         interactive_button = true;
@@ -99,15 +99,19 @@ void Game::mousePressEvent(QMouseEvent *event)
     my_GUI->setCursor(x_mouse, y_mouse);
     repaint();
     if(event->button() == Qt::RightButton) {
-        if (is_inventory) {
-            try {
-                std::vector<string> cmd_name = my_engine->getCommands(my_GUI->getIndexItemInventory()); //Zé, esse metodo retorna dum std::vector<string> que contem os nomes dos comandos, pra poder passar pra interface do inventario
-                //Zé, como vamos saber se não clicou em nada ?
-                cerr << cmd_name[0];
-            } catch (const char * err) {
-                cerr << err;
-            }
-        }
+      my_GUI->rightButton();
+//        if (is_inventory) {
+//            try {
+//                std::vector<string> cmd_name = my_engine->getCommands(my_GUI->getIndexItemInventory()); //Zé, esse metodo retorna dum std::vector<string> que contem os nomes dos comandos, pra poder passar pra interface do inventario
+//                //Zé, como vamos saber se não clicou em nada ?
+//                //Zé responde: Colision na veia
+//                cerr << cmd_name[0];
+//            } catch (const char * err) {
+//                cerr << err;
+//            }
+//        }
+    } else {
+        my_GUI->leftButton();
     }
 }
 

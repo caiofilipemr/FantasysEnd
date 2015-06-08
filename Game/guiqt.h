@@ -44,6 +44,8 @@ public:
     void battleDelayCont();
     bool isBattleDelay();
     void setBattleText(QString new_battle_text, QColor color = Qt::white, bool new_text_right = true);
+    void rightButton();
+    void leftButton();
 };
 
 #endif // GUIQT_H
