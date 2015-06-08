@@ -23,6 +23,9 @@ int Battle::attack()
         if (exc == CHARACTER_DIE) {
             throw defenser_fighter;
         }
+        Character *change_fighter = defenser_fighter;
+        defenser_fighter = attacker_fighter;
+        attacker_fighter = change_fighter;
         throw;
     }
 }

@@ -6,6 +6,8 @@ const int GUIQT::range_i = 5;
 const int GUIQT::range_j = 7;
 const int GUIQT::pix_per_tile = 32;
 const int GUIQT::n_battle_options = 2;
+const int GUIQT::battle_delay = 5;
+const int GUIQT::text_position[2] = {3 * 32, 11 * 32};
 
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
 {
@@ -35,6 +37,8 @@ GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), 
     width_options[ATTACK] = 0;
     width_options[ITEM] = 3 * 32 - 10;
     selected_option = 0;
+    battle_delay_cont = 0;
+    battle_text_color = Qt::white;
 }
 
 GUIQT::~GUIQT()
@@ -162,6 +166,10 @@ void GUIQT::drawBattle()
 {
     painter->drawPixmap(0, 0, size_y * pix_per_tile, size_x * pix_per_tile, bg_battle);
     painter->drawPixmap(width_options[selected_option], 10*32 + 2,16,16,cursor_battle);
+
+    painter->setFont(QFont("Times", 16, QFont::Bold));
+    painter->setPen(QPen(battle_text_color));
+    painter->drawText(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 200, 30, Qt::AlignVCenter, battle_text);
 }
 
 void GUIQT::drawBrokenStone()
@@ -233,4 +241,25 @@ BattleOptions GUIQT::getSelectedOption()
 void GUIQT::resetSelectedOption()
 {
     selected_option = 0;
+}
+
+void GUIQT::battleDelayCont()
+{
+    battle_delay_cont++;
+    if (battle_delay_cont > battle_delay) {
+        battle_delay_cont = 0;
+        battle_text.clear();
+    }
+}
+
+bool GUIQT::isBattleDelay()
+{
+    return battle_delay_cont;
+}
+
+void GUIQT::setBattleText(QString new_battle_text, QColor color, bool new_text_right)
+{
+    battle_text = new_battle_text;
+    battle_text_color = color;
+    text_right = new_text_right;
 }

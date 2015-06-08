@@ -15,10 +15,15 @@ protected:
     QPainter * painter;
     InventInterface *inventory;
     QPixmap bg_battle, cursor_battle;
-    int *width_options, selected_option;
+    int *width_options, selected_option, battle_delay_cont;
+    QString battle_text;
+    QColor battle_text_color;
+    bool text_right;
 
-    static const int size_x, size_y, range_i, range_j, pix_per_tile, n_battle_options;
+    static const int size_x, size_y, range_i, range_j, pix_per_tile, n_battle_options, text_position[2];
 public:
+    static const int battle_delay;
+
     GUIQT();
     ~GUIQT();
     void drawMap(/*Player * draw_player, Map *draw_map*/);
@@ -36,6 +41,9 @@ public:
     bool moveCursorBattle(Direction dir);
     BattleOptions getSelectedOption();
     void resetSelectedOption();
+    void battleDelayCont();
+    bool isBattleDelay();
+    void setBattleText(QString new_battle_text, QColor color = Qt::white, bool new_text_right = true);
 };
 
 #endif // GUIQT_H

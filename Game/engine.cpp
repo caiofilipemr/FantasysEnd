@@ -8,7 +8,7 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     my_player = new Archer(40, 60, DOWN);
     my_map = new Map("mapa.txt", "roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
-    mobs.push_back(new Sleeper(2000, 10, 700, 10, 1, 90, 6, 5, 3, 38, 60, "characters_1.png", DOWN));
+    mobs.push_back(new Sleeper(2000, 10, 15, 10, 1, 90, 6, 5, 3, 38, 60, "characters_1.png", DOWN));
     mobs[0]->setStalk(my_player);
     engine_GUI->setDrawPlayer(my_player);
     engine_GUI->setDrawMap(my_map);
@@ -82,8 +82,6 @@ int Engine::battle(BattleOptions op)
     if (is_battle) {
         switch (op) {
         case ATTACK:
-            std::cerr << "HP player: " << my_player->getHP() << '\t';
-            std::cerr << "HP monster: " << mobs.front()->getHP();
             try {
                 return my_battle->attack();
             } catch (Character * dead_character) {
