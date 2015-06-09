@@ -1,6 +1,9 @@
 #include "monster.h"
 
 std::string Monster::img_monster_die = "";
+int Monster::quantity_monster = 0;
+int Monster::all_is_walking = 0;
+int Monster::cont_monster = 0;
 
 Monster::Monster(int new_hp, int new_mp,
                  int new_damage, int new_guard,
@@ -17,7 +20,25 @@ Monster::Monster(int new_hp, int new_mp,
     mp = mp_max = new_mp;
     damage = new_damage;
     guard = new_guard;
+    quantity_monster ++;
 }
+
+void Monster::update(Map *my_map)
+{
+    if (is_walking) {
+        if (all_is_walking < limit)
+            monsterUpdate();
+        else
+            is_walking = false;
+    }
+    else {
+            is_walking = true;
+            monsterUpdate();
+            walk();
+            my_map->updateColision(this);
+    }
+}
+
 
 int Monster::getDropXP()
 {
@@ -81,4 +102,28 @@ void Monster::die(Map *my_map)
 void Monster::setImgMonsterDie(string new_img_die)
 {
     img_monster_die = new_img_die;
+}
+
+bool Monster::getMonsterIsWalking()
+{
+    return all_is_walking;
+}
+
+void Monster::monsterUpdate()
+{
+    if (cont_monster < (quantity_monster - 1))
+        cont_monster ++;
+    else {
+        cont_monster = 0;
+        all_is_walking ++;
+        if(all_is_walking == limit) {//isso pode estar errado. Confira se necessario!
+            all_is_walking = 0;
+            is_walking = false;
+        }
+    }
+}
+
+int Monster::getContMonster()
+{
+    return all_is_walking;
 }

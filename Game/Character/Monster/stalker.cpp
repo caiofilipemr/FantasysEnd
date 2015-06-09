@@ -39,11 +39,11 @@ Stalker::Stalker(int new_hp, int new_mp,
 void Stalker::update(Map * my_map)
 {
     if (is_walking) {
-        if (cont < limit)
-            cont++;
+        if (all_is_walking < limit)
+            monsterUpdate();
         else {
             is_walking = false;
-            cont = 0;
+            all_is_walking = 0;
         }
     }
     else {

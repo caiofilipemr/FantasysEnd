@@ -25,7 +25,6 @@ void Walker::walk()
     float sum;
     i = sum = 0;
     bool logic;
-
     for(i = 0; i < 4; i++){
         back_chance[i] = chance[i];
         chance[i] = chance[i]*int(can_go[i]);

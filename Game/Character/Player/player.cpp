@@ -163,13 +163,16 @@ void Player::update(Map *my_map)
         else {
             is_walking = false;
             cont = 0;
-            back_cordenates.i = this->pos_i;
+            back_cordenates.i = this->pos_i; //Não esta sendo usado
             back_cordenates.j = this->pos_j;
+            my_map->removeAColision(Cordenates(this->pos_i, this->pos_j));
             walk_direction = SLEEP;
         }
     }
     else {
-        if (walk_direction != SLEEP && !my_map->hasColision(Cordenates(this->pos_i, this->pos_j) + walk_direction)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
+        Cordenates cord = Cordenates(this->pos_i, this->pos_j) + walk_direction;
+        if (walk_direction != SLEEP && !my_map->hasColision(cord)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
+            my_map->setAColision(cord);
             is_walking = true;
             this->walk();
         }

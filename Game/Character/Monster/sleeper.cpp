@@ -28,3 +28,8 @@ int Sleeper::getCont()
 {
     return 0;
 }
+
+bool Sleeper::getIsWalking()
+{
+    return false;
+}

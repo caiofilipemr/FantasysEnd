@@ -123,16 +123,18 @@ void Game::myUpdate()
     }
     is_battle = my_engine->isBattle();
     if (is_battle) {
-        repaint();
-        while (my_engine->isWalking()) { //temp
+        if (my_engine->isWalking()) { //temp
             my_engine->update();
+            is_battle = false;
+            repaint();
+        } else {
+            my_GUI->resetSelectedOption();
+            atual_direction = SLEEP;
+            clock->setInterval(1000/7);
+            disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+            connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
             repaint();
         }
-        my_GUI->resetSelectedOption();
-        atual_direction = SLEEP;
-        clock->setInterval(1000/7);
-        disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-        connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
     }
     else {
         my_engine->setPlayerDirection(atual_direction);

@@ -17,6 +17,7 @@ public:
             Direction new_eye_direction);
     void walk();
     int getCont();
+    bool getIsWalking();
 };
 
 #endif // SLEEPER_H
