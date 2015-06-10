@@ -273,3 +273,8 @@ void GUIQT::leftButton()
 {
   inventory->notMessage();
 }
+
+bool GUIQT::messageColision()
+{
+  return inventory->messageColision();
+}

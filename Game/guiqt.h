@@ -46,6 +46,7 @@ public:
     void setBattleText(QString new_battle_text, QColor color = Qt::white, bool new_text_right = true);
     void rightButton();
     void leftButton();
+    bool messageColision();
 };
 
 #endif // GUIQT_H

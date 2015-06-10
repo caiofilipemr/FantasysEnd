@@ -97,7 +97,6 @@ void Game::mousePressEvent(QMouseEvent *event)
     this->x_mouse = event->x();
     this->y_mouse = event->y();
     my_GUI->setCursor(x_mouse, y_mouse);
-    repaint();
     if(event->button() == Qt::RightButton) {
       my_GUI->rightButton();
 //        if (is_inventory) {
@@ -111,8 +110,11 @@ void Game::mousePressEvent(QMouseEvent *event)
 //            }
 //        }
     } else {
-        my_GUI->leftButton();
+        if(!my_GUI->messageColision()) {
+            my_GUI->leftButton();
+        }
     }
+    repaint();
 }
 
 void Game::myUpdate()
