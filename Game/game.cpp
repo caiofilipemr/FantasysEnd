@@ -124,27 +124,25 @@ void Game::myUpdate()
         return;
     }
     is_battle = my_engine->isBattle();
-    if (is_battle) {
-        repaint();
-        while (my_engine->isWalking()) { //temp
-            my_engine->update();
+    if (is_battle && !my_engine->isWalking()) {
+//        if (my_engine->isWalking()) { //temp
+//            my_engine->update();
+//            repaint();
+//        } else {
+            my_GUI->resetSelectedOption();
+            atual_direction = SLEEP;
+            clock->setInterval(1000/7);
+            disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+            connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
             repaint();
-        }
-        my_GUI->resetSelectedOption();
-        atual_direction = SLEEP;
-        clock->setInterval(1000/7);
-        disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-        connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+//        }
     }
     else {
         my_engine->setPlayerDirection(atual_direction);
         my_engine->update();
+        is_battle = false;
         repaint();
     }
-    cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
-    cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
-    //cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
-    //cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
 }
 
 void Game::myBattle()
@@ -166,7 +164,7 @@ void Game::myBattle()
                 switch (exc) {
                 case GAME_OVER:
                     game_over = true;
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
                     mp->play();
                     is_battle = false;
                     break;
@@ -175,14 +173,14 @@ void Game::myBattle()
                     break;
                 case DODGE:
                     my_GUI->setBattleText("Dodge", Qt::blue);
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("swing3.wav").absoluteFilePath()));
+                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
                     mp->play();
                     interactive_button = false;
                     my_GUI->battleDelayCont();
                     break;
                 case MISS:
                     my_GUI->setBattleText("Miss", Qt::red, false);
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("swing3.wav").absoluteFilePath()));
+                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
                     mp->play();
                     interactive_button = false;
                     my_GUI->battleDelayCont();

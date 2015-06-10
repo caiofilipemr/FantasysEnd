@@ -75,6 +75,8 @@ std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j)
     pto[begin_i][begin_j].visited = true;
     short_pass_queue.push(&pto[begin_i][begin_j]);
 
+    int player_colision = free[end_i][end_j];
+    free[end_i][end_j] = 0; //Removendo a colisão de onde o jogador está indo!!!
 
     Cell * first;
     while (!short_pass_queue.empty() && (short_pass_queue.front()->pos_i != end_i || short_pass_queue.front()->pos_j != end_j)) {
@@ -109,6 +111,9 @@ std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j)
             short_pass_queue.push(&pto[i][j-1]);
         }
     }
+
+    free[end_i][end_j] = player_colision; //Devolvendo a colisão original do player!!!
+
     if (short_pass_queue.empty()) throw "Out of Range!";
 
 

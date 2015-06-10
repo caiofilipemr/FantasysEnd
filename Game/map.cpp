@@ -190,7 +190,6 @@ void Map::randMapInteration()
             m_interation[obj_pos_i][obj_pos_j] = chest_list[k];
             k++;
         }
-        cerr << "Size I =" <<obj_pos_i << "Size J ="<<obj_pos_j<<endl;
     }
 
     //random Cordenates Stone
@@ -204,7 +203,6 @@ void Map::randMapInteration()
             m_interation[obj_pos_i][obj_pos_j] = stone_list[k];
             k++;
         }
-        cerr << "Size I =" <<obj_pos_i << "Size J ="<<obj_pos_j<<endl;
     }
 
 //    for (int i = 0; i < size_i; i++){

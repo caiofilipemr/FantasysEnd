@@ -1,15 +1,19 @@
 #include "engine.h"
 
-const int Engine::number_of_mobs = 1;
+const int Engine::number_of_mobs = 3;
 
 Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
 {
     CellArray::instance();
     my_player = new Archer(40, 60, DOWN);
-    my_map = new Map("mapa.txt", "roguelikeSheet_transparent.png");
+    my_map = new Map("Maps/mapa.txt", "Images/roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
-    mobs.push_back(new Sleeper(2000, 10, 15, 10, 1, 90, 6, 5, 3, 38, 60, "characters_1.png", DOWN));
-    mobs[0]->setStalk(my_player);
+    mobs.push_back(new Stalker(200000, 10, 15, 10, 1, 90, 6, 5, 3, 30, 55, "Images/characters_1.png", DOWN));
+    mobs.push_back(new Walker(200000, 10, 15, 10, 1, 90, 6, 5, 3, 35, 60, "Images/characters_1.png", DOWN));
+    mobs.push_back(new Sleeper(200000, 10, 15, 10, 1, 90, 6, 5, 3, 30, 60, "Images/characters_1.png", DOWN));
+
+    for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
+
     engine_GUI->setDrawPlayer(my_player);
     engine_GUI->setDrawMap(my_map);
     engine_GUI->setDrawMobs(&mobs);
@@ -22,8 +26,10 @@ void Engine::update()
     try {
         my_player->update(my_map);
         for (size_t i = 0; i < mobs.size(); i++) {
-            mobs[i]->setCanGo(my_map->getCanGo(mobs[i]->getCordenates()));
-            mobs[i]->update(my_map);
+            if (!is_battle) {
+                mobs[i]->setCanGo(my_map->getCanGo(mobs[i]->getCordenates()));
+                mobs[i]->update(my_map);
+            }
         }
     } catch (const char * e) { cerr << e << endl; }
 }
@@ -48,30 +54,34 @@ Cordenates Engine::getTemp()
 bool Engine::isBattle()
 {
     //Arrumar uma solução MELHOR!!!
-    for (int i = 0; i < number_of_mobs; i++) {
-        if (mobs[i]) {
-            if ((mobs[i]->getCordenates() + UP) == my_player->getCordenates()) {
-                battle_mob = mobs[i];
-                mobs[i]->setEyeDirection(UP);
-                is_battle = true;
+    if (/*!mobs[0]->getIsWalking()*/!Monster::getMonsterIsWalking()) { //criar uma static em Monster para saber se o isWalking --SAVIO
+        for (int i = 0; i < number_of_mobs; i++) {
+            if (mobs[i]) {
+                if ((mobs[i]->getCordenates() + UP) == my_player->getCordenates()) {
+                    battle_mob = mobs[i];
+                    mobs[i]->setEyeDirection(UP);
+                    is_battle = true;
+                }
+                else if ((mobs[i]->getCordenates() + DOWN) == my_player->getCordenates()) {
+                    battle_mob = mobs[i];
+                    mobs[i]->setEyeDirection(DOWN);
+                    is_battle = true;
+                }
+                else if ((mobs[i]->getCordenates() + RIGHT) == my_player->getCordenates()) {
+                    battle_mob = mobs[i];
+                    mobs[i]->setEyeDirection(RIGHT);
+                    is_battle = true;
+                }
+                else if ((mobs[i]->getCordenates() + LEFT) == my_player->getCordenates()){
+                    battle_mob = mobs[i];
+                    mobs[i]->setEyeDirection(LEFT);
+                    is_battle = true;
+                }
+                if (is_battle) {
+                    my_battle = new Battle(my_player, mobs[i]);
+                    return is_battle;
+                }
             }
-            else if ((mobs[i]->getCordenates() + DOWN) == my_player->getCordenates()) {
-                battle_mob = mobs[i];
-                mobs[i]->setEyeDirection(DOWN);
-                is_battle = true;
-            }
-            else if ((mobs[i]->getCordenates() + RIGHT) == my_player->getCordenates()) {
-                battle_mob = mobs[i];
-                mobs[i]->setEyeDirection(RIGHT);
-                is_battle = true;
-            }
-            else if ((mobs[i]->getCordenates() + LEFT) == my_player->getCordenates()){
-                battle_mob = mobs[i];
-                mobs[i]->setEyeDirection(LEFT);
-                is_battle = true;
-            }
-            my_battle = new Battle(my_player, mobs[i]);
-            return is_battle;
         }
     }
     return is_battle;
@@ -94,6 +104,8 @@ int Engine::battle(BattleOptions op)
                     delete mobs[i];
                     mobs.erase(mobs.begin() + i);
                     is_battle = false;
+                    delete my_battle;
+                    my_battle = NULL;
                     throw CHARACTER_DIE;
                 } catch (Exceptions exc) {
                     if (exc == GAME_OVER) {
@@ -132,9 +144,10 @@ void Engine::gameOver()
 bool Engine::isWalking() //talvez temp, estou com sono, nao sei kk
 {
     if (my_player->getIsWalking()) return true;
-    for (size_t i = 0; i < mobs.size(); i++) {
-        if (mobs[i]->getIsWalking()) return true;
-    }
+//    for (size_t i = 0; i < mobs.size(); i++) {
+//        if (mobs[i]->getIsWalking()) return true;
+//    }
+    //if (Monster::getMonsterIsWalking()) return true;
     return false;
 }
 

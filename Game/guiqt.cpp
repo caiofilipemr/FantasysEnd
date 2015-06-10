@@ -78,7 +78,7 @@ void GUIQT::drawMap()
     QPixmap mobs_images[draw_mobs->size()];
     for (i = 0; i < int(draw_mobs->size()); i++) {
         mobs_images[i] = QString::fromStdString((*draw_mobs)[i]->getImgWay());
-        mobs_images[i] = mobs_images[i].copy((9 + ((*draw_mobs)[i]->getCont() / (Character::getLimit() / 3) % 3)) * 16, int((*draw_mobs)[i]->getEyeDirection()) * 16+64, 16, 16);
+        mobs_images[i] = mobs_images[i].copy((9 + ((*draw_mobs)[i]->getCont() / (Character::getLimit() / 3) % 3)) * 16, int((*draw_mobs)[i]->getEyeDirection()) * 16 + 64, 16, 16);
     }
 
 //    VERIFICAÇÃO DAS BORDAS. POR ENQUANTO NÃO USAREMOS
@@ -120,18 +120,20 @@ void GUIQT::drawMap()
     }
 
     int xb = begin_i - 1, xe = begin_i + size_x + 2, yb = begin_j - 1, ye = begin_j + size_y + 2;
-    Cordenates mob_cordenates;
+    Cordenates mob_cordenates[draw_mobs->size()];
 
     int row_monster = 0, column_monster = 0;
+
     //Desenha a metade de baixo do jogador e mobs
     painter->drawPixmap((range_j + dif_j) * ppt, (range_i + dif_i) * ppt, ppt, 16, player_image.copy(0,8,16,8));
+    cont_frames = Monster::getContMonster();
     for (i = 0; i < int(draw_mobs->size()); i++) {
-        mob_cordenates = (*draw_mobs)[i]->getCordenates();
-        if (hasPoint(mob_cordenates.i, mob_cordenates.j)){
-            if ((*draw_mobs)[i]->getIsWalking()) mob_cordenates = mob_cordenates - (*draw_mobs)[i]->getEyeDirection();
-            cont_frames = (*draw_mobs)[i]->getCont();
+        mob_cordenates[i] = (*draw_mobs)[i]->getCordenates();
+        if (hasPoint(mob_cordenates[i].i, mob_cordenates[i].j)) {
+            if (Monster::getMonsterIsWalking())
+                mob_cordenates[i] = mob_cordenates[i] - (*draw_mobs)[i]->getDirection();
             setMoveMapDirection((*draw_mobs)[i]->getDirection(), column_monster, row_monster, cont_frames, limit);
-            painter->drawPixmap((mob_cordenates.j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates.i - begin_i - 1) * ppt - row_monster + row, ppt, 16, mobs_images[i].copy(0,8,16,8));
+            painter->drawPixmap((mob_cordenates[i].j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates[i].i - begin_i - 1) * ppt - row_monster + row, ppt, 16, mobs_images[i].copy(0,8,16,8));
         }
     }
 
@@ -144,9 +146,9 @@ void GUIQT::drawMap()
     //Desenha a metade de cima do jogador e mobs
     painter->drawPixmap(((range_j) + dif_j) * ppt, (((range_i) + dif_i) - 1) * ppt + ppt / 2, ppt, 16, player_image.copy(0,0,16,8));//cabeça
     for (i = 0; i < int(draw_mobs->size()); i++) {
-        if (hasPoint(mob_cordenates.i, mob_cordenates.j)){
-            painter->drawPixmap((mob_cordenates.j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates.i - begin_i - 2) * ppt + ppt / 2 - row_monster + row, ppt, 16, mobs_images[i].copy(0,0,16,8));
-            //painter->drawPixmap((mob_cordenates.j - begin_j - 1) * ppt + column_monster + column, (mob_cordenates.i - begin_i - 1) * ppt + row_monster + row, ppt, 16, mobs_images[i].copy(0,8,16,8));
+        if (hasPoint(mob_cordenates[i].i, mob_cordenates[i].j)) {
+            setMoveMapDirection((*draw_mobs)[i]->getDirection(), column_monster, row_monster, cont_frames, limit);
+            painter->drawPixmap((mob_cordenates[i].j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates[i].i - begin_i - 2) * ppt + ppt / 2 - row_monster + row, ppt, 16, mobs_images[i].copy(0,0,16,8));
         }
     }
 
@@ -179,7 +181,7 @@ void GUIQT::drawBrokenStone()
 
 void GUIQT::drawGameOver()
 {
-    painter->drawPixmap(0, 0, 15 * 32, 11 * 32, QPixmap("game_over.jpg"));
+    painter->drawPixmap(0, 0, 15 * 32, 11 * 32, QPixmap("Images/game_over.jpg"));
 }
 
 void GUIQT::setDrawPlayer(Player *new_draw_player)

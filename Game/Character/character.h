@@ -41,7 +41,7 @@ public:
     virtual void walk() = 0;
     virtual void update(Map * my_map);
     virtual int getCont();
-    bool getIsWalking();
+    virtual bool getIsWalking();
     virtual void die(Map * my_map) = 0;
     static int getLimit();
 };

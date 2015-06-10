@@ -7,7 +7,7 @@ const int Archer::arc_strenght_level = 1;
 const int Archer::arc_agility_level = 2;
 const int Archer::arc_intelligence_level = 0;
 const int Archer::arc_bonus = INTELLIGENCE;
-std::string Archer::archer_img_way = "characters_1.png";
+std::string Archer::archer_img_way = "Images/characters_1.png";
 
 Archer::Archer(int new_pos_i, int new_pos_j,
                Direction new_eye_direction = DOWN) : Elf(new Bow(1),

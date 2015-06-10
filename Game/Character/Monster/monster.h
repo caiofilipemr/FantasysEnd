@@ -13,6 +13,7 @@ protected:
     int per[4], chance[4], back_chance[4];
     static std::string img_monster_die;
     bool *can_go;
+    static int quantity_monster, all_is_walking, cont_monster;
 public:
     Monster(int new_hp, int new_mp,
             int new_damage, int new_guard,
@@ -22,6 +23,7 @@ public:
             int new_pos_j, std::string new_img_way,
             Direction new_eye_direction);
     virtual ~Monster() { }
+    void update(Map * my_map);
     int getDropXP();
     int getMonsterLevel();
     Inventory *getDrop();
@@ -29,6 +31,10 @@ public:
     void setCanGo(bool *can);
     void die(Map * my_map);
     static void setImgMonsterDie(std::string new_img_die);
+    static bool getMonsterIsWalking();
+    void monsterUpdate();
+    int getCont();
+    static int getContMonster();
 };
 
 #endif // MONSTER_H

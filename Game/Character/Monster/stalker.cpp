@@ -38,21 +38,14 @@ Stalker::Stalker(int new_hp, int new_mp,
 
 void Stalker::update(Map * my_map)
 {
-    if (is_walking) {
-        if (cont < limit)
-            cont++;
-        else {
-            is_walking = false;
-            cont = 0;
-        }
+    if (all_is_walking) {
+        if (all_is_walking < limit)
+            monsterUpdate();
     }
     else {
-        if (walk_direction != SLEEP) {
-            is_walking = true;
+            monsterUpdate();
             walkOrStalk();
-            //cerr << "\nStalker\n\n";
             my_map->updateColision(this);
-        }
     }
 }
 

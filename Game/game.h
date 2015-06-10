@@ -47,7 +47,7 @@ private:
     QMediaPlayer *mp;
     bool game_over;
     bool is_battle, is_inventory, interactive_button;
-    int x_mouse, y_mouse;
+    int x_mouse, y_mouse, i;
 };
 
 #endif // GAME_H
