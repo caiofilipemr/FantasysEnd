@@ -9,12 +9,12 @@ InventInterface::InventInterface(int width, int height, int widthGUI, int height
   width(width), height(height), x(widthGUI/2 - width/2), y(heightGUI/2 - height/2),
   widthGUI(widthGUI), heightGUI(heightGUI)
 {
+  messagebox = new MessageBox(0, 0);
   squary = new QPixmap("Inventory/squary_press.png");
   back = new QPixmap("Inventory/inventory.png");
   inv = new Rectangle(width*0.503 + x, height*0.25 + y, width*0.467, height*0.4505);
   chest = new Rectangle(width*0.503 + x, height*0.811 + y, width*0.467, height*0.1441);
   message = false;
-  messagebox = new MessageBox();
 }
 
 void InventInterface::setCursor(int x, int y)
@@ -22,9 +22,7 @@ void InventInterface::setCursor(int x, int y)
   this->x_mouse = x;
   this->y_mouse = y;
   if(message) {
-    messagebox->setPosition(x,y);
-  }else{
-    message = false;
+    messagebox->setCursor(x,y);
   }
 }
 
@@ -58,6 +56,7 @@ void InventInterface::draw(QPainter *obj)
   obj->drawPixmap(x, y, width, height, *(this->back));
 
   const int margin = width*0.0078, h = height*0.144145, w = width*0.088889;
+
   if(inv->is_colision(x_mouse, y_mouse)){
     int column = (x_mouse - inv->getX())/(w + margin), line = (y_mouse - inv->getY())/(h + margin);
     obj->drawPixmap(column*w + inv->getX() + margin*column, line*h + inv->getY() + line*margin, w, h, *squary);
@@ -74,16 +73,35 @@ void InventInterface::draw(QPainter *obj)
   }
 
   if(message) {
+    messagebox->setCursor(x_mouse, y_mouse);
     messagebox->draw(obj);
   }
 }
 
 void InventInterface::isMessage()
 {
-  message = true;
+//  if(messagebox == NULL) {
+//    delete messagebox;
+//  }
+  if(chest->is_colision(x_mouse, y_mouse) || inv->is_colision(x_mouse, y_mouse)) {
+    newMessage();
+    message = true;
+  }
 }
 
 void InventInterface::notMessage()
 {
   message = false;
+}
+
+bool InventInterface::messageColision()
+{
+  if(messagebox->isColision())
+    return true;
+  return false;
+}
+
+void InventInterface::newMessage()
+{
+  messagebox = new MessageBox(x_mouse, y_mouse);
 }

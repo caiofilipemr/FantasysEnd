@@ -17,6 +17,8 @@ public:
   void draw(QPainter *obj);
   void isMessage();
   void notMessage();
+  bool messageColision();
+  void newMessage();
 
   //Funções interessantes para Engine
   void setNumberItemInv(int number);

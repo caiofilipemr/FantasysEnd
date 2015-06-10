@@ -9,11 +9,12 @@
 class MessageBox : public Mouse{
 public:
 
-  MessageBox();
+  MessageBox(int x, int y);
   ~MessageBox();
   void setCursor(int x, int y);
   void draw(QPainter* painter);
   void setPosition(int x, int y);
+  bool isColision();
 
 private:
   QPixmap *back, *squary;
