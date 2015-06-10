@@ -33,6 +33,7 @@ public:
     static void setImgMonsterDie(std::string new_img_die);
     static bool getMonsterIsWalking();
     void monsterUpdate();
+    int getCont();
     static int getContMonster();
 };
 

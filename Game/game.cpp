@@ -122,29 +122,25 @@ void Game::myUpdate()
         return;
     }
     is_battle = my_engine->isBattle();
-    if (is_battle) {
-        if (my_engine->isWalking()) { //temp
-            my_engine->update();
-            is_battle = false;
-            repaint();
-        } else {
+    if (is_battle && !my_engine->isWalking()) {
+//        if (my_engine->isWalking()) { //temp
+//            my_engine->update();
+//            repaint();
+//        } else {
             my_GUI->resetSelectedOption();
             atual_direction = SLEEP;
             clock->setInterval(1000/7);
             disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
             connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
             repaint();
-        }
+//        }
     }
     else {
         my_engine->setPlayerDirection(atual_direction);
         my_engine->update();
+        is_battle = false;
         repaint();
     }
-    cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
-    cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
-    //cerr << "Player- I =" <<my_engine->getPlayerCordenates().i<<" J =" << my_engine->getPlayerCordenates().j<< endl;
-    //cerr << "Monster - I =" <<my_engine->getTemp().i<<" J =" << my_engine->getTemp().j<< endl;
 }
 
 void Game::myBattle()

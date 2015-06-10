@@ -1,6 +1,6 @@
 #include "engine.h"
 
-const int Engine::number_of_mobs = 1;
+const int Engine::number_of_mobs = 3;
 
 Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
 {
@@ -8,8 +8,12 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     my_player = new Archer(40, 60, DOWN);
     my_map = new Map("mapa.txt", "roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
-    mobs.push_back(new Walker(2000, 10, 15, 10, 1, 90, 6, 5, 3, 37, 60, "characters_1.png", DOWN));
-    mobs[0]->setStalk(my_player);
+    mobs.push_back(new Stalker(200000, 10, 15, 10, 1, 90, 6, 5, 3, 30, 55, "characters_1.png", DOWN));
+    mobs.push_back(new Walker(200000, 10, 15, 10, 1, 90, 6, 5, 3, 35, 60, "characters_1.png", DOWN));
+    mobs.push_back(new Sleeper(200000, 10, 15, 10, 1, 90, 6, 5, 3, 30, 60, "characters_1.png", DOWN));
+
+    for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
+
     engine_GUI->setDrawPlayer(my_player);
     engine_GUI->setDrawMap(my_map);
     engine_GUI->setDrawMobs(&mobs);
@@ -143,7 +147,7 @@ bool Engine::isWalking() //talvez temp, estou com sono, nao sei kk
 //    for (size_t i = 0; i < mobs.size(); i++) {
 //        if (mobs[i]->getIsWalking()) return true;
 //    }
-    if (Monster::getMonsterIsWalking()) return true;
+    //if (Monster::getMonsterIsWalking()) return true;
     return false;
 }
 

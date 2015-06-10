@@ -25,14 +25,11 @@ Monster::Monster(int new_hp, int new_mp,
 
 void Monster::update(Map *my_map)
 {
-    if (is_walking) {
+    if (all_is_walking) {
         if (all_is_walking < limit)
             monsterUpdate();
-        else
-            is_walking = false;
     }
     else {
-            is_walking = true;
             monsterUpdate();
             walk();
             my_map->updateColision(this);
@@ -112,15 +109,19 @@ bool Monster::getMonsterIsWalking()
 void Monster::monsterUpdate()
 {
     if (cont_monster < (quantity_monster - 1))
-        cont_monster ++;
+        cont_monster++;
     else {
         cont_monster = 0;
-        all_is_walking ++;
-        if(all_is_walking == limit) {//isso pode estar errado. Confira se necessario!
+        all_is_walking++;
+        if(all_is_walking == limit) {//isso pode estar errado. Confira se necessario! Não tá :D
             all_is_walking = 0;
-            is_walking = false;
         }
     }
+}
+
+int Monster::getCont()
+{
+    return all_is_walking;
 }
 
 int Monster::getContMonster()
