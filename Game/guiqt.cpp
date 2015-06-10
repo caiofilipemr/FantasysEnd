@@ -181,7 +181,7 @@ void GUIQT::drawBrokenStone()
 
 void GUIQT::drawGameOver()
 {
-    painter->drawPixmap(0, 0, 15 * 32, 11 * 32, QPixmap("game_over.jpg"));
+    painter->drawPixmap(0, 0, 15 * 32, 11 * 32, QPixmap("Images/game_over.jpg"));
 }
 
 void GUIQT::setDrawPlayer(Player *new_draw_player)

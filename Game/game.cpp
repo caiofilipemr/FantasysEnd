@@ -162,7 +162,7 @@ void Game::myBattle()
                 switch (exc) {
                 case GAME_OVER:
                     game_over = true;
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
                     mp->play();
                     is_battle = false;
                     break;
@@ -171,14 +171,14 @@ void Game::myBattle()
                     break;
                 case DODGE:
                     my_GUI->setBattleText("Dodge", Qt::blue);
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("swing3.wav").absoluteFilePath()));
+                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
                     mp->play();
                     interactive_button = false;
                     my_GUI->battleDelayCont();
                     break;
                 case MISS:
                     my_GUI->setBattleText("Miss", Qt::red, false);
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("swing3.wav").absoluteFilePath()));
+                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
                     mp->play();
                     interactive_button = false;
                     my_GUI->battleDelayCont();
