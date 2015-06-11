@@ -177,6 +177,12 @@ void Map::randMapInteration()
     for (int i = 0; i < size_i; i++){
         m_interation[i] = new Object *[size_j];
     }
+    //zerando matriz Interation
+    for (int i = 0; i < size_i; i++){
+        for (int j = 0; j < size_j; j++) {
+            m_interation[i][j] = NULL;
+        }
+    }
     // Random Cordenates Chest
     k = 0;
     while ( k < qtd_chest ) {

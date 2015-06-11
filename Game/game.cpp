@@ -71,6 +71,8 @@ void Game::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Space:
         interactive_button = true;
         break;
+    case Qt::Key_0:
+        break;
     }
 }
 
