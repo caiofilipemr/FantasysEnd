@@ -141,6 +141,7 @@ void Game::myUpdate()
         is_battle = false;
         repaint();
     }
+
 }
 
 void Game::myBattle()
@@ -167,6 +168,7 @@ void Game::myBattle()
                     is_battle = false;
                     break;
                 case CHARACTER_DIE:
+                    interactive_button = false; // caio coloquei aqui. pq apos a primeira batalha ja tava iniciando com atack a proxima batalha
                     is_battle = false;
                     break;
                 case DODGE:

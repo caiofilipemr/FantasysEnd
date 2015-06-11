@@ -1,6 +1,6 @@
 #include "monster.h"
 
-std::string Monster::img_monster_die = "";
+std::string Monster::img_monster_die = "Images/PNG/cursorSword_bronze.png";
 int Monster::quantity_monster = 0;
 int Monster::all_is_walking = 0;
 int Monster::cont_monster = 0;
@@ -21,6 +21,10 @@ Monster::Monster(int new_hp, int new_mp,
     damage = new_damage;
     guard = new_guard;
     quantity_monster ++;
+}
+
+Monster::~Monster() {
+    quantity_monster --;
 }
 
 void Monster::update(Map *my_map)
@@ -90,10 +94,8 @@ void Monster::setCanGo(bool * can)
 void Monster::die(Map *my_map)
 {
     my_map->removeAColision(Cordenates(this->pos_i, this->pos_j));
-    Chest * chest_temp = new Chest(this->pos_i,this->pos_j);
-    chest_temp->setImgWay(img_monster_die);
+    Object * chest_temp = new Object(this->pos_i,this->pos_j,img_monster_die);
     my_map->addObjects(chest_temp,Cordenates(this->pos_i,this->pos_j));
-    //addObject quando for criado, add um Chest sem colisão e com uma imagem de um "monstro morto"
 }
 
 void Monster::setImgMonsterDie(string new_img_die)

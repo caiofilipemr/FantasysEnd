@@ -22,7 +22,7 @@ public:
             int new_critical, int new_pos_i,
             int new_pos_j, std::string new_img_way,
             Direction new_eye_direction);
-    virtual ~Monster() { }
+    virtual ~Monster();
     void update(Map * my_map);
     int getDropXP();
     int getMonsterLevel();

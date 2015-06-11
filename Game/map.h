@@ -35,7 +35,7 @@ public:
     Interation * getInteration(Cordenates cord);
     void addObjects(Object *new_object, Cordenates cord_object);
     void removeObjects(Cordenates cord_remove);
-
+    Object * getObjectMap(Cordenates cord);
     bool * getCanGo(Cordenates cord);
     int ** getColision();
     int ** getBase();
@@ -43,6 +43,7 @@ public:
     int ** getObjects();
     int ** getIsometric();
     int ** getSuperIsometric();
+    Object ***getMatIteration();
     std::string getImgWay();
 };
 

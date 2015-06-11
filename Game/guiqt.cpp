@@ -69,6 +69,7 @@ void GUIQT::drawMap()
         **m_iso = draw_map->getIsometric(),
         **m_s_iso = draw_map->getSuperIsometric(),
         **m_col = draw_map->getColision();
+    Object *** m_itera = draw_map->getMatIteration();
 
     Direction player_direction = draw_player->getEyeDirection();
 
@@ -115,7 +116,7 @@ void GUIQT::drawMap()
             if (m_base[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_base[i][j]-1) % 57) * 17, (m_base[i][j] / 57) * 17, 16, 16));
             if (m_s_base[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_s_base[i][j]-1) % 57) * 17, (m_s_base[i][j] / 57) * 17, 16, 16));
             if (m_obj[i][j]) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, tile->copy(((m_obj[i][j]-1) % 57) * 17, (m_obj[i][j] / 57) * 17, 16, 16));
-            //if (m_col[i][j] == 2) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, tile->copy(26 * 17, 8 * 17, 16, 16));
+            if (m_itera[i][j] != NULL) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, QPixmap(QString::fromStdString(draw_map->getObjectMap(Cordenates(i,j))->getImgWay())));
         }
     }
 
