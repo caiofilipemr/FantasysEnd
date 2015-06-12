@@ -45,7 +45,7 @@ private:
     QPainter * painter;
     GUIQT * my_GUI;
     QMediaPlayer *mp;
-    bool game_over;
+    bool game_over, is_player_battle;
     bool is_battle, is_inventory, interactive_button;
     int x_mouse, y_mouse, i;
 };

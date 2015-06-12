@@ -27,6 +27,7 @@ Game::Game(QWidget *parent) :
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
     is_battle = game_over = is_inventory = interactive_button = false;
+    is_player_battle = true;
     mp = new QMediaPlayer;
 }
 
@@ -129,6 +130,8 @@ void Game::myUpdate()
 //            my_engine->update();
 //            repaint();
 //        } else {
+
+            is_player_battle = true;
             my_GUI->resetSelectedOption();
             atual_direction = SLEEP;
             clock->setInterval(1000/7);
@@ -153,6 +156,10 @@ void Game::myBattle()
         connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
         clock->setInterval(1000/60);
     } else if (!(my_GUI->isBattleDelay())) {
+        if(!is_player_battle) {
+            interactive_button = true;
+        }
+
         if (interactive_button) {
             try {
                 int ret = my_engine->battle(my_GUI->getSelectedOption());
@@ -160,7 +167,8 @@ void Game::myBattle()
                 mp->play();
                 interactive_button = false;
                 my_GUI->battleDelayCont();
-                my_GUI->setBattleText(QString::number(ret));
+                my_GUI->setBattleText(QString::number(ret),Qt::white,is_player_battle);
+
             } catch (Exceptions exc) {
                 switch (exc) {
                 case GAME_OVER:
@@ -174,14 +182,14 @@ void Game::myBattle()
                     is_battle = false;
                     break;
                 case DODGE:
-                    my_GUI->setBattleText("Dodge", Qt::blue);
+                    my_GUI->setBattleText("Dodge", Qt::blue,is_player_battle);
                     mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
                     mp->play();
                     interactive_button = false;
                     my_GUI->battleDelayCont();
                     break;
                 case MISS:
-                    my_GUI->setBattleText("Miss", Qt::red, false);
+                    my_GUI->setBattleText("Miss", Qt::red, !is_player_battle);
                     mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
                     mp->play();
                     interactive_button = false;
@@ -193,10 +201,12 @@ void Game::myBattle()
             } catch (const char * err) {
                 cerr << err;
             }
+          is_player_battle = !is_player_battle;
         } else if (my_GUI->moveCursorBattle(atual_direction)) {
             mp->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
             mp->play();
         }
+
     } else {
         my_GUI->battleDelayCont();
     }
