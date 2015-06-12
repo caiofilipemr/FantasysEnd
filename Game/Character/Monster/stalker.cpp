@@ -26,12 +26,14 @@ Stalker::Stalker(int new_hp, int new_mp,
                  int new_dodge, int new_range_damage,
                  int new_critical, int new_pos_i,
                  int new_pos_j, std::string new_img_way,
+                 string new_img_battle,
                  Direction new_eye_direction = DOWN) : Walker(new_hp, new_mp,
                                                               new_damage, new_guard,
                                                               new_speed, new_accuracy,
                                                               new_dodge, new_range_damage,
                                                               new_critical, new_pos_i,
-                                                              new_pos_j,new_img_way ,new_eye_direction)
+                                                              new_pos_j, new_img_way,
+                                                              new_img_battle ,new_eye_direction)
 {
     old_end_i = old_end_j = -1;
 }

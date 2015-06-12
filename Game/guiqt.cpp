@@ -79,7 +79,7 @@ void GUIQT::drawMap()
     QPixmap mobs_images[draw_mobs->size()];
     for (i = 0; i < int(draw_mobs->size()); i++) {
         mobs_images[i] = QString::fromStdString((*draw_mobs)[i]->getImgWay());
-        mobs_images[i] = mobs_images[i].copy((9 + ((*draw_mobs)[i]->getCont() / (Character::getLimit() / 3) % 3)) * 16, int((*draw_mobs)[i]->getEyeDirection()) * 16 + 64, 16, 16);
+        mobs_images[i] = mobs_images[i].copy((0 + ((*draw_mobs)[i]->getCont() / (Character::getLimit() / 3) % 3)) * 32, int((*draw_mobs)[i]->getEyeDirection()) * 32 + 128, 32, 32);
     }
 
 //    VERIFICAÇÃO DAS BORDAS. POR ENQUANTO NÃO USAREMOS
@@ -134,7 +134,7 @@ void GUIQT::drawMap()
             if (Monster::getMonsterIsWalking())
                 mob_cordenates[i] = mob_cordenates[i] - (*draw_mobs)[i]->getDirection();
             setMoveMapDirection((*draw_mobs)[i]->getDirection(), column_monster, row_monster, cont_frames, limit);
-            painter->drawPixmap((mob_cordenates[i].j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates[i].i - begin_i - 1) * ppt - row_monster + row, ppt, 16, mobs_images[i].copy(0,8,16,8));
+            painter->drawPixmap((mob_cordenates[i].j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates[i].i - begin_i - 1) * ppt - row_monster + row, ppt, 16, mobs_images[i].copy(0,16,32,16));
         }
     }
 
@@ -149,7 +149,7 @@ void GUIQT::drawMap()
     for (i = 0; i < int(draw_mobs->size()); i++) {
         if (hasPoint(mob_cordenates[i].i, mob_cordenates[i].j)) {
             setMoveMapDirection((*draw_mobs)[i]->getDirection(), column_monster, row_monster, cont_frames, limit);
-            painter->drawPixmap((mob_cordenates[i].j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates[i].i - begin_i - 2) * ppt + ppt / 2 - row_monster + row, ppt, 16, mobs_images[i].copy(0,0,16,8));
+            painter->drawPixmap((mob_cordenates[i].j - begin_j - 1) * ppt - column_monster + column, (mob_cordenates[i].i - begin_i - 2) * ppt + ppt / 2 - row_monster + row, ppt, 16, mobs_images[i].copy(0,0,32,16));
         }
     }
 
@@ -169,7 +169,7 @@ void GUIQT::drawBattle()
 {
     painter->drawPixmap(0, 0, size_y * pix_per_tile, size_x * pix_per_tile, bg_battle);
     painter->drawPixmap(width_options[selected_option], 10*32 + 2,16,16,cursor_battle);
-
+    painter->drawPixmap(10*32, 5*32, 160, 96,QPixmap(QString::fromStdString(Battle::getImgWayMonster())));
     painter->setFont(QFont("Times", 16, QFont::Bold));
     painter->setPen(QPen(battle_text_color));
     painter->drawText(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 200, 30, Qt::AlignVCenter, battle_text);

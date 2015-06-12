@@ -10,7 +10,7 @@ private:
 public:
     Orc(Weapon *new_weapon,
         int new_pos_i, int new_pos_j,
-        std::string new_img_way, Direction new_eye_direction);
+        std::string new_img_way, std::string new_img_battle, Direction new_eye_direction);
     ~Orc();
 };
 

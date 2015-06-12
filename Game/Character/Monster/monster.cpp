@@ -11,10 +11,12 @@ Monster::Monster(int new_hp, int new_mp,
                  int new_dodge, int new_range_damage,
                  int new_critical, int new_pos_i,
                  int new_pos_j, std::string new_img_way,
+                 std::string new_img_battle,
                  Direction new_eye_direction = DOWN) : Character(new_speed, new_accuracy,
                                                                    new_dodge, new_range_damage,
                                                                    new_critical, new_pos_i,
-                                                                   new_pos_j, new_img_way, new_eye_direction), player(NULL)
+                                                                   new_pos_j, new_img_way,
+                                                                   new_img_battle, new_eye_direction), player(NULL)
 {
     hp = hp_max = new_hp;
     mp = mp_max = new_mp;
