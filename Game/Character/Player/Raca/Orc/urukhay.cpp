@@ -8,10 +8,13 @@ const int Urukhay::hay_agility_level = 1;
 const int Urukhay::hay_intelligence_level = 0;
 const int Urukhay::hay_bonus = AGILITY;
 std::string Urukhay::urukhay_img_way = "";
+std::string Urukhay::urukhay_img_battle = "";
 
 Urukhay::Urukhay(int new_pos_i, int new_pos_j,
                  Direction new_eye_direction = DOWN) : Orc(new Sword(1),
-                                                     new_pos_i, new_pos_j, urukhay_img_way,
+                                                     new_pos_i, new_pos_j,
+                                                     urukhay_img_way,
+                                                     urukhay_img_battle,
                                                      new_eye_direction)
 {
     this->setStrenght(hay_strenght);
@@ -26,6 +29,11 @@ Urukhay::Urukhay(int new_pos_i, int new_pos_j,
 void Urukhay::setImgWay(std::string new_img_way)
 {
     urukhay_img_way = new_img_way;
+}
+
+void Urukhay::setImgBattle(string new_img_battle)
+{
+    urukhay_img_battle = new_img_battle;
 }
 
 Urukhay::~Urukhay()

@@ -9,6 +9,7 @@
 #include <QMediaPlayer>
 #include <QFileInfo>
 #include <QMouseEvent>
+#include <QMediaPlaylist>
 
 #include "Character/Player/Raca/Elf/archer.h"
 #include "Character/Player/Raca/Elf/mage.h"
@@ -44,8 +45,8 @@ private:
     Direction atual_direction;
     QPainter * painter;
     GUIQT * my_GUI;
-    QMediaPlayer *mp;
-    bool game_over;
+    QMediaPlayer *world_music, *instant_sfx, *battle_music;
+    bool game_over, is_player_battle;
     bool is_battle, is_inventory, interactive_button;
     int x_mouse, y_mouse, i;
 };

@@ -5,10 +5,11 @@ const int Character::limit = 16;
 Character::Character(int new_speed, int new_accuracy,
                      int new_dodge, int new_range_damage,
                      int new_critical, int new_pos_i,
-                     int new_pos_j, std::string new_img_way, Direction new_eye_direction) : Object(new_pos_i, new_pos_j, new_img_way), speed(new_speed),
+                     int new_pos_j, std::string new_img_way,
+                     string new_img_battle, Direction new_eye_direction) : Object(new_pos_i, new_pos_j, new_img_way), speed(new_speed),
                                       accuracy(new_accuracy), dodge(new_dodge),
                                       range_damage(new_range_damage), critical(new_critical),
-                                      walk_direction(SLEEP), eye_direction(new_eye_direction), cont(0), is_walking(false)
+                                      walk_direction(SLEEP), eye_direction(new_eye_direction), cont(0), is_walking(false), img_battle(new_img_battle)
 {
 }
 
@@ -113,6 +114,11 @@ int Character::getCont()
 bool Character::getIsWalking()
 {
     return is_walking;
+}
+
+string Character::getImgBatlle()
+{
+    return img_battle;
 }
 
 int Character::getLimit()

@@ -8,10 +8,13 @@ const int Rogue::rog_intelligence_level = 1;
 const int Rogue::rog_agility_level = 2;
 const int Rogue::rog_bonus = STRENGHT;
 std::string Rogue::rogue_img_way = "";
+std::string Rogue::rogue_img_battle = "";
 
 Rogue::Rogue(int new_pos_i, int new_pos_j,
              Direction new_eye_direction = DOWN): Human(new Dagger(1),
-                                                  new_pos_i, new_pos_j, rogue_img_way,
+                                                  new_pos_i, new_pos_j,
+                                                  rogue_img_way,
+                                                  rogue_img_battle,
                                                   new_eye_direction)
 {
     this->setStrenght(rog_strenght);
@@ -26,6 +29,11 @@ Rogue::Rogue(int new_pos_i, int new_pos_j,
 void Rogue::setImgWay(std::string new_img_way)
 {
     rogue_img_way = new_img_way;
+}
+
+void Rogue::setImgBattle(string new_img_battle)
+{
+    rogue_img_battle = new_img_battle;
 }
 
 Rogue::~Rogue()

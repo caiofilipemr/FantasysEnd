@@ -8,10 +8,13 @@ const int Barbaro::barb_intelligence_level = 0;
 const int Barbaro::barb_agility_level = 1;
 const int Barbaro::barb_bonus = INTELLIGENCE;
 std::string Barbaro::barbaro_img_way = "";
+std::string Barbaro::barbaro_img_battle= "";
 
 Barbaro::Barbaro(int new_pos_i, int new_pos_j,
                  Direction new_eye_direction = DOWN): Human(new Axe(1),
-                                                      new_pos_i, new_pos_j, barbaro_img_way,
+                                                      new_pos_i, new_pos_j,
+                                                      barbaro_img_way,
+                                                      barbaro_img_battle,
                                                       new_eye_direction)
 {
     this->setStrenght(barb_strenght);
@@ -26,6 +29,11 @@ Barbaro::Barbaro(int new_pos_i, int new_pos_j,
 void Barbaro::setImgWay(std::string new_img_way)
 {
     barbaro_img_way = new_img_way;
+}
+
+void Barbaro::setImgBattle(string new_img_battle)
+{
+    barbaro_img_battle = new_img_battle;
 }
 
 Barbaro::~Barbaro()

@@ -27,12 +27,28 @@ Game::Game(QWidget *parent) :
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
     is_battle = game_over = is_inventory = interactive_button = false;
-    mp = new QMediaPlayer;
+    is_player_battle = true;
+    world_music = new QMediaPlayer;
+    instant_sfx = new QMediaPlayer;
+    battle_music = new QMediaPlayer;
+    QMediaPlaylist *temp_playlist = new QMediaPlaylist;
+    temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+    temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    world_music->setPlaylist(temp_playlist);
+    temp_playlist = new QMediaPlaylist;
+    //world_music->setMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+//    battle_music->setMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
+    temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
+    temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    battle_music->setPlaylist(temp_playlist);
+    world_music->play();
 }
 
 Game::~Game()
 {
-    if (mp) delete mp;
+    if (world_music) delete world_music;
+    if (instant_sfx) delete instant_sfx;
+    if (battle_music) delete battle_music;
     delete ui;
 }
 
@@ -70,6 +86,8 @@ void Game::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_Space:
         interactive_button = true;
+        break;
+    case Qt::Key_0:
         break;
     }
 }
@@ -125,15 +143,20 @@ void Game::myUpdate()
     }
     is_battle = my_engine->isBattle();
     if (is_battle && !my_engine->isWalking()) {
-//        if (my_engine->isWalking()) { //temp
+//        if (my_engine->isWalking()) { //teworld_music
 //            my_engine->update();
 //            repaint();
 //        } else {
+
+            is_player_battle = true;
             my_GUI->resetSelectedOption();
             atual_direction = SLEEP;
             clock->setInterval(1000/7);
             disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
             connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+            battle_music->setVolume(20);
+            battle_music->play();
+            world_music->pause();
             repaint();
 //        }
     }
@@ -143,6 +166,7 @@ void Game::myUpdate()
         is_battle = false;
         repaint();
     }
+
 }
 
 void Game::myBattle()
@@ -151,37 +175,45 @@ void Game::myBattle()
         disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
         connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
         clock->setInterval(1000/60);
+        world_music->play();
+        battle_music->stop();
     } else if (!(my_GUI->isBattleDelay())) {
+        if(!is_player_battle) {
+            interactive_button = true;
+        }
+
         if (interactive_button) {
             try {
                 int ret = my_engine->battle(my_GUI->getSelectedOption());
-                mp->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
-                mp->play();
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->play();
                 interactive_button = false;
                 my_GUI->battleDelayCont();
-                my_GUI->setBattleText(QString::number(ret));
+                my_GUI->setBattleText(QString::number(ret),Qt::white,is_player_battle);
+
             } catch (Exceptions exc) {
                 switch (exc) {
                 case GAME_OVER:
                     game_over = true;
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
-                    mp->play();
+                    battle_music->stop();
+                    world_music->play();
                     is_battle = false;
                     break;
                 case CHARACTER_DIE:
+                    interactive_button = false; // caio coloquei aqui. pq apos a primeira batalha ja tava iniciando com atack a proxima batalha
                     is_battle = false;
                     break;
                 case DODGE:
-                    my_GUI->setBattleText("Dodge", Qt::blue);
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
-                    mp->play();
+                    my_GUI->setBattleText("Dodge", Qt::blue,is_player_battle);
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
+                    instant_sfx->play();
                     interactive_button = false;
                     my_GUI->battleDelayCont();
                     break;
                 case MISS:
-                    my_GUI->setBattleText("Miss", Qt::red, false);
-                    mp->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
-                    mp->play();
+                    my_GUI->setBattleText("Miss", Qt::red, !is_player_battle);
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
+                    instant_sfx->play();
                     interactive_button = false;
                     my_GUI->battleDelayCont();
                     break;
@@ -191,10 +223,12 @@ void Game::myBattle()
             } catch (const char * err) {
                 cerr << err;
             }
+          is_player_battle = !is_player_battle;
         } else if (my_GUI->moveCursorBattle(atual_direction)) {
-            mp->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
-            mp->play();
+            instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
+            instant_sfx->play();
         }
+
     } else {
         my_GUI->battleDelayCont();
     }

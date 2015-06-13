@@ -8,10 +8,12 @@ const int Archer::arc_agility_level = 2;
 const int Archer::arc_intelligence_level = 0;
 const int Archer::arc_bonus = INTELLIGENCE;
 std::string Archer::archer_img_way = "Images/characters_1.png";
-
+std::string Archer::archer_img_battle = "";
 Archer::Archer(int new_pos_i, int new_pos_j,
                Direction new_eye_direction = DOWN) : Elf(new Bow(1),
-                                                   new_pos_i, new_pos_j, archer_img_way,
+                                                   new_pos_i, new_pos_j,
+                                                   archer_img_way,
+                                                   archer_img_battle,
                                                    new_eye_direction)
 {
     this->setStrenght(arc_strenght);
@@ -26,4 +28,9 @@ Archer::Archer(int new_pos_i, int new_pos_j,
 void Archer::setImgWay(std::string new_img_way)
 {
     archer_img_way = new_img_way;
+}
+
+void Archer::setImgBattle(string new_img_battle)
+{
+    archer_img_battle = new_img_battle;
 }

@@ -10,5 +10,6 @@ enum Base_Item_ID { AGILITY_UP, HEAL_HP, HEAL_MP, INTELLIGENCE_UP,
 enum Item_ID { ARMOR, SHIELD, WEAPON, POTION};
 enum BattleOptions { ATTACK, ITEM, MAGIC_SPECIAL, RUN };
 enum Button { PRESS, RELEASE };
+enum Colision_Number{PLAYER = 2, MONSTER, OBJECT};
 
 #endif // ENUMS_H

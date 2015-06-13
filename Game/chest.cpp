@@ -1,6 +1,6 @@
 #include "chest.h"
 const int Chest::max_item = 5;
-std::string Chest::chest_img_way = "";
+std::string Chest::chest_img_way = "Images/chest.png";
 
 void Chest::randItem(int rand)
 {

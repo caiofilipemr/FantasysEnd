@@ -117,6 +117,11 @@ int **Map::getSuperIsometric()
     return m_s_iso;
 }
 
+Object ***Map::getMatIteration()
+{
+    return m_interation;
+}
+
 string Map::getImgWay()
 {
     return img_way;
@@ -148,13 +153,6 @@ void Map::updateColision(Character *update_character)
     Direction temp_dir = update_character->getDirection();
     m_col[(temp_cord - temp_dir).i][(temp_cord - temp_dir).j] = 0;
     m_col[temp_cord.i][temp_cord.j] = 2;
-
-//    for (int i = 0; i < size_i; i++){
-//        for (int j = 0; j < size_j; j++) {
-//            cerr << m_col[i][j] << " ";
-//        }
-//        cerr << endl;
-//    }
 }
 
 void Map::setAColision(Cordenates new_col)
@@ -178,6 +176,12 @@ void Map::randMapInteration()
     m_interation = new Object**[size_i];
     for (int i = 0; i < size_i; i++){
         m_interation[i] = new Object *[size_j];
+    }
+    //zerando matriz Interation
+    for (int i = 0; i < size_i; i++){
+        for (int j = 0; j < size_j; j++) {
+            m_interation[i][j] = NULL;
+        }
     }
     // Random Cordenates Chest
     k = 0;
@@ -222,4 +226,9 @@ void Map::addObjects(Object * new_object, Cordenates cord_object)
 void Map::removeObjects(Cordenates cord_remove)
 {
     m_interation[cord_remove.i][cord_remove.j] = NULL;
+}
+
+Object *Map::getObjectMap(Cordenates cord)
+{
+    return m_interation[cord.i][cord.j];
 }
