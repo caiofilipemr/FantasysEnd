@@ -9,6 +9,7 @@
 #include <QMediaPlayer>
 #include <QFileInfo>
 #include <QMouseEvent>
+#include <QMediaPlaylist>
 
 #include "Character/Player/Raca/Elf/archer.h"
 #include "Character/Player/Raca/Elf/mage.h"

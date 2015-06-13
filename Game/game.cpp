@@ -31,7 +31,16 @@ Game::Game(QWidget *parent) :
     world_music = new QMediaPlayer;
     instant_sfx = new QMediaPlayer;
     battle_music = new QMediaPlayer;
-    world_music->setMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+    QMediaPlaylist *temp_playlist = new QMediaPlaylist;
+    temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+    temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    world_music->setPlaylist(temp_playlist);
+    temp_playlist = new QMediaPlaylist;
+    //world_music->setMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+//    battle_music->setMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
+    temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
+    temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    battle_music->setPlaylist(temp_playlist);
     world_music->play();
 }
 
@@ -143,7 +152,6 @@ void Game::myUpdate()
             clock->setInterval(1000/7);
             disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
             connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
-            battle_music->setMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
             battle_music->setVolume(20);
             battle_music->play();
             world_music->pause();
@@ -185,7 +193,7 @@ void Game::myBattle()
                 switch (exc) {
                 case GAME_OVER:
                     game_over = true;
-                    world_music->setMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Syworld_musichonic Led Zeppelin.mp3").absoluteFilePath()));
+                    battle_music->stop();
                     world_music->play();
                     is_battle = false;
                     break;
