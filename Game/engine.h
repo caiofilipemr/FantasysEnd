@@ -5,6 +5,7 @@
 #include "Character/Monster/stalker.h"
 #include "Character/Monster/sleeper.h"
 #include "Character/Player/Raca/Elf/archer.h"
+#include "Character/Player/Raca/Orc/troll.h"
 #include "stone.h"
 #include "chest.h"
 #include "globalfunctions.h"

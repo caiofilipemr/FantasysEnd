@@ -1,5 +1,20 @@
 #include "stalker.h"
 
+const int Stalker::accuracy_stalker = 90;
+const int Stalker::dodge_stalker = 7;
+const int Stalker::range_damage_stalker = 9;
+const int Stalker::critical_stalker = 5;
+
+const int Stalker::hp_stalker = 1350;
+const int Stalker::mp_stalker = 100;
+const int Stalker::damage_stalker = 78;
+const int Stalker::guard_stalker = 8;
+
+const int Stalker::hp_vari = 57;
+const int Stalker::mp_vari = 10;
+const int Stalker::damage_vari = 10;
+const int Stalker::guard_vari = 2;
+
 void Stalker::stalk(int end_i, int end_j)
 {
     try {
@@ -20,20 +35,18 @@ void Stalker::stalk(int end_i, int end_j)
     }
 }
 
-Stalker::Stalker(int new_hp, int new_mp,
-                 int new_damage, int new_guard,
-                 int new_speed, int new_accuracy,
-                 int new_dodge, int new_range_damage,
-                 int new_critical, int new_pos_i,
+Stalker::Stalker(int new_level_monster,
+                 int new_speed, int new_pos_i,
                  int new_pos_j, std::string new_img_way,
                  string new_img_battle,
-                 Direction new_eye_direction = DOWN) : Walker(new_hp, new_mp,
-                                                              new_damage, new_guard,
-                                                              new_speed, new_accuracy,
-                                                              new_dodge, new_range_damage,
-                                                              new_critical, new_pos_i,
+                 Direction new_eye_direction = DOWN) : Walker(new_level_monster,
+                                                              new_speed, new_pos_i,
                                                               new_pos_j, new_img_way,
-                                                              new_img_battle ,new_eye_direction)
+                                                              new_img_battle ,new_eye_direction,
+                                                              hp_stalker, mp_stalker, damage_stalker,
+                                                              guard_stalker, accuracy_stalker, dodge_stalker,
+                                                              damage_stalker, critical_stalker, hp_vari,
+                                                              mp_vari, damage_vari, guard_vari)
 {
     old_end_i = old_end_j = -1;
 }

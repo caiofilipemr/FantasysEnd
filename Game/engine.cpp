@@ -1,5 +1,5 @@
 #include "engine.h"
-
+//, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0
 const int Engine::number_of_mobs = 3;
 
 Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
@@ -8,9 +8,9 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     my_player = new Archer(40, 60, DOWN);
     my_map = new Map("Maps/mapa.txt", "Images/roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
-    mobs.push_back(new Stalker(10, 10, 15, 10, 1, 90, 6, 5, 3, 30, 55, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
-    mobs.push_back(new Walker(2000, 10, 15, 10, 1, 90, 6, 5, 3, 35, 60, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
-    mobs.push_back(new Sleeper(1000, 10, 15, 10, 1, 90, 6, 5, 3, 30, 60, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Stalker(1, 1, 30, 55, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Walker(1, 1, 35, 60, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Sleeper(1, 1, 30, 60, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
 
     for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
 
@@ -55,7 +55,7 @@ bool Engine::isBattle()
 {
     is_battle = false;
     //Arrumar uma solução MELHOR!!!
-    if (/*!mobs[0]->getIsWalking()*/!Monster::getMonsterIsWalking()) { //criar uma static em Monster para saber se o isWalking --SAVIO
+    if (/*!mobs[0]->getIsWalking()*/!Monster::getMonsterIsWalking()) {
         for (int i = 0; i < mobs.size(); i++) {
             if (mobs[i]) {
                 if ((mobs[i]->getCordenates() + UP) == my_player->getCordenates()) {
@@ -126,7 +126,7 @@ int Engine::battle(BattleOptions op)
         case ITEM:
 
             break;
-
+ //criar uma static em Monster para saber se o isWalking --SAVIO
         case RUN:
 
             break;
