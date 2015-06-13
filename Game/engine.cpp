@@ -1,5 +1,4 @@
 #include "engine.h"
-//, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0
 const int Engine::number_of_mobs = 3;
 
 Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
