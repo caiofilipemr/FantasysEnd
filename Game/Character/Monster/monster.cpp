@@ -17,13 +17,14 @@ Monster::Monster(int new_level_monster,
                                                                    new_dodge, new_range_damage,
                                                                    new_critical, new_pos_i,
                                                                    new_pos_j, new_img_way,
-                                                                   new_img_battle, new_eye_direction), player(NULL)
+                                                                   new_img_battle, new_eye_direction),
+                                                                   player(NULL), monster_level(new_level_monster)
 {
     hp = hp_max = new_hp;
     mp = mp_max = new_mp;
     damage = new_damage;
     guard = new_guard;
-    quantity_monster ++;
+    quantity_monster++;
     drop_xp = 300;
 }
 

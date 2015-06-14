@@ -57,9 +57,19 @@ int Character::getHP()
     return hp;
 }
 
+int Character::getHPMax()
+{
+    return hp_max;
+}
+
 int Character::getMP()
 {
     return mp;
+}
+
+int Character::getMPMax()
+{
+    return mp_max;
 }
 
 int Character::getGuard()

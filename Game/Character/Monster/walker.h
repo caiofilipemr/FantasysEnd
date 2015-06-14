@@ -14,18 +14,20 @@ public:
            int new_speed, int new_pos_i,
            int new_pos_j, std::string new_img_way,
            std::string new_img_battle,
-           Direction new_eye_direction,
            int new_hp, int new_mp,
            int new_damage, int new_guard,
-           int new_accuracy,int new_dodge,
+           int new_accuracy, int new_dodge,
            int new_range_damage, int new_critical,
            int new_hp_variacao, int new_mp_variacao,
-           int new_damage_variacao, int new_guard_variacao);
+           int new_damage_variacao, int new_guard_variacao,
+           Direction new_eye_direction);
+
     Walker(int new_level_monster,
            int new_speed, int new_pos_i,
            int new_pos_j, std::string new_img_way,
            std::string new_img_battle,
            Direction new_eye_direction);
+
     void walk();
 };
 

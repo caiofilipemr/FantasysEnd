@@ -4,6 +4,7 @@
 #include "engine.h"
 #include "Interface/Inventory/inventinterface.h"
 #include "Mouse/mouse.h"
+#include "Interface/Bar/bar.h"
 #include <QPainter>
 #include <QPixmap>
 
@@ -11,6 +12,7 @@ class GUIQT : public GUI, public Mouse
 {
 private:
     void setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit);
+    void drawHUD();
 protected:
     QPainter * painter;
     InventInterface *inventory;
