@@ -1,0 +1,18 @@
+Posição Inicial dos Botõe:
+ 	Attack - x = 5 , y = 248.
+	Magic - x = 5, y = 274.
+	Items - x = 5, y = 300.
+	Run - x = 5, y = 326.
+
+Tamanho dos botões:
+	height = 21.
+	width = 114.
+
+Posição onde ficará a barrinha do HP e MP:
+	HP: x = 34, y = 5.
+	MP: x = 259, y = 5.
+
+A barrinhas de HP e MP terão o tamanho:
+	height = 16.
+	width = 150.
+	 
