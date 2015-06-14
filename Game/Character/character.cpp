@@ -31,8 +31,10 @@ void Character::defense(int attack)
         throw DODGE;
     if((attack - guard) > 0) {
         hp = hp - (attack - guard);
-        if (hp < 1)
+        if (hp < 1) {
+            hp = 0;
             throw CHARACTER_DIE;
+        }
     }
 }
 

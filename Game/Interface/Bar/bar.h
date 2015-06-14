@@ -14,6 +14,7 @@ public:
     QPixmap getMid();
     QPixmap getEnd();
     int getW();
+    int getTotalW();
     int getH();
     QPixmap *begin, *mid, *end, *begin_back, *mid_back, *end_back;
     void draw(QPainter *obj, int x, int y);

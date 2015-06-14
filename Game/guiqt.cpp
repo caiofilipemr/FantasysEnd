@@ -39,13 +39,16 @@ void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_
 
 void GUIQT::drawHUD()
 {
-    Bar hp_bar(100, 16, draw_player->getHPMax(), "red");
-    Bar mp_bar(100, 16, draw_player->getMPMax(), "blue");
-    painter->drawPixmap(8, 8, 21, 20, QPixmap("Battle/hp.png"));
+    Bar hp_bar(150, 18, draw_player->getHPMax(), "red");
+    Bar mp_bar(150, 18, draw_player->getMPMax(), "blue");
+    painter->drawPixmap(8, 8, 21, 20, QPixmap("Battle/hp.png")); //Escreve "HP"
     hp_bar.setSizeBar(draw_player->getHP());
-    hp_bar.draw(painter, 35, 10);
-    painter->drawPixmap(300, 8, 24, 20, QPixmap("Battle/mp.png"));
-    mp_bar.draw(painter, 330, 10);
+    hp_bar.draw(painter, 35, 9); //Desenha a barra de HP
+    painter->drawPixmap(210, 8, 24, 20, QPixmap("Battle/mp.png")); //Escreve "MP"
+    mp_bar.setSizeBar(draw_player->getMP());
+    mp_bar.draw(painter, 240, 9); //Desenha a barra de MP
+    Write::writeHPorMP(QString::number(draw_player->getHP()), QString::number(draw_player->getHPMax()), 35, 9, hp_bar.getTotalW(), 18, painter);
+    Write::writeHPorMP(QString::number(draw_player->getMP()), QString::number(draw_player->getMPMax()), 240, 9, mp_bar.getTotalW(), 18, painter);
 }
 
 GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way))
@@ -196,9 +199,7 @@ void GUIQT::drawBattle()
     else if (battle_text_color == Qt::blue)
         painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 86, 37, QPixmap("Battle/dodge.png"));
     else {
-        painter->setFont(QFont("Times", 16, QFont::Bold));
-        painter->setPen(QPen(battle_text_color));
-        painter->drawText(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 200, 30, Qt::AlignVCenter, battle_text);
+        Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter);
     }
     //battle_text_color = Qt::white;
     drawHUD();

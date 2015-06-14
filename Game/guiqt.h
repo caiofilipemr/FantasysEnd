@@ -5,6 +5,7 @@
 #include "Interface/Inventory/inventinterface.h"
 #include "Mouse/mouse.h"
 #include "Interface/Bar/bar.h"
+#include "Interface/Write/write.h"
 #include <QPainter>
 #include <QPixmap>
 

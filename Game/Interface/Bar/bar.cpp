@@ -52,7 +52,12 @@ QPixmap Bar::getBegin()
 
 int Bar::getW()
 {
-  return width;
+    return width;
+}
+
+int Bar::getTotalW()
+{
+    return (begin_back->width() + width + end_back->width());
 }
 
 int Bar::getH()

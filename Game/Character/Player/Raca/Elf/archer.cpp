@@ -1,8 +1,8 @@
 #include "archer.h"
 
-const int Archer::arc_strenght = 4;
+const int Archer::arc_strenght = 7;
 const int Archer::arc_agility = 13;
-const int Archer::arc_intelligence = 10;
+const int Archer::arc_intelligence = 7;
 const int Archer::arc_strenght_level = 1;
 const int Archer::arc_agility_level = 2;
 const int Archer::arc_intelligence_level = 0;

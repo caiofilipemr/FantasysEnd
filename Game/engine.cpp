@@ -4,7 +4,7 @@ const int Engine::number_of_mobs = 3;
 Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
 {
     CellArray::instance();
-    my_player = new Barbaro(40, 60, DOWN);
+    my_player = new Archer(40, 60, DOWN);
     my_map = new Map("Maps/mapa.txt", "Images/roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
     mobs.push_back(new Stalker(1, 1, 30, 55, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
