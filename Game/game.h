@@ -35,8 +35,10 @@ public:
     void mousePressEvent(QMouseEvent * event);
 
 public slots:
+    void mainMenu();
     void myUpdate();
     void myBattle();
+    void transiction();
 
 private:
     Ui::Game *ui;

@@ -36,8 +36,6 @@ Game::Game(QWidget *parent) :
     temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     world_music->setPlaylist(temp_playlist);
     temp_playlist = new QMediaPlaylist;
-    //world_music->setMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
-//    battle_music->setMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
     temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
     temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     battle_music->setPlaylist(temp_playlist);
@@ -46,6 +44,8 @@ Game::Game(QWidget *parent) :
 
 Game::~Game()
 {
+    if (world_music->playlist()) delete world_music->playlist();
+    if (battle_music->playlist()) delete battle_music->playlist();
     if (world_music) delete world_music;
     if (instant_sfx) delete instant_sfx;
     if (battle_music) delete battle_music;
@@ -131,6 +131,11 @@ void Game::mousePressEvent(QMouseEvent *event)
     } else {
         my_GUI->leftButton();
     }
+}
+
+void Game::mainMenu()
+{
+
 }
 
 void Game::myUpdate()
@@ -232,4 +237,12 @@ void Game::myBattle()
     }
     atual_direction = SLEEP;
     repaint();
+}
+
+void Game::transiction()
+{
+    if (is_battle) {
+        disconnect(clock, SIGNAL(timeout()), this, SLOT(transiction()));
+        connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+    }
 }
