@@ -22,6 +22,7 @@ protected:
     QString battle_text;
     QColor battle_text_color;
     bool text_right;
+    const QPixmap bg_black;
 
     static const int size_x, size_y, range_i, range_j, pix_per_tile, n_battle_options, width_options[4], text_position[2];
 public:
@@ -38,6 +39,8 @@ public:
     void setDrawPlayer(Player * new_draw_player);
     void setDrawMap(Map * new_draw_map);
     void setDrawMobs(std::vector<Monster *> * new_draw_mobs);
+
+    void drawTransictionMapBattle(int px_to_black);
     void setQPainter(QPainter * new_painter);
     void setCursor(int x, int y);
     int getIndexItemInventory();

@@ -38,7 +38,7 @@ public slots:
     void mainMenu();
     void myUpdate();
     void myBattle();
-    void transiction();
+    void transictionMapBattle();
 
 private:
     Ui::Game *ui;
@@ -50,7 +50,7 @@ private:
     QMediaPlayer *world_music, *instant_sfx, *battle_music;
     bool game_over, is_player_battle;
     bool is_battle, is_inventory, interactive_button;
-    int x_mouse, y_mouse, i;
+    int x_mouse, y_mouse, i, trans_m_b_cont;
 };
 
 #endif // GAME_H

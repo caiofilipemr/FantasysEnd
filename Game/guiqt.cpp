@@ -51,7 +51,7 @@ void GUIQT::drawHUD()
     Write::writeHPorMP(QString::number(draw_player->getMP()), QString::number(draw_player->getMPMax()), 240, 9, mp_bar.getTotalW(), 18, painter);
 }
 
-GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way))
+GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), bg_black("Battle/img_preta.png")
 {
     inventory = new InventInterface(400,246,15*32,11*32);
     selected_option = 0;
@@ -228,6 +228,12 @@ void GUIQT::setDrawMap(Map *new_draw_map)
 void GUIQT::setDrawMobs(std::vector<Monster *> *new_draw_mobs)
 {
     this->draw_mobs = new_draw_mobs;
+}
+
+void GUIQT::drawTransictionMapBattle(int px_to_black)
+{
+    painter->drawPixmap(0, 0, px_to_black, size_y * pix_per_tile, bg_black);
+    painter->drawPixmap(size_y * pix_per_tile - px_to_black, 0, px_to_black, size_x * pix_per_tile, bg_black);
 }
 
 void GUIQT::setQPainter(QPainter *new_painter)

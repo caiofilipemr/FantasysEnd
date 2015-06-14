@@ -8,7 +8,7 @@ Game::Game(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Game)
 {
-    x_mouse = y_mouse = 0;
+    x_mouse = y_mouse = trans_m_b_cont = 0;
 
     ui->setupUi(this);
     static const int w = 15*32, h = 11*32;
@@ -101,12 +101,13 @@ void Game::paintEvent(QPaintEvent *event)
 {
     painter->begin(this);
     /*if (!is_battle)*/ my_GUI->drawMap();
-    if (game_over)
+    if (game_over) {
         my_GUI->drawGameOver();
-    if(is_inventory){
+    } else if (trans_m_b_cont) {
+        my_GUI->drawTransictionMapBattle(trans_m_b_cont);
+    } else if (is_inventory) {
       my_GUI->drawInventory();
-    }
-    if (is_battle) my_GUI->drawBattle();
+    } else if (is_battle) my_GUI->drawBattle();
     painter->end();
 }
 
@@ -156,9 +157,10 @@ void Game::myUpdate()
             is_player_battle = true;
             my_GUI->resetSelectedOption();
             atual_direction = SLEEP;
-            clock->setInterval(1000/7);
+            clock->setInterval(1000/200);
             disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-            connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+            connect(clock, SIGNAL(timeout()), this, SLOT(transictionMapBattle()));
+            trans_m_b_cont++;
             battle_music->setVolume(20);
             battle_music->play();
             world_music->pause();
@@ -241,10 +243,15 @@ void Game::myBattle()
     repaint();
 }
 
-void Game::transiction()
+void Game::transictionMapBattle()
 {
-    if (is_battle) {
-        disconnect(clock, SIGNAL(timeout()), this, SLOT(transiction()));
+    if (trans_m_b_cont <= 240) {
+        repaint();
+        trans_m_b_cont++;
+    } else {
+        disconnect(clock, SIGNAL(timeout()), this, SLOT(transictionMapBattle()));
         connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+        clock->setInterval(1000/7);
+        trans_m_b_cont = 0;
     }
 }
