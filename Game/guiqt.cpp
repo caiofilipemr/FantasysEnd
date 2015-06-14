@@ -31,6 +31,19 @@ void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_
     }
 }
 
+void GUIQT::drawHUD()
+{
+    Bar hp_bar(100, 16, draw_player->getHPMax(), "red");
+    Bar mp_bar(100, 16, draw_player->getMPMax(), "blue");
+    painter->setFont(QFont("Times", 16, QFont::Bold));
+    painter->setPen(QPen(battle_text_color));
+    painter->drawText(8, 8, 200, 30, Qt::AlignLeft, "HP ");
+    hp_bar.setSizeBar(draw_player->getHP());
+    hp_bar.draw(painter, 40, 14);
+    painter->drawText(300, 8, 200, 30, Qt::AlignLeft, "MP ");
+    mp_bar.draw(painter, 336, 14);
+}
+
 GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), width_options(new int[n_battle_options])
 {
     inventory = new InventInterface(400,246,15*32,11*32);
@@ -67,8 +80,8 @@ void GUIQT::drawMap()
         **m_s_base = draw_map->getSuperBase(),
         **m_obj = draw_map->getObjects(),
         **m_iso = draw_map->getIsometric(),
-        **m_s_iso = draw_map->getSuperIsometric(),
-        **m_col = draw_map->getColision();
+        **m_s_iso = draw_map->getSuperIsometric();
+        //**m_col = draw_map->getColision();
     Object *** m_itera = draw_map->getMatIteration();
 
     Direction player_direction = draw_player->getEyeDirection();
@@ -158,6 +171,8 @@ void GUIQT::drawMap()
         for (j = begin_j, index_j = -1; index_j < size_y + 1; index_j++, j++)
             if (m_s_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_s_iso[i][j]-1) % 57) * 17, (m_s_iso[i][j] / 57) * 17, 16, 16));
     }
+
+    drawHUD();
 }
 
 void GUIQT::drawInventory()
@@ -169,13 +184,14 @@ void GUIQT::drawBattle()
 {
     painter->drawPixmap(0, 0, size_y * pix_per_tile, size_x * pix_per_tile, bg_battle);
     painter->drawPixmap(width_options[selected_option], 10*32 + 2,16,16,cursor_battle);
-    painter->drawPixmap(5*32, 2*32, 320, 192,QPixmap(QString::fromStdString(Battle::getImgWayMonster())));
+    painter->drawPixmap(5*32, 1.5*32, 320, 192,QPixmap(QString::fromStdString(Battle::getImgWayMonster())));
     QPixmap player_image(QString::fromStdString(draw_player->getImgWay()));
     player_image = player_image.copy(3 * 16, 2* 16, 16, 16);
-    painter->drawPixmap(2*32, 7*32, 32, 32, player_image);
+    painter->drawPixmap(2*32, 6.5*32, 32, 32, player_image);
     painter->setFont(QFont("Times", 16, QFont::Bold));
     painter->setPen(QPen(battle_text_color));
     painter->drawText(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 200, 30, Qt::AlignVCenter, battle_text);
+    drawHUD();
 }
 
 void GUIQT::drawBrokenStone()

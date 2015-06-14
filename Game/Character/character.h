@@ -34,7 +34,9 @@ public:
     void addHP(int hp_plus);
     void addMP(int mp_plus);
     int getHP();
+    int getHPMax();
     int getMP();
+    int getMPMax();
     int getGuard();
     virtual void setDirection(Direction new_direction);
     void setEyeDirection(Direction new_eye_direction);

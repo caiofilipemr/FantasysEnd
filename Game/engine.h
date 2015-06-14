@@ -6,6 +6,7 @@
 #include "Character/Monster/sleeper.h"
 #include "Character/Player/Raca/Elf/archer.h"
 #include "Character/Player/Raca/Orc/troll.h"
+#include "Character/Player/Raca/Human/barbaro.h"
 #include "stone.h"
 #include "chest.h"
 #include "globalfunctions.h"

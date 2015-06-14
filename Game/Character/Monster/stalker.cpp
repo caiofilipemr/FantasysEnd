@@ -42,11 +42,12 @@ Stalker::Stalker(int new_level_monster,
                  Direction new_eye_direction = DOWN) : Walker(new_level_monster,
                                                               new_speed, new_pos_i,
                                                               new_pos_j, new_img_way,
-                                                              new_img_battle ,new_eye_direction,
+                                                              new_img_battle,
                                                               hp_stalker, mp_stalker, damage_stalker,
                                                               guard_stalker, accuracy_stalker, dodge_stalker,
-                                                              damage_stalker, critical_stalker, hp_vari,
-                                                              mp_vari, damage_vari, guard_vari)
+                                                              range_damage_stalker, critical_stalker, hp_vari,
+                                                              mp_vari, damage_vari, guard_vari,
+                                                              new_eye_direction)
 {
     old_end_i = old_end_j = -1;
 }

@@ -14,17 +14,18 @@ const int Walker::hp_variacao = 47;
 const int Walker::mp_variacao = 10;
 const int Walker::damage_variacao = 7;
 const int Walker::guard_variacao = 4;
+
 //const - variacao + rand((const + variacao) - (const - variacao) + 1)
 Walker::Walker(int new_level_monster,
                int new_speed, int new_pos_i,
                int new_pos_j, std::string new_img_way, string new_img_battle,
-               Direction new_eye_direction = DOWN,
-               int new_hp = hp_walker, int new_mp = mp_walker,
-               int new_damage = damage_walker, int new_guard = guard_walker,
-               int new_accuracy = accuracy_walker, int new_dodge = dodge_walker,
-               int new_range_damage = range_damage_walker, int new_critical = critical_walker,
-               int new_hp_variacao = hp_variacao, int new_mp_variacao = mp_variacao,
-               int new_damage_variacao = damage_variacao, int new_guard_variacao = guard_variacao) : Monster (new_level_monster,
+               int new_hp, int new_mp,
+               int new_damage, int new_guard,
+               int new_accuracy, int new_dodge,
+               int new_range_damage, int new_critical,
+               int new_hp_variacao, int new_mp_variacao,
+               int new_damage_variacao, int new_guard_variacao,
+               Direction new_eye_direction = DOWN) : Monster (new_level_monster,
                                                              (new_hp - new_hp_variacao + random((new_hp + new_hp_variacao) - (new_hp - new_hp_variacao) +1)),
                                                              (new_mp - new_mp_variacao + random((new_mp + new_mp_variacao) - (new_mp - new_mp_variacao) +1)),
                                                              (new_damage - new_damage_variacao + random((new_damage + new_damage_variacao) - (new_damage - new_damage_variacao) +1)),
