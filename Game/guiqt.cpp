@@ -5,9 +5,15 @@ const int GUIQT::size_y = 15;
 const int GUIQT::range_i = 5;
 const int GUIQT::range_j = 7;
 const int GUIQT::pix_per_tile = 32;
-const int GUIQT::n_battle_options = 2;
+const int GUIQT::n_battle_options = 4;
 const int GUIQT::battle_delay = 5;
 const int GUIQT::text_position[2] = {2 * 32, 6 * 32};
+const int GUIQT::width_options[4] = {245, 271, 297, 323};
+
+//Attack - x = 5 , y = 248.
+//	Magic - x = 5, y = 274.
+//	Items - x = 5, y = 300.
+//	Run - x = 5, y = 326.
 
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
 {
@@ -35,20 +41,16 @@ void GUIQT::drawHUD()
 {
     Bar hp_bar(100, 16, draw_player->getHPMax(), "red");
     Bar mp_bar(100, 16, draw_player->getMPMax(), "blue");
-    painter->setFont(QFont("Times", 16, QFont::Bold));
-    painter->setPen(QPen(battle_text_color));
-    painter->drawText(8, 8, 200, 30, Qt::AlignLeft, "HP ");
+    painter->drawPixmap(8, 8, 21, 20, QPixmap("Battle/hp.png"));
     hp_bar.setSizeBar(draw_player->getHP());
-    hp_bar.draw(painter, 40, 14);
-    painter->drawText(300, 8, 200, 30, Qt::AlignLeft, "MP ");
-    mp_bar.draw(painter, 336, 14);
+    hp_bar.draw(painter, 35, 10);
+    painter->drawPixmap(300, 8, 24, 20, QPixmap("Battle/mp.png"));
+    mp_bar.draw(painter, 330, 10);
 }
 
-GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), width_options(new int[n_battle_options])
+GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way))
 {
     inventory = new InventInterface(400,246,15*32,11*32);
-    width_options[ATTACK] = 0;
-    width_options[ITEM] = 3 * 32 - 10;
     selected_option = 0;
     battle_delay_cont = 0;
     battle_text_color = Qt::white;
@@ -183,14 +185,22 @@ void GUIQT::drawInventory()
 void GUIQT::drawBattle()
 {
     painter->drawPixmap(0, 0, size_y * pix_per_tile, size_x * pix_per_tile, bg_battle);
-    painter->drawPixmap(width_options[selected_option], 10*32 + 2,16,16,cursor_battle);
+    painter->drawPixmap(1, width_options[selected_option], 22, 21, cursor_battle);
     painter->drawPixmap(5*32, 1.5*32, 320, 192,QPixmap(QString::fromStdString(Battle::getImgWayMonster())));
     QPixmap player_image(QString::fromStdString(draw_player->getImgWay()));
     player_image = player_image.copy(3 * 16, 2* 16, 16, 16);
     painter->drawPixmap(2*32, 6.5*32, 32, 32, player_image);
-    painter->setFont(QFont("Times", 16, QFont::Bold));
-    painter->setPen(QPen(battle_text_color));
-    painter->drawText(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 200, 30, Qt::AlignVCenter, battle_text);
+
+    if (battle_text_color == Qt::red) //temptemptemptemp
+        painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 66, 36, QPixmap("Battle/miss.png"));
+    else if (battle_text_color == Qt::blue)
+        painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 86, 37, QPixmap("Battle/dodge.png"));
+    else {
+        painter->setFont(QFont("Times", 16, QFont::Bold));
+        painter->setPen(QPen(battle_text_color));
+        painter->drawText(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 200, 30, Qt::AlignVCenter, battle_text);
+    }
+    //battle_text_color = Qt::white;
     drawHUD();
 }
 
@@ -271,6 +281,7 @@ void GUIQT::battleDelayCont()
     if (battle_delay_cont > battle_delay) {
         battle_delay_cont = 0;
         battle_text.clear();
+        battle_text_color = Qt::white;
     }
 }
 

@@ -17,12 +17,12 @@ protected:
     QPainter * painter;
     InventInterface *inventory;
     QPixmap bg_battle, cursor_battle;
-    int *width_options, selected_option, battle_delay_cont;
+    int selected_option, battle_delay_cont;
     QString battle_text;
     QColor battle_text_color;
     bool text_right;
 
-    static const int size_x, size_y, range_i, range_j, pix_per_tile, n_battle_options, text_position[2];
+    static const int size_x, size_y, range_i, range_j, pix_per_tile, n_battle_options, width_options[4], text_position[2];
 public:
     static const int battle_delay;
 
