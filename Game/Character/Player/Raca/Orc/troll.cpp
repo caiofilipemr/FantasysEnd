@@ -7,7 +7,7 @@ const int Troll::troll_strenght_level = 2;
 const int Troll::troll_agility_level = 1;
 const int Troll::troll_intelligence_level = 0;
 const int Troll::troll_bonus = AGILITY;
-std::string Troll::troll_img_way = "";
+std::string Troll::troll_img_way = "Images/characters_1.png";
 std::string Troll::troll_img_battle = "";
 
 Troll::Troll(int new_pos_i, int new_pos_j,

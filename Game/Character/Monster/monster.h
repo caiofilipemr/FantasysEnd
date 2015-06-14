@@ -15,7 +15,8 @@ protected:
     bool *can_go;
     static int quantity_monster, all_is_walking, cont_monster;
 public:
-    Monster(int new_hp, int new_mp,
+    Monster(int new_level_monster,
+            int new_hp, int new_mp,
             int new_damage, int new_guard,
             int new_speed, int new_accuracy,
             int new_dodge, int new_range_damage,

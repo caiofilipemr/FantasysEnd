@@ -5,7 +5,8 @@ int Monster::quantity_monster = 0;
 int Monster::all_is_walking = 0;
 int Monster::cont_monster = 0;
 
-Monster::Monster(int new_hp, int new_mp,
+Monster::Monster(int new_level_monster,
+                 int new_hp, int new_mp,
                  int new_damage, int new_guard,
                  int new_speed, int new_accuracy,
                  int new_dodge, int new_range_damage,
@@ -23,6 +24,7 @@ Monster::Monster(int new_hp, int new_mp,
     damage = new_damage;
     guard = new_guard;
     quantity_monster ++;
+    drop_xp = 300;
 }
 
 Monster::~Monster() {
