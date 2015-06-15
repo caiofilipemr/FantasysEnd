@@ -9,32 +9,44 @@ Character::Character(int new_speed, int new_accuracy,
                      string new_img_battle, Direction new_eye_direction) : Object(new_pos_i, new_pos_j, new_img_way), speed(new_speed),
                                       accuracy(new_accuracy), dodge(new_dodge),
                                       range_damage(new_range_damage), critical(new_critical),
-                                      walk_direction(SLEEP), eye_direction(new_eye_direction), cont(0), is_walking(false), img_battle(new_img_battle)
+                                      walk_direction(SLEEP), eye_direction(new_eye_direction),
+                                      cont(0), is_walking(false), img_battle(new_img_battle),
+                                      is_dead(false)
 {
 }
 
-int Character::attack()
+int Character::attack(Exceptions &exc)
 {
     int rand = 0;
-    if ((random(100) + 1) > (this->accuracy))
-        throw MISS;
+    if ((random(100) + 1) > (this->accuracy)){
+        exc = MISS;
+        return 0;
+    }
     int dam_min = damage - range_damage;
     int dam_max = damage + range_damage;
-    if ((rand = (random(100) + 1)) > (this->critical))
+    if ((rand = (random(100) + 1)) > (this->critical)) {
+        exc = HIT;
         return (random(dam_max - dam_min + 1) + dam_min);
+    }
+    exc = CRITICAL;
     return (random(dam_max - dam_min + 1) + dam_min) * 2;
 }
 
-void Character::defense(int attack)
+void Character::defense(int attack, Exceptions &exc)
 {
-    if ((random(100) + 1) <= dodge)
-        throw DODGE;
+    if ((random(100) + 1) <= dodge){
+        exc = DODGE;
+        return;
+    }
     if((attack - guard) > 0) {
         hp = hp - (attack - guard);
         if (hp < 1) {
             hp = 0;
-            throw CHARACTER_DIE;
+            is_dead = true;
+            exc = CHARACTER_DIE;
+            return;
         }
+        exc = HIT;
     }
 }
 
@@ -136,5 +148,10 @@ string Character::getImgBatlle()
 int Character::getLimit()
 {
     return limit;
+}
+
+bool Character::isDead()
+{
+    return is_dead;
 }
 

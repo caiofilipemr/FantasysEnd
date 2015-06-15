@@ -26,7 +26,7 @@ Game::Game(QWidget *parent) :
     clock->start();
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
-    is_battle = game_over = is_inventory = interactive_button = false;
+    is_battle = game_over = is_inventory = interactive_button = is_transiction = false;
     is_player_battle = true;
     world_music = new QMediaPlayer;
     instant_sfx = new QMediaPlayer;
@@ -40,6 +40,8 @@ Game::Game(QWidget *parent) :
     temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     battle_music->setPlaylist(temp_playlist);
     world_music->play();
+    current_painter_option = P_MAP;
+    current_transiction = NONE;
 }
 
 Game::~Game()
@@ -100,14 +102,51 @@ void Game::keyReleaseEvent(QKeyEvent * event)
 void Game::paintEvent(QPaintEvent *event)
 {
     painter->begin(this);
-    /*if (!is_battle)*/ my_GUI->drawMap();
-    if (game_over) {
+
+    switch (current_painter_option) {
+    case P_MAP:
+        my_GUI->drawMap();
+        break;
+    case P_BATTLE:
+        my_GUI->drawBattle();
+        break;
+    case P_GAME_OVER:
         my_GUI->drawGameOver();
-    } else if (trans_m_b_cont) {
+        break;
+    case P_INVENTORY:
+        my_GUI->drawInventory();
+        break;
+
+    default:
+        break;
+    }
+
+    switch (current_transiction) {
+    case NONE:
+        break;
+    case OPEN:
         my_GUI->drawTransictionMapBattle(trans_m_b_cont);
-    } else if (is_inventory) {
-      my_GUI->drawInventory();
-    } else if (is_battle) my_GUI->drawBattle();
+        break;
+    case CLOSE:
+        my_GUI->drawTransictionMapBattle(trans_m_b_cont);
+        break;
+    default:
+        break;
+    }
+
+//    if (game_over) {
+//        my_GUI->drawGameOver();
+//    } else if (is_transiction) {
+//        my_GUI->drawTransictionMapBattle(trans_m_b_cont);
+//    } else if (is_inventory) {
+//      my_GUI->drawInventory();
+//    } else if (is_battle) {
+//        my_GUI->drawBattle();
+//        if (trans_m_b_cont) my_GUI->drawTransictionMapBattle(trans_m_b_cont);
+//    } else {
+//        my_GUI->drawMap();
+
+//    }
     painter->end();
 }
 
@@ -149,23 +188,17 @@ void Game::myUpdate()
     }
     is_battle = my_engine->isBattle();
     if (is_battle && !my_engine->isWalking()) {
-//        if (my_engine->isWalking()) { //teworld_music
-//            my_engine->update();
-//            repaint();
-//        } else {
-
-            is_player_battle = true;
-            my_GUI->resetSelectedOption();
-            atual_direction = SLEEP;
-            clock->setInterval(1000/200);
-            disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-            connect(clock, SIGNAL(timeout()), this, SLOT(transictionMapBattle()));
-            trans_m_b_cont++;
-            battle_music->setVolume(20);
-            battle_music->play();
-            world_music->pause();
-            repaint();
-//        }
+        is_player_battle = true;
+        my_GUI->resetSelectedOption();
+        atual_direction = SLEEP;
+        clock->setInterval(1000/200);
+        disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+        connect(clock, SIGNAL(timeout()), this, SLOT(transictionMapBattle()));
+        trans_m_b_cont++;
+        current_transiction = CLOSE;
+        battle_music->setVolume(20);
+        battle_music->play();
+        world_music->pause();
     }
     else {
         my_engine->setPlayerDirection(atual_direction);
@@ -178,59 +211,70 @@ void Game::myUpdate()
 
 void Game::myBattle()
 {
-    if (!is_battle) {
+    Exceptions exc;
+    /*if (!is_battle) {
         disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
         connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
         clock->setInterval(1000/60);
         world_music->play();
         battle_music->stop();
-    } else if (!(my_GUI->isBattleDelay())) {
+    } else */if (!(my_GUI->isBattleDelay())) {
         if(!is_player_battle) {
             interactive_button = true;
         }
 
         if (interactive_button) {
-            try {
-                int ret = my_engine->battle(my_GUI->getSelectedOption());
+            int ret = my_engine->battle(my_GUI->getSelectedOption(), exc);
+
+            switch (exc) {
+            case HIT:
                 instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
                 instant_sfx->play();
-                interactive_button = false;
                 my_GUI->battleDelayCont();
-                my_GUI->setBattleText(QString::number(ret),Qt::white,is_player_battle);
-
-            } catch (Exceptions exc) {
-                switch (exc) {
-                case GAME_OVER:
-                    game_over = true;
-                    battle_music->stop();
-                    world_music->play();
-                    is_battle = false;
-                    break;
-                case CHARACTER_DIE:
-                    interactive_button = false; // caio coloquei aqui. pq apos a primeira batalha ja tava iniciando com atack a proxima batalha
-                    is_battle = false;
-                    break;
-                case DODGE:
-                    my_GUI->setBattleText("Dodge", Qt::blue,is_player_battle);
-                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
-                    instant_sfx->play();
-                    interactive_button = false;
-                    my_GUI->battleDelayCont();
-                    break;
-                case MISS:
-                    my_GUI->setBattleText("Miss", Qt::red, !is_player_battle);
-                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
-                    instant_sfx->play();
-                    interactive_button = false;
-                    my_GUI->battleDelayCont();
-                    break;
-                default:
-                    break;
-                }
-            } catch (const char * err) {
-                cerr << err;
+                my_GUI->setBattleText(QString::number(ret), Qt::white, is_player_battle);
+                break;
+            case CRITICAL:
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->play();
+                my_GUI->battleDelayCont();
+                my_GUI->setBattleText(QString::number(ret), Qt::white, is_player_battle);
+                break;
+            case GAME_OVER:
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->play();
+                my_GUI->battleDelayCont();
+                my_GUI->setBattleText(QString::number(ret), Qt::white, is_player_battle);
+                disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+                connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleGO()));
+                current_transiction = CLOSE;
+                break;
+            case CHARACTER_DIE:
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->play();
+                my_GUI->battleDelayCont();
+                my_GUI->setBattleText(QString::number(ret), Qt::white, is_player_battle);
+                disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+                connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleMap()));
+                current_transiction = CLOSE;
+//                    world_music->play();
+//                    battle_music->stop();
+                break;
+            case DODGE:
+                my_GUI->setBattleText("Dodge", Qt::blue,is_player_battle);
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
+                instant_sfx->play();
+                break;
+            case MISS:
+                my_GUI->setBattleText("Miss", Qt::red, !is_player_battle);
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
+                instant_sfx->play();
+                break;
+            default:
+                break;
             }
-          is_player_battle = !is_player_battle;
+            my_GUI->battleDelayCont();
+            interactive_button = false;
+            is_player_battle = !is_player_battle;
         } else if (my_GUI->moveCursorBattle(atual_direction)) {
             instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
             instant_sfx->play();
@@ -245,13 +289,83 @@ void Game::myBattle()
 
 void Game::transictionMapBattle()
 {
-    if (trans_m_b_cont <= 240) {
+    if (current_transiction == CLOSE) {
         repaint();
         trans_m_b_cont++;
+        if (trans_m_b_cont > 240) {
+            current_painter_option = P_BATTLE;
+            current_transiction = OPEN;
+        }
+    } else if (trans_m_b_cont > 0) {
+        repaint();
+        trans_m_b_cont--;
     } else {
         disconnect(clock, SIGNAL(timeout()), this, SLOT(transictionMapBattle()));
         connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
         clock->setInterval(1000/7);
-        trans_m_b_cont = 0;
+        atual_direction = SLEEP;
+        current_transiction = NONE;
+    }
+}
+
+void Game::transictionBattleMap()
+{
+    if (my_GUI->isBattleDelay()) {
+        my_GUI->battleDelayCont();
+        repaint();
+        if (!my_GUI->isBattleDelay()) clock->setInterval(1000/200);
+    }
+    else {
+        if (current_transiction == CLOSE) { //Arrumar constante depois, esse 240 é a largura da tela dividida por 2
+            repaint();
+            trans_m_b_cont++;
+            if (trans_m_b_cont > 240) {
+                current_painter_option = P_MAP;
+                current_transiction = OPEN;
+            }
+        } else if (trans_m_b_cont > 0) {
+            repaint();
+            trans_m_b_cont--;
+        } else {
+            disconnect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleMap()));
+            connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+            clock->setInterval(1000/60);
+            current_transiction = NONE;
+            world_music->play();
+            battle_music->stop();
+            repaint();
+        }
+    }
+}
+
+void Game::transictionBattleGO()
+{
+    if (my_GUI->isBattleDelay()) {
+        my_GUI->battleDelayCont();
+        repaint();
+        if (!my_GUI->isBattleDelay()) clock->setInterval(1000/200);
+    }
+    else {
+        if (current_transiction == CLOSE) { //Arrumar constante depois, esse 240 é a largura da tela dividida por 2
+            repaint();
+            trans_m_b_cont++;
+            if (trans_m_b_cont > 240) {
+                current_painter_option = P_GAME_OVER;
+                current_transiction = OPEN;
+            }
+        } else if (trans_m_b_cont > 0) {
+            repaint();
+            trans_m_b_cont--;
+        } else {
+            disconnect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleGO()));
+            connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+            clock->setInterval(1000/60);
+            game_over = true;
+            current_transiction = NONE;
+            battle_music->stop();
+            world_music->stop();
+            world_music->play();
+            repaint();
+        }
     }
 }

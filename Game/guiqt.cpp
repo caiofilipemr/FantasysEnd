@@ -232,7 +232,7 @@ void GUIQT::setDrawMobs(std::vector<Monster *> *new_draw_mobs)
 
 void GUIQT::drawTransictionMapBattle(int px_to_black)
 {
-    painter->drawPixmap(0, 0, px_to_black, size_y * pix_per_tile, bg_black);
+    painter->drawPixmap(0, 0, px_to_black, size_x * pix_per_tile, bg_black);
     painter->drawPixmap(size_y * pix_per_tile - px_to_black, 0, px_to_black, size_x * pix_per_tile, bg_black);
 }
 

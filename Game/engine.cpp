@@ -87,16 +87,17 @@ bool Engine::isBattle()
     return is_battle;
 }
 
-int Engine::battle(BattleOptions op)
+int Engine::battle(BattleOptions op, Exceptions &exc)
 {
     if (is_battle) {
+        int atk;
         switch (op) {
         case ATTACK:
+            atk = my_battle->attack(exc);
             try {
-                return my_battle->attack();
-            } catch (Character * dead_character) {
-                try {
-                    (dead_character)->die(my_map);
+                if (exc == CHARACTER_DIE){
+                    Character *dead_character = my_battle->getDefenserFighter();
+                    dead_character->die(my_map);
                     size_t i;
                     for (i = 0; i < mobs.size() && mobs[i] != (dead_character); i++);
                     if (i == mobs.size()) throw "Error!";
@@ -106,16 +107,16 @@ int Engine::battle(BattleOptions op)
                     is_battle = false;
                     delete my_battle;
                     my_battle = NULL;
-                    throw CHARACTER_DIE;
-                } catch (Exceptions exc) {
-                    if (exc == GAME_OVER) {
-                        is_battle = false;
-                        gameOver();
-                        throw;
-                    }
-                    throw;
+                    exc = CHARACTER_DIE;
                 }
+            } catch (Exceptions e) {
+                if (e == GAME_OVER) {
+                    is_battle = false;
+                    gameOver();
+                }
+                exc = e;
             }
+            return atk;
             break;
 
         case MAGIC_SPECIAL:
