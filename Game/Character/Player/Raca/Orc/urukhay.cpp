@@ -7,7 +7,7 @@ const int Urukhay::hay_strenght_level = 2;
 const int Urukhay::hay_agility_level = 1;
 const int Urukhay::hay_intelligence_level = 0;
 const int Urukhay::hay_bonus = AGILITY;
-std::string Urukhay::urukhay_img_way = "";
+std::string Urukhay::urukhay_img_way = "Images/characters_1.png";
 std::string Urukhay::urukhay_img_battle = "";
 
 Urukhay::Urukhay(int new_pos_i, int new_pos_j,
