@@ -84,7 +84,33 @@ Map::Map(string new_arch_map, string new_img_way)
 
 Map::~Map()
 {
-
+    for (int i = 0; i < size_i; i++){
+        for (int j = 0; j < size_j; j++){
+            if (m_interation[i][j])
+                delete m_interation[i][j];
+        }
+    }
+    for (int i = 0; i < size_i; i ++) {
+         delete [] m_col[i];
+         delete [] m_base[i];
+         delete [] m_s_base[i];
+         delete [] m_iso[i];
+         delete [] m_s_iso[i];
+         delete [] m_obj[i];
+         delete [] stone_list[i];
+         delete [] chest_list[i];
+         delete [] m_interation[i];
+    }
+    delete [] m_col;
+    delete [] m_base;
+    delete [] m_s_base;
+    delete [] m_iso;
+    delete [] m_s_iso;
+    delete [] m_obj;
+    delete [] stone_list;
+    delete [] chest_list;
+    delete [] can_go;
+    delete [] m_interation;
 }
 
 int **Map::getColision()

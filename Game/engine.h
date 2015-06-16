@@ -6,6 +6,7 @@
 #include "Character/Monster/sleeper.h"
 #include "Character/Player/Raca/Elf/archer.h"
 #include "Character/Player/Raca/Orc/troll.h"
+#include "Character/Player/Raca/Orc/urukhay.h"
 #include "Character/Player/Raca/Human/barbaro.h"
 #include "stone.h"
 #include "chest.h"
@@ -43,14 +44,15 @@ private:
     Map *my_map;
     vector<Monster *> mobs;
     Player *my_player;
-    Stone *my_stones;
-    Chest *my_chests;
+//    Stone *my_stones;
+//    Chest *my_chests;
     Monster *battle_mob;
     GUI *engine_GUI;
     Battle *my_battle;
     bool is_battle;
 public:
     Engine(GUI * new_engine_GUI);
+    ~Engine();
     void update();
     void setPlayerDirection(Direction new_direction);
     Cordenates getPlayerCordenates();
