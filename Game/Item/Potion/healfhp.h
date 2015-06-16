@@ -3,7 +3,7 @@
 
 #include "potion.h"
 
-class HealfHP : private Potion
+class HealfHP : public Potion
 {
 private:
     static const int hp_heal;

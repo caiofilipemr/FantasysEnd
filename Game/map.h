@@ -23,6 +23,7 @@ private:
     Chest **chest_list;
     Stone **stone_list;
     bool *can_go;
+
 public:
     Map(string new_arch_map, string new_img_way);
     ~Map();
@@ -32,6 +33,7 @@ public:
     void setAColision(Cordenates new_col);
     void removeAColision(Cordenates remove_col);
     void randMapInteration();
+
     Interation * getInteration(Cordenates cord);
     void addObjects(Object *new_object, Cordenates cord_object);
     void removeObjects(Cordenates cord_remove);

@@ -3,7 +3,7 @@
 
 #include "potion.h"
 
-class IntelligenceUP : private Potion
+class IntelligenceUP : public Potion
 {
 private:
     static std::string int_img_way;

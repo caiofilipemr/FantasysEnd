@@ -71,7 +71,7 @@ Map::Map(string new_arch_map, string new_img_way)
     }
     arch_map >> buffercleaner;
     arch_map.close();
-     randMapInteration();
+    randMapInteration();
 
 //    for (i = 0; i < size_i; i++){
 //        for (j = 0; j < size_j; j++) {

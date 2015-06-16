@@ -3,7 +3,7 @@
 
 #include "potion.h"
 
-class StrengtUP : private Potion
+class StrengtUP : public Potion
 {
 private:
     static std::string strengt_img_way;

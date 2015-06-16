@@ -14,7 +14,7 @@
 #include "globalfunctions.h"
 #include "cellarray.h"
 #include "battle.h"
-
+#include "Item/randitens.h"
 class GUI
 {
 protected:

@@ -2,8 +2,9 @@
 
 const int Armor::guard_armor = 2; //Multiplicador de pontos de GUARD
 const int Armor::armor_weight = 3;
+std::string Armor::armor_img_way = "";
 
-Armor::Armor(std::string new_img_way, int new_item_level = 0) : Item(new_item_level, armor_weight, new_img_way)
+Armor::Armor(int new_item_level = 0) : Item(new_item_level, armor_weight, armor_img_way)
 {
     guard = item_level * guard_armor;
 }
@@ -24,5 +25,10 @@ std::vector<Commands *> Armor::getCommands()
     list_of_cmd.push_back(new EquipArmor(this));
     list_of_cmd.push_back(new Drop(this));
     return list_of_cmd;
+}
+
+void Armor::setImgWay(string new_img_way)
+{
+    armor_img_way = new_img_way;
 }
 

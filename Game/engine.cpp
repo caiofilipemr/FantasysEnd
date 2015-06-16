@@ -10,7 +10,7 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     mobs.push_back(new Stalker(1, 1, 30, 55, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
     mobs.push_back(new Walker(1, 1, 35, 60, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
     mobs.push_back(new Sleeper(1, 1, 30, 60, "Battle/drag_es__1.png","Battle/0 [updated].png", DOWN));
-
+    Item * i = new Bow(0);
     for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
 
     engine_GUI->setDrawPlayer(my_player);
@@ -18,6 +18,8 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     engine_GUI->setDrawMobs(&mobs);
     my_battle = NULL;
     is_battle = false;
+    RandItens *rand = new RandItens();
+    rand->randItensMap();
 }
 
 void Engine::update()

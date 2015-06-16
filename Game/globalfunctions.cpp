@@ -133,3 +133,19 @@ std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j)
 
 
 
+
+
+//int randlevelitem()
+//{
+//    int item_level = random(100) + 1;
+//    if (item_level <= 40)
+//        return 1;
+//    else if (item_level <= 65)
+//        return 2;
+//    else if (item_level <= 80)
+//        return 3;
+//    else if (item_level <= 92)
+//        return 4;
+//    else
+//        return 5;
+//}

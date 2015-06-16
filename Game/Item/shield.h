@@ -9,11 +9,13 @@ class Shield : public Item
 private:
     static const int guard_shield, shield_weight;
     int guard;
+    static std::string shield_img_way;
 public:
-    Shield(std::string new_img_way, int new_item_level);
+    Shield(int new_item_level);
     ~Shield();
     int getGuard();
     std::vector<Commands *> getCommands();
+    static void setImgWay(std::string new_img_way);
 };
 
 #endif // SHIELD_H
