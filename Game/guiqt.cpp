@@ -97,7 +97,7 @@ void GUIQT::drawMap()
     QPixmap mobs_images[draw_mobs->size()];
     for (i = 0; i < int(draw_mobs->size()); i++) {
         mobs_images[i] = QString::fromStdString((*draw_mobs)[i]->getImgWay());
-        mobs_images[i] = mobs_images[i].copy((0 + ((*draw_mobs)[i]->getCont() / (Character::getLimit() / 3) % 3)) * 32, int((*draw_mobs)[i]->getEyeDirection()) * 32 + 128, 32, 32);
+        mobs_images[i] = mobs_images[i].copy((((*draw_mobs)[i]->getCont() / (Character::getLimit() / 3) % 3)) * 32, int((*draw_mobs)[i]->getEyeDirection()) * 32, 32, 32);
     }
 
 //    VERIFICAÇÃO DAS BORDAS. POR ENQUANTO NÃO USAREMOS

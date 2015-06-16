@@ -2,7 +2,7 @@
 
 const int Shield::guard_shield = 1; //Multiplicador de pontos de SHIELD
 const int Shield::shield_weight = 2;
-std::string Shield::shield_img_way = "";
+std::string Shield::shield_img_way = "Inventory/Items/shield.png";
 
 Shield::Shield(int new_item_level = 0) : Item(new_item_level, shield_weight, shield_img_way)
 {

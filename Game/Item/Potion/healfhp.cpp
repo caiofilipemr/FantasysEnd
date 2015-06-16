@@ -1,7 +1,7 @@
 #include "healfhp.h"
 
 const int HealfHP::hp_heal = 50; //Multiplicador de pontos de cura de HP (HEALTH POINTS)
-std::string HealfHP::healfhp_img_way = "";
+std::string HealfHP::healfhp_img_way = "Inventory/Items/healhp.png";
 
 HealfHP::HealfHP() : Potion(healfhp_img_way, 0)
 {

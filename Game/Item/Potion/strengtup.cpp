@@ -1,5 +1,5 @@
 #include "strengtup.h"
-std::string StrengtUP::strengt_img_way = "";
+std::string StrengtUP::strengt_img_way = "Inventory/Items/strenghtup.png";
 
 StrengtUP::StrengtUP() : Potion(strengt_img_way, 0)
 {

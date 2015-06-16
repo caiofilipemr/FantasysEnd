@@ -1,6 +1,6 @@
 #include "agilityup.h"
 
-std::string AgilityUP::agility_img_way = " ";
+std::string AgilityUP::agility_img_way = "Inventory/Items/agilityup.png";
 
 AgilityUP::AgilityUP() : Potion(agility_img_way, 0)
 {

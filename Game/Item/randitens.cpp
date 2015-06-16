@@ -1,5 +1,6 @@
 #include "randitens.h"
 
+std::vector<Item *> RandItens::itens_list;
 const int RandItens::qtd_itens_rand = 20;
 
 RandItens::RandItens()

@@ -20,11 +20,11 @@
 class RandItens
 {
 private:
-    std::vector<Item *> itens_list;
+    static std::vector<Item *> itens_list;
     static const int qtd_itens_rand;
 public:
     RandItens();
-    void randItensMap();
+    static void randItensMap();
 };
 
 #endif // RANDITENS_H
