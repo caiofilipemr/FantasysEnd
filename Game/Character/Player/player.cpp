@@ -179,7 +179,7 @@ void Player::update(Map *my_map)
     }
 }
 
-void Player::die(Map *my_map)
+void Player::die(Map *)
 {
     throw GAME_OVER;
 }
