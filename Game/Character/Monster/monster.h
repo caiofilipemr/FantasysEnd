@@ -6,9 +6,9 @@
 class Monster : public Character
 {
 protected:
+    Object *player;
     int drop_xp, monster_level;
     Inventory *drop;
-    Object *player;
     void move();
     int per[4], chance[4], back_chance[4];
     static std::string img_monster_die;

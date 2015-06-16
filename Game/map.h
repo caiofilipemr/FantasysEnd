@@ -5,10 +5,12 @@
 #include <fstream>
 #include "globalfunctions.h"
 #include "object.h"
-#include "Character/character.h"
 #include "chest.h"
 #include "stone.h"
-#include "interation.h"
+//#include "interation.h"
+
+class Character;
+class Stone;
 
 using namespace std;
 
@@ -32,7 +34,7 @@ public:
     void setAColision(Cordenates new_col);
     void removeAColision(Cordenates remove_col);
     void randMapInteration();
-    Interation * getInteration(Cordenates cord);
+    //Interation * getInteration(Cordenates cord);
     void addObjects(Object *new_object, Cordenates cord_object);
     void removeObjects(Cordenates cord_remove);
     Object * getObjectMap(Cordenates cord);

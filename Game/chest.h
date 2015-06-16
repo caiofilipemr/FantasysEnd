@@ -4,6 +4,8 @@
 #include "object.h"
 #include <vector>
 
+class Item;
+
 class Chest : public Object
 {
 private:

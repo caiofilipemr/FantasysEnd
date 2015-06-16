@@ -65,7 +65,8 @@ SOURCES += main.cpp\
     Interface/Inventory/Colision/rectangle.cpp \
     Mouse/mouse.cpp \
     Interface/Inventory/messagebox.cpp \
-    Interface/Write/write.cpp
+    Interface/Write/write.cpp \
+    cordenates.cpp
 
 HEADERS  += game.h \
     Character/Monster/monster.h \
@@ -120,7 +121,8 @@ HEADERS  += game.h \
     Interface/Inventory/Colision/rectangle.h \
     Mouse/mouse.h \
     Interface/Inventory/messagebox.h \
-    Interface/Write/write.h
+    Interface/Write/write.h \
+    cordenates.h
 
 FORMS    += game.ui
 

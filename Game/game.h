@@ -30,8 +30,8 @@ public:
     explicit Game(QWidget *parent = 0);
     ~Game();
     void keyPressEvent(QKeyEvent * event);
-    void keyReleaseEvent(QKeyEvent * event);
-    void paintEvent(QPaintEvent * event);
+    void keyReleaseEvent(QKeyEvent *);
+    void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent * event);
 
 public slots:

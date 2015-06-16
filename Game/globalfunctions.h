@@ -11,15 +11,6 @@
 #include <queue>
 #include <iostream>
 
-struct Cordenates {
-    int i, j;
-    Cordenates(int new_i, int new_j): i(new_i), j(new_j) {}
-    Cordenates() { }
-    Cordenates operator+ (Direction dir);
-    Cordenates operator- (Direction dir);
-    bool operator== (Cordenates cord);
-};
-
 template <typename T>
 
 class Node

@@ -32,6 +32,13 @@ int Character::attack(Exceptions &exc)
     return (random(dam_max - dam_min + 1) + dam_min) * 2;
 }
 
+int Character::attack()
+{
+    int dam_min = damage - range_damage;
+    int dam_max = damage + range_damage;
+    return (random(dam_max - dam_min + 1) + dam_min);
+}
+
 void Character::defense(int attack, Exceptions &exc)
 {
     if ((random(100) + 1) <= dodge){
