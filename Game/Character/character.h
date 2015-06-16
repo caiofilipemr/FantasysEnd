@@ -1,24 +1,20 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "iostream"
-#include "object.h"
-#include "Enums.h"
-#include "globalfunctions.h"
 #include "map.h"
 
-class Character : public Object {
-private:
+class Inventory;
 
+class Character : public Object {
 protected:
     int hp, hp_max, mp, mp_max, guard, damage, speed;
     const int accuracy, dodge, range_damage, critical;
-    Special *special;
-    Condition *condition;
-    Animation *animacao;
+//    Special *special;
+//    Condition *condition;
+//    Animation *animacao;
     Direction walk_direction, eye_direction;
     int cont;
-    bool is_walking;
+    bool is_walking, is_dead;
     std::string img_battle;
     static const int limit;
 
@@ -29,8 +25,9 @@ public:
               int new_pos_j, std::string new_img_way,
               std::string new_img_battle,
               Direction new_eye_direction);
+    int attack(Exceptions &exc);
     int attack();
-    void defense(int attack);
+    void defense(int attack, Exceptions &exc);
     void addHP(int hp_plus);
     void addMP(int mp_plus);
     int getHP();
@@ -49,6 +46,7 @@ public:
     virtual void die(Map * my_map) = 0;
     std::string getImgBatlle();
     static int getLimit();
+    bool isDead();
 };
 
 #endif // CHARACTER_H

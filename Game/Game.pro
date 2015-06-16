@@ -66,6 +66,7 @@ SOURCES += main.cpp\
     Mouse/mouse.cpp \
     Interface/Inventory/messagebox.cpp \
     Interface/Write/write.cpp \
+    cordenates.cpp
     Item/randitens.cpp
 
 HEADERS  += game.h \
@@ -122,6 +123,7 @@ HEADERS  += game.h \
     Mouse/mouse.h \
     Interface/Inventory/messagebox.h \
     Interface/Write/write.h \
+    cordenates.h
     Item/randitens.h
 
 FORMS    += game.ui

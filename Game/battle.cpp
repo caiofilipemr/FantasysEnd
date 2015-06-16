@@ -13,24 +13,19 @@ Battle::Battle(Character *fighter_one, Character *fighter_two) :
     img_monster = defenser_fighter->getImgBatlle();
 }
 
-int Battle::attack()
+int Battle::attack(Exceptions &exc)
 {
-    try {
-        int atk = attacker_fighter->attack();
-        (defenser_fighter)->defense(atk);
-        Character *change_fighter = defenser_fighter;
-        defenser_fighter = attacker_fighter;
-        attacker_fighter = change_fighter;
+    int atk = attacker_fighter->attack(exc);
+    if (exc == HIT || exc == CRITICAL) (defenser_fighter)->defense(atk, exc);
+
+    if (exc == CHARACTER_DIE)
         return atk;
-    } catch (Exceptions exc) {
-        if (exc == CHARACTER_DIE) {
-            throw defenser_fighter;
-        }
-        Character *change_fighter = defenser_fighter;
-        defenser_fighter = attacker_fighter;
-        attacker_fighter = change_fighter;
-        throw;
-    }
+
+    Character *change_fighter = defenser_fighter;
+    defenser_fighter = attacker_fighter;
+    attacker_fighter = change_fighter;
+    return atk;
+
 }
 
 void Battle::magicSpecial()
@@ -51,4 +46,9 @@ void Battle::run()
 string Battle::getImgWayMonster()
 {
     return img_monster;
+}
+
+Character *Battle::getDefenserFighter()
+{
+    return defenser_fighter;
 }

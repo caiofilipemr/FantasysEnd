@@ -1,5 +1,5 @@
 #include "map.h"
-
+#include "Character/Player/player.h"
 //Adicionar os metodos addObject e removeObject
 
 const int Map::min_chest = 5;

@@ -196,7 +196,8 @@ void Game::myUpdate()
         connect(clock, SIGNAL(timeout()), this, SLOT(transictionMapBattle()));
         trans_m_b_cont++;
         current_transiction = CLOSE;
-        battle_music->setVolume(100);
+        battle_music->setVolume(100
+                                );
         battle_music->play();
         world_music->pause();
     }

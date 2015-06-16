@@ -8,6 +8,10 @@
 #include "Item/shield.h"
 #include "Item/armor.h"
 
+class Armor;
+class Shield;
+class Weapon;
+
 class Player : public Level, public Character
 {
 private:
