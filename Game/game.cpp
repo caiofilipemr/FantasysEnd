@@ -268,23 +268,22 @@ void Game::myBattle()
                 instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
                 instant_sfx->play();
                 my_GUI->battleDelayCont();
-
-
-                my_GUI->setBattleText(QString::number(ret),is_player_battle);
+                my_GUI->setBattleText(exc_atk, QString::number(ret), is_player_battle);
                 break;
             case CRITICAL:
                 instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
                 instant_sfx->play();
                 my_GUI->battleDelayCont();
-                my_GUI->setBattleText(CRITICAL, is_player_battle);
+                my_GUI->setBattleText(exc_atk, is_player_battle);
+                my_GUI->setBattleText(exc_atk, QString::number(ret), is_player_battle);
                 break;
             case DODGE:
-                my_GUI->setBattleText(DODGE,is_player_battle);
+                my_GUI->setBattleText(exc_atk,is_player_battle);
                 instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
                 instant_sfx->play();
                 break;
             case MISS:
-                my_GUI->setBattleText(MISS, !is_player_battle);
+                my_GUI->setBattleText(exc_atk, !is_player_battle);
                 instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
                 instant_sfx->play();
                 break;

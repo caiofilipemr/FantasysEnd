@@ -52,7 +52,7 @@ public:
     void resetSelectedOption();
     void battleDelayCont();
     bool isBattleDelay();
-    void setBattleText(QString new_battle_text, bool new_text_right = true);
+    void setBattleText(Exceptions type, QString new_battle_text, bool new_text_right = true);
     void setBattleText(Exceptions type, bool new_text_right = true);
     void rightButton();
     void leftButton();

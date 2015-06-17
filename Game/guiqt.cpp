@@ -20,6 +20,7 @@ GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), 
     selected_option = 0;
     battle_delay_cont = 0;
     //battle_text_color = Qt::white;
+    mensage_type = BUFFER;
 }
 
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
@@ -193,15 +194,22 @@ void GUIQT::drawBattle()
     player_image = player_image.copy(3 * 16, 2* 16, 16, 16);
     painter->drawPixmap(2*32, 6.5*32, 32, 32, player_image);
 
-    if (mensage_type == MISS) //temptemptemptemp
-        painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 26, 16, QPixmap("Battle/miss.png"));
-    else if (mensage_type == DODGE)
+    switch (mensage_type) {
+    case MISS:
+         painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 26, 16, QPixmap("Battle/miss.png"));
+        break;
+    case DODGE:
         painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 38, 16, QPixmap("Battle/dodge.png"));
-    else if (mensage_type == CRITICAL) {
+        break;
+    case CRITICAL:
+        painter->drawPixmap(text_position[int(text_right)], 5 * 36 - battle_delay_cont * 5, 45, 14, QPixmap("Battle/critical.png"));
         Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter, true);
-    } else {
+        break;
+    case HIT:
         Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter);
+        break;
     }
+
     drawHUD();
 }
 
@@ -310,6 +318,7 @@ void GUIQT::battleDelayCont()
     if (battle_delay_cont > battle_delay) {
         battle_delay_cont = 0;
         battle_text.clear();
+        mensage_type = BUFFER;
         //battle_text_color = Qt::white;
     }
 }
@@ -319,10 +328,11 @@ bool GUIQT::isBattleDelay()
     return battle_delay_cont;
 }
 
-void GUIQT::setBattleText(QString new_battle_text, bool new_text_right)
+void GUIQT::setBattleText(Exceptions type, QString new_battle_text, bool new_text_right)
 {
-    battle_text = new_battle_text;
+    mensage_type = type;
     text_right = new_text_right;
+    battle_text = new_battle_text;
 }
 
 void GUIQT::setBattleText(Exceptions type, bool new_text_right)
