@@ -205,11 +205,14 @@ void Engine::setPlayer(PlayerClass pc)
 
     }
     engine_GUI->setDrawPlayer(my_player);
-    mobs.push_back(new Sleeper(5, 1, 29, 58, "Monster/monster_red.png","Battle/0 [updated].png", DOWN));
-    mobs.push_back(new Sleeper(4, 1, 33, 14, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
-    mobs.push_back(new Walker(2, 1, 51, 21, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Sleeper(5, 1, 29, 58, "Monster/monster_black.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Sleeper(4, 1, 33, 14, "Monster/monster_red.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Sleeper(1, 1, 58, 49, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Walker(2, 1, 51, 21, "Monster/monster_orange.png","Battle/0 [updated].png", DOWN));
     mobs.push_back(new Walker(1, 1, 19, 70, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
-    mobs.push_back(new Stalker(2, 1, 15, 12, "Monster/monster_black.png","Battle/0 [updated].png", DOWN));
-    mobs.push_back(new Stalker(3, 1, 56, 74, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Walker(3, 1, 45, 72, "Monster/monster_green.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Stalker(2, 1, 15, 12, "Monster/monster_orange.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Stalker(3, 1, 56, 74, "Monster/monster_green.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Stalker(1, 1, 42, 35, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
     for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
 }

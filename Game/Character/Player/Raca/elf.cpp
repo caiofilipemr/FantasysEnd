@@ -3,7 +3,7 @@
 const int Elf::elf_accuracy = 90;
 const int Elf::elf_dodge = 5;
 const int Elf::elf_range_damage = 7;
-const int Elf::elf_critical = 50;
+const int Elf::elf_critical = 10;
 
 Elf::Elf(Weapon * new_weapon,
          int new_pos_i, int new_pos_j, std::string new_img_way, string new_img_battle,
