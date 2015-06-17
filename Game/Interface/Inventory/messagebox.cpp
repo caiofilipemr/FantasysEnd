@@ -1,7 +1,7 @@
 #include "messagebox.h"
 #include <iostream>
 
-MessageBox::MessageBox(int x, int y) : x(x), y(y)
+MessageBox::MessageBox(int x, int y, Player *player) : x(x), y(y), player(player)
 {
   back = new QPixmap("Inventory/Message/back.png");
   squary = new QPixmap("Inventory/Message/squary_press.png");
@@ -18,15 +18,16 @@ void MessageBox::setCursor(int x, int y)
   y_mouse = y;
 }
 
-void MessageBox::draw(QPainter* painter)
+void MessageBox::draw(QPainter* painter, int x, int y)
 {
+  setCursor(x,y);
   painter->drawPixmap(x, y, 76, 76, *back);
   if(y_mouse - rect->getY() < rect->getH()/2 && y_mouse - rect->getY() != 0){
     painter->drawPixmap(x, y, 76, 38, *squary);
-  }else{
+
+  }else if(y_mouse - rect->getY() != 0){
     painter->drawPixmap(x, y + 38, 76, 38, *squary);
   }
-  std::cerr << "Entrou!!!";
 }
 
 void MessageBox::setPosition(int x, int y)
@@ -37,5 +38,10 @@ void MessageBox::setPosition(int x, int y)
 
 bool MessageBox::isColision()
 {
-  return rect->is_colision(x_mouse, y_mouse);
+    return rect->is_colision(x_mouse, y_mouse);
+}
+
+void MessageBox::isEquipUse()
+{
+
 }

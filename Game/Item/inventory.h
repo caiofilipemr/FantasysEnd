@@ -16,6 +16,7 @@ public:
     Inventory();
     void setMaxWeight(int strenght);
     bool addItem(Item * new_item);
+    bool isItem(int new_index);
     Item *removeItem(int item_index);
     Item *removeItem(Item * remove_item);
     Item * getItem(int item_index);

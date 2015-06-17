@@ -12,7 +12,7 @@ public:
     static const std::string background_img_way, cursor_img_way, cursor_change_sound, options_sounds[4];
 
     Battle(Character *fighter_one, Character *fighter_two);
-    int attack(Exceptions &exc);
+    int attack(Exceptions &exc_atk, Exceptions &exc_def);
     void magicSpecial();
     void item();
     void run();

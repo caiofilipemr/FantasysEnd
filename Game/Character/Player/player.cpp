@@ -34,6 +34,7 @@ void Player::setStrenght(int new_strenght)
 {
     strenght = new_strenght;
     setHP();
+    inventory->setMaxWeight(strenght);
 }
 
 void Player::setAgility(int new_agility)
@@ -73,6 +74,7 @@ void Player::addStrenght(int strenght_plus)
 {
     strenght += strenght_plus;
     setHP();
+    inventory->setMaxWeight(strenght);
 }
 
 void Player::addAgility(int agility_plus)
@@ -128,6 +130,10 @@ void Player::addItemInventory(Item * new_item){
 
 Item* Player::removeItemInventory(int item_index){
     return inventory->removeItem(item_index);
+}
+
+Inventory* Player::getInventory(){
+    return inventory;
 }
 
 Item *Player::removeItemInventory(Item * remove_item)

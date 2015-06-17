@@ -18,6 +18,11 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     my_battle = NULL;
     is_battle = false;
     RandItens::randItensMap();
+    my_player->addItemInventory(new Bow(0));
+    my_player->addItemInventory(new HealfMP());
+    my_player->addItemInventory(new HealfHP());
+    my_player->addItemInventory(new Dagger(0));
+    my_player->addItemInventory(new Rod(0));
 }
 
 Engine::~Engine()
@@ -95,15 +100,15 @@ bool Engine::isBattle()
     return is_battle;
 }
 
-int Engine::battle(BattleOptions op, Exceptions &exc)
+int Engine::battle(BattleOptions op, Exceptions &exc_atk, Exceptions &exc_def)
 {
     if (is_battle) {
         int atk;
         switch (op) {
         case ATTACK:
-            atk = my_battle->attack(exc);
+            atk = my_battle->attack(exc_atk, exc_def);
             try {
-                if (exc == CHARACTER_DIE){
+                if (exc_def == CHARACTER_DIE){
                     Character *dead_character = my_battle->getDefenserFighter();
                     dead_character->die(my_map);
                     size_t i;
@@ -115,14 +120,13 @@ int Engine::battle(BattleOptions op, Exceptions &exc)
                     is_battle = false;
                     delete my_battle;
                     my_battle = NULL;
-                    exc = CHARACTER_DIE;
                 }
             } catch (Exceptions e) {
                 if (e == GAME_OVER) {
                     is_battle = false;
                     gameOver();
                 }
-                exc = e;
+                exc_def = e;
             }
             return atk;
             break;

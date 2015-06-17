@@ -15,6 +15,13 @@ const int GUIQT::width_options[4] = {245, 271, 297, 323};
 //	Items - x = 5, y = 300.
 //	Run - x = 5, y = 326.
 
+GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), bg_black("Battle/img_preta.png")
+{
+    selected_option = 0;
+    battle_delay_cont = 0;
+    battle_text_color = Qt::white;
+}
+
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
 {
     column = row = 0;
@@ -49,14 +56,6 @@ void GUIQT::drawHUD()
     mp_bar.draw(painter, 240, 9); //Desenha a barra de MP
     Write::writeHPorMP(QString::number(draw_player->getHP()), QString::number(draw_player->getHPMax()), 35, 9, hp_bar.getTotalW(), 18, painter);
     Write::writeHPorMP(QString::number(draw_player->getMP()), QString::number(draw_player->getMPMax()), 240, 9, mp_bar.getTotalW(), 18, painter);
-}
-
-GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), bg_black("Battle/img_preta.png")
-{
-    inventory = new InventInterface(400,246,15*32,11*32);
-    selected_option = 0;
-    battle_delay_cont = 0;
-    battle_text_color = Qt::white;
 }
 
 GUIQT::~GUIQT()
@@ -195,10 +194,13 @@ void GUIQT::drawBattle()
     painter->drawPixmap(2*32, 6.5*32, 32, 32, player_image);
 
     if (battle_text_color == Qt::red) //temptemptemptemp
-        painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 66, 36, QPixmap("Battle/miss.png"));
+        painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 26, 16, QPixmap("Battle/miss.png"));
     else if (battle_text_color == Qt::blue)
-        painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 86, 37, QPixmap("Battle/dodge.png"));
-    else {
+        painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 38, 16, QPixmap("Battle/dodge.png"));
+    else if (battle_text_color == Qt::yellow) {
+        Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter, true);
+        cerr << "teste";
+    } else {
         Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter);
     }
     //battle_text_color = Qt::white;
@@ -218,6 +220,8 @@ void GUIQT::drawGameOver()
 void GUIQT::setDrawPlayer(Player *new_draw_player)
 {
     this->draw_player = new_draw_player;
+    inventory = new InventInterface(400,246,15*32,11*32, draw_player);
+    draw_player->addItemInventory(new Sword(0));
 }
 
 void GUIQT::setDrawMap(Map *new_draw_map)
@@ -316,5 +320,18 @@ void GUIQT::leftButton()
 
 bool GUIQT::messageColision()
 {
-  return inventory->messageColision();
+    return inventory->messageColision();
+}
+
+void GUIQT::drawMessage()
+{
+    inventory->drawMessage(painter);
+//    if(message){
+////        try{
+////          std::cerr << "kk";
+////          player->removeItemInventory(item);
+////        }catch(const char * what){
+////          std::cout << what;
+////        }
+//    }
 }

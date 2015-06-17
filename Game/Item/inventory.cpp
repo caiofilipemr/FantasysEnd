@@ -24,9 +24,14 @@ bool Inventory::addItem(Item * new_item)
     return false;
 }
 
+bool Inventory::isItem(int new_index)
+{
+    return new_index < index;
+}
+
 Item *Inventory::removeItem(int item_index)
 {
-    if (item_index < index) throw "Out of Range! (INVENTORY)";
+    if (item_index >= index) throw "Out of Range! (INVENTORY)";
     Item * temp_item = itens_list[item_index];
     itens_list.erase(itens_list.begin() + item_index);
     index--;

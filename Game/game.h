@@ -38,6 +38,7 @@ public slots:
     void mainMenu();
     void myUpdate();
     void myBattle();
+    void myInventory();
     void transictionMapBattle();
     void transictionBattleMap();
     void transictionBattleGO();
@@ -50,7 +51,7 @@ private:
     QPainter * painter;
     GUIQT * my_GUI;
     QMediaPlayer *world_music, *instant_sfx, *battle_music;
-    bool game_over, is_player_battle;
+    bool game_over, is_player_battle, aux_inv;
     bool is_battle, is_inventory, interactive_button, is_transiction;
     int x_mouse, y_mouse, i, trans_m_b_cont;
 

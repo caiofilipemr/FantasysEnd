@@ -7,7 +7,6 @@ std::string Mace::mace_img_way = "Inventory/Items/mace.png";
 
 Mace::Mace(int new_item_level = 0) : Weapon(new_item_level, mace_damage, mace_guard, mace_weight, mace_img_way)
 {
-
 }
 
 Mace::~Mace()

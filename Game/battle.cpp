@@ -13,12 +13,12 @@ Battle::Battle(Character *fighter_one, Character *fighter_two) :
     img_monster = defenser_fighter->getImgBatlle();
 }
 
-int Battle::attack(Exceptions &exc)
+int Battle::attack(Exceptions &exc_atk, Exceptions &exc_def)
 {
-    int atk = attacker_fighter->attack(exc);
-    if (exc == HIT || exc == CRITICAL) (defenser_fighter)->defense(atk, exc);
+    int atk = attacker_fighter->attack(exc_atk);
+    if (exc_atk == HIT || exc_atk == CRITICAL) (defenser_fighter)->defense(atk, exc_def);
 
-    if (exc == CHARACTER_DIE)
+    if (exc_def == CHARACTER_DIE)
         return atk;
 
     Character *change_fighter = defenser_fighter;

@@ -26,6 +26,11 @@ Item::~Item()
 
 }
 
+std::string Item::getImg_way()
+{
+   return img_way;
+}
+
 int Item::getWeight()
 {
     return weight;

@@ -53,6 +53,7 @@ public:
     void rightButton();
     void leftButton();
     bool messageColision();
+    void drawMessage();
 };
 
 #endif // GUIQT_H

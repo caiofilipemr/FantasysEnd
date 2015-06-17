@@ -1,25 +1,30 @@
 #include "write.h"
 
-const QString Write::letters_and_numbers[43] = {"Bebas Neueu - Caracteres/0.png", "Bebas Neueu - Caracteres/1.png",
-                                                    "Bebas Neueu - Caracteres/2.png", "Bebas Neueu - Caracteres/3.png",
-                                                    "Bebas Neueu - Caracteres/4.png", "Bebas Neueu - Caracteres/5.png",
-                                                    "Bebas Neueu - Caracteres/6.png", "Bebas Neueu - Caracteres/7.png",
-                                                    "Bebas Neueu - Caracteres/8.png", "Bebas Neueu - Caracteres/9.png",
-                                                    "", "", "", "", "", "", "",
-                                                    "Bebas Neueu - Caracteres/a.png", "Bebas Neueu - Caracteres/b.png",
-                                                    "Bebas Neueu - Caracteres/c.png", "Bebas Neueu - Caracteres/d.png",
-                                                    "Bebas Neueu - Caracteres/e.png", "Bebas Neueu - Caracteres/f.png",
-                                                    "Bebas Neueu - Caracteres/g.png", "Bebas Neueu - Caracteres/h.png",
-                                                    "Bebas Neueu - Caracteres/i.png", "Bebas Neueu - Caracteres/j.png",
-                                                    "Bebas Neueu - Caracteres/k.png", "Bebas Neueu - Caracteres/l.png",
-                                                    "Bebas Neueu - Caracteres/m.png", "Bebas Neueu - Caracteres/n.png",
-                                                    "Bebas Neueu - Caracteres/o.png", "Bebas Neueu - Caracteres/p.png",
-                                                    "Bebas Neueu - Caracteres/q.png", "Bebas Neueu - Caracteres/r.png",
-                                                    "Bebas Neueu - Caracteres/s.png", "Bebas Neueu - Caracteres/t.png",
-                                                    "Bebas Neueu - Caracteres/u.png", "Bebas Neueu - Caracteres/v.png",
-                                                    "Bebas Neueu - Caracteres/w.png", "Bebas Neueu - Caracteres/x.png",
-                                                    "Bebas Neueu - Caracteres/y.png", "Bebas Neueu - Caracteres/z.png",
-                                                   }; //Se quiserem add isso em uma macro, fiquem a vontade :D
+const QString Write::letters_and_numbers[53] = {"Bebas Neueu - Caracteres/0.png", "Bebas Neueu - Caracteres/1.png",
+                                                "Bebas Neueu - Caracteres/2.png", "Bebas Neueu - Caracteres/3.png",
+                                                "Bebas Neueu - Caracteres/4.png", "Bebas Neueu - Caracteres/5.png",
+                                                "Bebas Neueu - Caracteres/6.png", "Bebas Neueu - Caracteres/7.png",
+                                                "Bebas Neueu - Caracteres/8.png", "Bebas Neueu - Caracteres/9.png",
+                                                "", "", "", "", "", "", "",
+                                                "Bebas Neueu - Caracteres/a.png", "Bebas Neueu - Caracteres/b.png",
+                                                "Bebas Neueu - Caracteres/c.png", "Bebas Neueu - Caracteres/d.png",
+                                                "Bebas Neueu - Caracteres/e.png", "Bebas Neueu - Caracteres/f.png",
+                                                "Bebas Neueu - Caracteres/g.png", "Bebas Neueu - Caracteres/h.png",
+                                                "Bebas Neueu - Caracteres/i.png", "Bebas Neueu - Caracteres/j.png",
+                                                "Bebas Neueu - Caracteres/k.png", "Bebas Neueu - Caracteres/l.png",
+                                                "Bebas Neueu - Caracteres/m.png", "Bebas Neueu - Caracteres/n.png",
+                                                "Bebas Neueu - Caracteres/o.png", "Bebas Neueu - Caracteres/p.png",
+                                                "Bebas Neueu - Caracteres/q.png", "Bebas Neueu - Caracteres/r.png",
+                                                "Bebas Neueu - Caracteres/s.png", "Bebas Neueu - Caracteres/t.png",
+                                                "Bebas Neueu - Caracteres/u.png", "Bebas Neueu - Caracteres/v.png",
+                                                "Bebas Neueu - Caracteres/w.png", "Bebas Neueu - Caracteres/x.png",
+                                                "Bebas Neueu - Caracteres/y.png", "Bebas Neueu - Caracteres/z.png",
+                                                "Bebas Neueu - Caracteres/Red/0.png", "Bebas Neueu - Caracteres/Red/1.png",
+                                                "Bebas Neueu - Caracteres/Red/2.png", "Bebas Neueu - Caracteres/Red/3.png",
+                                                "Bebas Neueu - Caracteres/Red/4.png", "Bebas Neueu - Caracteres/Red/5.png",
+                                                "Bebas Neueu - Caracteres/Red/6.png", "Bebas Neueu - Caracteres/Red/7.png",
+                                                "Bebas Neueu - Caracteres/Red/8.png", "Bebas Neueu - Caracteres/Red/9.png",
+                                                }; //Se quiserem add isso em uma macro, fiquem a vontade :D
 const QString Write::slash = "Bebas Neueu - Caracteres/barra.png";
 const int Write::slash_width = 10;
 const int Write::all_number_height = 14;
@@ -58,13 +63,15 @@ void Write::writeHPorMP(QString p, QString p_max, int bar_x, int bar_y, int bar_
     }
 }
 
-void Write::writeText(QString text, int x, int y, QPainter *painter)
+void Write::writeText(QString text, int x, int y, QPainter *painter, bool red)
 {
-    int i, size, w;
+    int i, size, w, mod = 0;
     QPixmap actual_char;
 
+    if (red) mod = 43;
+
     for (i = 0, size = text.length(); i < size; i++) {
-        actual_char= QPixmap(letters_and_numbers[text[i].digitValue()]);
+        actual_char= QPixmap(letters_and_numbers[text[i].digitValue() + mod]);
         w = actual_char.width();
         painter->drawPixmap(x, y, w, all_number_height, actual_char);
         x = x + w;

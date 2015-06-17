@@ -53,7 +53,6 @@ void Character::defense(int attack, Exceptions &exc)
             exc = CHARACTER_DIE;
             return;
         }
-        exc = HIT;
     }
 }
 

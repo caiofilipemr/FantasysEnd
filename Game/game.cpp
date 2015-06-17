@@ -26,7 +26,7 @@ Game::Game(QWidget *parent) :
     clock->start();
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
-    is_battle = game_over = is_inventory = interactive_button = is_transiction = false;
+    aux_inv = is_battle = game_over = is_inventory = interactive_button = is_transiction = false;
     is_player_battle = true;
     world_music = new QMediaPlayer;
     instant_sfx = new QMediaPlayer;
@@ -78,11 +78,15 @@ void Game::keyPressEvent(QKeyEvent *event)
      case Qt::Key_I:
         if(is_inventory) {
             is_inventory = false;
-            clock->start();
+            //clock->start();
+            disconnect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
+            connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
         }
         else {
             is_inventory = true;
-            clock->stop();
+            disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+            connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
+            //clock->stop();
             repaint();
         }
         break;
@@ -114,7 +118,7 @@ void Game::paintEvent(QPaintEvent *)
         my_GUI->drawGameOver();
         break;
     case P_INVENTORY:
-        my_GUI->drawInventory();
+        //my_GUI->drawInventory();
         break;
 
     default:
@@ -147,7 +151,12 @@ void Game::paintEvent(QPaintEvent *)
 //        my_GUI->drawMap();
 
 //    }
-    painter->end();
+
+   if(is_inventory){
+     my_GUI->drawInventory();
+     my_GUI->drawMessage();
+   }
+   painter->end();
 }
 
 void Game::mousePressEvent(QMouseEvent *event)
@@ -207,7 +216,7 @@ void Game::myUpdate()
 
 void Game::myBattle()
 {
-    Exceptions exc;
+    Exceptions exc_atk, exc_def = HIT;
     /*if (!is_battle) {
         disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
         connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
@@ -220,9 +229,9 @@ void Game::myBattle()
         }
 
         if (interactive_button) {
-            int ret = my_engine->battle(my_GUI->getSelectedOption(), exc);
+            int ret = my_engine->battle(my_GUI->getSelectedOption(), exc_atk, exc_def);
 
-            switch (exc) {
+            switch (exc_atk) {
             case HIT:
                 instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
                 instant_sfx->play();
@@ -233,27 +242,8 @@ void Game::myBattle()
                 instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
                 instant_sfx->play();
                 my_GUI->battleDelayCont();
-                my_GUI->setBattleText(QString::number(ret), Qt::white, is_player_battle);
-                break;
-            case GAME_OVER:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
-                instant_sfx->play();
-                my_GUI->battleDelayCont();
-                my_GUI->setBattleText(QString::number(ret), Qt::white, is_player_battle);
-                disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
-                connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleGO()));
-                current_transiction = CLOSE;
-                break;
-            case CHARACTER_DIE:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
-                instant_sfx->play();
-                my_GUI->battleDelayCont();
-                my_GUI->setBattleText(QString::number(ret), Qt::white, is_player_battle);
-                disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
-                connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleMap()));
-                current_transiction = CLOSE;
-//                    world_music->play();
-//                    battle_music->stop();
+                my_GUI->setBattleText(QString::number(ret), Qt::yellow, is_player_battle);
+                cerr << "teste";
                 break;
             case DODGE:
                 my_GUI->setBattleText("Dodge", Qt::blue,is_player_battle);
@@ -283,6 +273,16 @@ void Game::myBattle()
     repaint();
 }
 
+void Game::myInventory()
+{
+    if(aux_inv) {
+        repaint();
+        aux_inv = false;
+        //my_GUI->leftButton();
+        //my_GUI->setCursor(0,0);
+    }
+}
+
 void Game::transictionMapBattle()
 {
     if (current_transiction == CLOSE) {
@@ -301,6 +301,7 @@ void Game::transictionMapBattle()
         clock->setInterval(1000/7);
         atual_direction = SLEEP;
         current_transiction = NONE;
+        interactive_button = false;
     }
 }
 
