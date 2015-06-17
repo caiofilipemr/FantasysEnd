@@ -199,11 +199,9 @@ void GUIQT::drawBattle()
         painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 38, 16, QPixmap("Battle/dodge.png"));
     else if (mensage_type == CRITICAL) {
         Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter, true);
-        //cerr << "teste";
     } else {
         Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter);
     }
-    //battle_text_color = Qt::white;
     drawHUD();
 }
 
@@ -219,7 +217,7 @@ void GUIQT::drawGameOver()
 
 void GUIQT::drawMainMenu()
 {
-    painter->drawPixmap(0, 0, size_y * pix_per_tile, size_x * pix_per_tile, QPixmap("Battle/img_preta.png"));
+    MainMenu::drawMainMenu(0, 0, painter);
 }
 
 void GUIQT::setDrawPlayer(Player *new_draw_player)
@@ -286,12 +284,22 @@ bool GUIQT::moveCursorBattle(Direction dir)
     return ret;
 }
 
+bool GUIQT::moveCursorMM(Direction dir)
+{
+    return MainMenu::moveCursor(dir);
+}
+
+PlayerClass GUIQT::getSelectedOptionMM()
+{
+    return MainMenu::whoIsSelected();
+}
+
 BattleOptions GUIQT::getSelectedOption()
 {
     return BattleOptions(selected_option);
 }
 
-void GUIQT::resetSelectedOption()
+void GUIQT::resetSelectedOptionBattle()
 {
     selected_option = 0;
 }

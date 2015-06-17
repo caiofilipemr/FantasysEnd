@@ -18,6 +18,8 @@ int Battle::attack(Exceptions &exc_atk, Exceptions &exc_def)
     int atk = attacker_fighter->attack(exc_atk);
     if (exc_atk == HIT || exc_atk == CRITICAL) (defenser_fighter)->defense(atk, exc_def);
 
+    if (exc_def == DODGE)
+        exc_atk = exc_def;
     if (exc_def == CHARACTER_DIE)
         return atk;
 

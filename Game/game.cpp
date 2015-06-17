@@ -164,27 +164,29 @@ void Game::paintEvent(QPaintEvent *)
 
 void Game::mousePressEvent(QMouseEvent *event)
 {
-    this->x_mouse = event->x();
-    this->y_mouse = event->y();
-    my_GUI->setCursor(x_mouse, y_mouse);
-    if(event->button() == Qt::RightButton) {
-      my_GUI->rightButton();
-//        if (is_inventory) {
-//            try {
-//                std::vector<string> cmd_name = my_engine->getCommands(my_GUI->getIndexItemInventory()); //Zé, esse metodo retorna dum std::vector<string> que contem os nomes dos comandos, pra poder passar pra interface do inventario
-//                //Zé, como vamos saber se não clicou em nada ?
-//                //Zé responde: Colision na veia
-//                cerr << cmd_name[0];
-//            } catch (const char * err) {
-//                cerr << err;
-//            }
-//        }
-    } else {
-        if(!my_GUI->messageColision()) {
-            my_GUI->leftButton();
+    if (is_inventory) {
+        this->x_mouse = event->x();
+        this->y_mouse = event->y();
+        my_GUI->setCursor(x_mouse, y_mouse);
+        if(event->button() == Qt::RightButton) {
+            my_GUI->rightButton();
+            //        if (is_inventory) {
+            //            try {
+            //                std::vector<string> cmd_name = my_engine->getCommands(my_GUI->getIndexItemInventory()); //Zé, esse metodo retorna dum std::vector<string> que contem os nomes dos comandos, pra poder passar pra interface do inventario
+            //                //Zé, como vamos saber se não clicou em nada ?
+            //                //Zé responde: Colision na veia
+            //                cerr << cmd_name[0];
+            //            } catch (const char * err) {
+            //                cerr << err;
+            //            }
+            //        }
+        } else {
+            if(!my_GUI->messageColision()) {
+                my_GUI->leftButton();
+            }
         }
+        repaint();
     }
-    repaint();
 }
 
 void Game::mainMenu()
@@ -253,13 +255,7 @@ void Game::myUpdate()
 void Game::myBattle()
 {
     Exceptions exc_atk, exc_def = HIT;
-    /*if (!is_battle) {
-        disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
-        connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-        clock->setInterval(1000/60);
-        world_music->play();
-        battle_music->stop();
-    } else */if (!(my_GUI->isBattleDelay())) {
+    if (!(my_GUI->isBattleDelay())) {
         if(!is_player_battle) {
             interactive_button = true;
         }
@@ -281,7 +277,6 @@ void Game::myBattle()
                 instant_sfx->play();
                 my_GUI->battleDelayCont();
                 my_GUI->setBattleText(CRITICAL, is_player_battle);
-                cerr << "teste";
                 break;
             case DODGE:
                 my_GUI->setBattleText(DODGE,is_player_battle);
@@ -294,6 +289,24 @@ void Game::myBattle()
                 instant_sfx->play();
                 break;
             default:
+                break;
+            }
+            switch (exc_def) {
+            case HIT:
+                break;
+            case GAME_OVER:
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->play();
+                disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+                connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleGO()));
+                current_transiction = CLOSE;
+                break;
+            case CHARACTER_DIE:
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->play();
+                disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+                connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleMap()));
+                current_transiction = CLOSE;
                 break;
             }
             my_GUI->battleDelayCont();

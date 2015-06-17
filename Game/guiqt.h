@@ -6,8 +6,7 @@
 #include "Mouse/mouse.h"
 #include "Interface/Bar/bar.h"
 #include "Interface/Write/write.h"
-#include <QPainter>
-#include <QPixmap>
+#include "Interface/mainmenu.h"
 
 class GUIQT : public GUI, public Mouse
 {
@@ -47,7 +46,9 @@ public:
     void setCursor(int x, int y);
     int getIndexItemInventory();
     bool moveCursorBattle(Direction dir);
-    BattleOptions getSelectedOption();
+    bool moveCursorMM(Direction dir);
+    BattleOptions getSelectedOptionBattle();
+    PlayerClass getSelectedOptionMM();
     void resetSelectedOption();
     void battleDelayCont();
     bool isBattleDelay();
