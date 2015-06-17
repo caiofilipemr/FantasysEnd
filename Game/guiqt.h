@@ -35,6 +35,7 @@ public:
     void drawBattle();
     void drawBrokenStone();
     void drawGameOver();
+    void drawMainMenu();
 
     void setDrawPlayer(Player * new_draw_player);
     void setDrawMap(Map * new_draw_map);

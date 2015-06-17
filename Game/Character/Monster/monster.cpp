@@ -25,7 +25,7 @@ Monster::Monster(int new_level_monster,
     damage = new_damage;
     guard = new_guard;
     quantity_monster++;
-    drop_xp = 300;
+    drop_xp = damage * monster_level / 2;
 }
 
 Monster::~Monster() {
@@ -99,7 +99,7 @@ void Monster::setCanGo(bool * can)
 void Monster::die(Map *my_map)
 {
     my_map->removeAColision(Cordenates(this->pos_i, this->pos_j));
-    Object * chest_temp = new Object(this->pos_i,this->pos_j,img_monster_die);
+    Chest * chest_temp = new Chest(this->pos_i,this->pos_j,img_monster_die);
     my_map->addObjects(chest_temp,Cordenates(this->pos_i,this->pos_j));
 }
 

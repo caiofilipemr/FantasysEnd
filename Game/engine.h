@@ -5,9 +5,11 @@
 #include "Character/Monster/stalker.h"
 #include "Character/Monster/sleeper.h"
 #include "Character/Player/Raca/Elf/archer.h"
+#include "Character/Player/Raca/Elf/mage.h"
 #include "Character/Player/Raca/Orc/troll.h"
 #include "Character/Player/Raca/Orc/urukhay.h"
 #include "Character/Player/Raca/Human/barbaro.h"
+#include "Character/Player/Raca/Human/rogue.h"
 #include "stone.h"
 #include "chest.h"
 #include "globalfunctions.h"
@@ -31,6 +33,7 @@ public:
     virtual void setDrawPlayer(Player * new_draw_player) = 0;
     virtual void setDrawMap(Map * new_draw_map) = 0;
     virtual void setDrawMobs(std::vector<Monster *> * new_draw_mobs) = 0;
+    virtual void drawMainMenu() = 0;
     void setCursor(int x, int y);
 };
 
@@ -44,7 +47,7 @@ private:
     Map *my_map;
     vector<Monster *> mobs;
     Player *my_player;
-//    Stone *my_stones;
+    Stone *my_stones;
 //    Chest *my_chests;
     Monster *battle_mob;
     GUI *engine_GUI;
@@ -62,6 +65,8 @@ public:
     void gameOver();
     bool isWalking();
     std::vector<string> getCommands(int index);
+    void interation();
+    void setPlayer(PlayerClass pc);
 };
 
 #endif // ENGINE_H

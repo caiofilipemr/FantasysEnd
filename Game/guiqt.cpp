@@ -217,6 +217,11 @@ void GUIQT::drawGameOver()
     painter->drawPixmap(0, 0, 15 * 32, 11 * 32, QPixmap("Images/game_over.jpg"));
 }
 
+void GUIQT::drawMainMenu()
+{
+    painter->drawPixmap(0, 0, size_y * pix_per_tile, size_x * pix_per_tile, QPixmap("Battle/img_preta.png"));
+}
+
 void GUIQT::setDrawPlayer(Player *new_draw_player)
 {
     this->draw_player = new_draw_player;

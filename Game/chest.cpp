@@ -12,6 +12,11 @@ Chest::Chest(int new_pos_i, int new_pos_j) : Object(new_pos_i, new_pos_j, chest_
 
 }
 
+Chest::Chest(int new_pos_i, int new_pos_j, std::string new_img_way) : Object(new_pos_i,new_pos_j,new_img_way)
+{
+
+}
+
 Chest::~Chest()
 {
 
@@ -38,6 +43,11 @@ bool Chest::addItem(Item *new_item)
         return true;
     }
     return false;
+}
+
+void Chest::interate(Player *interate_player)
+{
+    throw OPEN_CHEST;
 }
 
 void Chest::setImgWay(std::string new_img_way)
