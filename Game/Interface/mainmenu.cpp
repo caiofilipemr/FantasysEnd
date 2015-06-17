@@ -1,4 +1,10 @@
 #include "mainmenu.h"
+#include "Character/Player/Raca/Elf/archer.h"
+#include "Character/Player/Raca/Elf/mage.h"
+#include "Character/Player/Raca/Orc/troll.h"
+#include "Character/Player/Raca/Orc/urukhay.h"
+#include "Character/Player/Raca/Human/barbaro.h"
+#include "Character/Player/Raca/Human/rogue.h"
 
 const char * MainMenu::img_way[10] = {"Menu/archer.png", "Menu/barbaro.png",
                                       "Menu/mage.png", "Menu/rogue.png",
@@ -11,6 +17,14 @@ int MainMenu::height = 352;
 int MainMenu::selected_option = 0;
 int MainMenu::n_class_options = 6;
 
+int MainMenu::att_ini_class[6][3] = { Archer::arc_agility, Archer::arc_strenght, Archer::arc_intelligence,
+                                      Barbaro::barb_agility, Barbaro::barb_strenght, Barbaro::barb_intelligence,
+                                      Mage::mage_agility, Mage::mage_strenght, Mage::mage_intelligence,
+                                      Rogue::rog_agility, Rogue::rog_strenght, Rogue::rog_intelligence,
+                                      Troll::troll_agility, Troll::troll_strenght, Troll::troll_intelligence,
+                                      Urukhay::hay_agility, Urukhay::hay_strenght, Urukhay::hay_intelligence,
+                                    };
+
 MainMenu::MainMenu()
 {
 }
@@ -20,7 +34,18 @@ void MainMenu::drawMainMenu(int x, int y, QPainter *painter)
     painter->drawPixmap(x, y, width, height, QPixmap(img_way[BACKGROUND]));
     QPixmap name(img_way[selected_option]);
     painter->drawPixmap(width/2 - name.width()/2, 12, name.width(), name.height(), name);
+    Bar agi(125, 16, 20, "green"), str(125, 16, 20, "red"), itl(125, 16, 20, "blue");
+    agi.setSizeBar(att_ini_class[selected_option][AGILITY]);
+    str.setSizeBar(att_ini_class[selected_option][STRENGHT]);
+    itl.setSizeBar(att_ini_class[selected_option][INTELLIGENCE]);
+    agi.draw(painter, 310, 93); //Desenha barra de agility
+    str.draw(painter, 310, 156); //Desenha barra de strenght
+    itl.draw(painter, 310, 219); //Desenha barra de intelligence
 }
+
+//  Hability: x = 310, y = 93, w = 150, h = 16
+//	Strength: x = 310, y = 166, w = 150, h = 16
+//	Intelligence: x = 310, y = 219, w = 150, h = 16
 
 bool MainMenu::moveCursor(Direction dir)
 {

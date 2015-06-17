@@ -2,7 +2,7 @@
 #define MAINMENU_H
 
 #include <QPixmap>
-#include <QPainter>
+#include "Interface/Bar/bar.h"
 #include "Enums.h"
 #include "macros.h"
 
@@ -12,6 +12,7 @@ protected:
     static const char * img_way[10];
     static int width, height;
     static int selected_option, n_class_options;
+    static int att_ini_class[6][3];
     enum MenuImgs { ARCHER_WORD, BARBARO_WORD, MAGE_WORD, ROGUE_WORD, TROLL_WORD, URUKHAY_WORD, BACKGROUND, BACK_AFTER, BACK_BEFORE, BACK_OK };
 public:
     MainMenu();
