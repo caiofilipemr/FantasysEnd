@@ -212,10 +212,6 @@ void Game::mainMenu()
 
 void Game::myUpdate()
 {
-    if (game_over) {
-        clock->stop();
-        return;
-    }
     is_battle = my_engine->isBattle();
     if (is_battle && !my_engine->isWalking()) {
         is_player_battle = true;
