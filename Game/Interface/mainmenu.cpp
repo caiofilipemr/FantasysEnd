@@ -16,6 +16,19 @@ int MainMenu::width = 480;
 int MainMenu::height = 352;
 int MainMenu::selected_option = 0;
 int MainMenu::n_class_options = 6;
+int MainMenu::delay_cont = 0;
+int MainMenu::max_delay = 16;
+int MainMenu::back_selected = 0;
+
+//void GUIQT::battleDelayCont()
+//{
+//    battle_delay_cont++;
+//    if (battle_delay_cont > battle_delay) {
+//        battle_delay_cont = 0;
+//        battle_text.clear();
+//        mensage_type = BUFFER;
+//    }
+//}
 
 int MainMenu::att_ini_class[6][3] = { Archer::arc_agility, Archer::arc_strenght, Archer::arc_intelligence,
                                       Barbaro::barb_agility, Barbaro::barb_strenght, Barbaro::barb_intelligence,
@@ -33,7 +46,13 @@ void MainMenu::drawMainMenu(int x, int y, QPainter *painter)
 {
     painter->drawPixmap(x, y, width, height, QPixmap(img_way[BACKGROUND]));
     QPixmap name(img_way[selected_option]);
-    painter->drawPixmap(width/2 - name.width()/2, 12, name.width(), name.height(), name);
+    int central = width/2 - name.width()/2, w = (width - central) / max_delay, bw = width;
+    if (isDelay()) {
+        if (back_selected > 0) bw = 0;
+        painter->drawPixmap(bw + w * delay_cont * (back_selected), 12, name.width(), name.height(), name);
+        painter->drawPixmap(central + w * delay_cont * (back_selected), 12, name.width(), name.height(), QPixmap(img_way[selected_option + back_selected]));
+    }
+    else painter->drawPixmap(central, 12, name.width(), name.height(), name);
     Bar agi(125, 16, 20, "green"), str(125, 16, 20, "red"), itl(125, 16, 20, "blue");
     agi.setSizeBar(att_ini_class[selected_option][AGILITY]);
     str.setSizeBar(att_ini_class[selected_option][STRENGHT]);
@@ -49,13 +68,16 @@ void MainMenu::drawMainMenu(int x, int y, QPainter *painter)
 
 bool MainMenu::moveCursor(Direction dir)
 {
+    if (isDelay()) return false;
     switch (dir) {
     case RIGHT:
         selected_option++;
+        back_selected = -1;
         break;
 
     case LEFT:
         selected_option--;
+        back_selected = 1;
         break;
     default:
         return false;
@@ -67,4 +89,17 @@ bool MainMenu::moveCursor(Direction dir)
 PlayerClass MainMenu::whoIsSelected()
 {
     return PlayerClass(selected_option);
+}
+
+void MainMenu::delayCont()
+{
+    delay_cont++;
+    if (delay_cont > max_delay) {
+        delay_cont = back_selected = 0;
+    }
+}
+
+bool MainMenu::isDelay()
+{
+    return delay_cont;
 }
