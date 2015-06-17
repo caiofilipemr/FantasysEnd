@@ -12,11 +12,7 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     my_battle = NULL;
     is_battle = false;
     RandItens::randItensMap();
-    my_player->addItemInventory(new Bow(0));
-    my_player->addItemInventory(new HealfMP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new Dagger(0));
-    my_player->addItemInventory(new Rod(0));
+    my_player = new Barbaro(30,30,DOWN);
 }
 
 Engine::~Engine()

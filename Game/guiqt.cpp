@@ -226,7 +226,12 @@ void GUIQT::setDrawPlayer(Player *new_draw_player)
 {
     this->draw_player = new_draw_player;
     inventory = new InventInterface(400,246,15*32,11*32, draw_player);
-    draw_player->addItemInventory(new Sword(0));
+    draw_player->addItemInventory(new Mace(0));
+    draw_player->addItemInventory(new Bow(0));
+    draw_player->addItemInventory(new HealfMP());
+    draw_player->addItemInventory(new HealfHP());
+    draw_player->addItemInventory(new Dagger(0));
+    draw_player->addItemInventory(new Rod(0));
 }
 
 void GUIQT::setDrawMap(Map *new_draw_map)
