@@ -93,9 +93,6 @@ void Game::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Space:
         interactive_button = true;
         break;
-    default:
-        player_key = Qt::Key(event->key());
-        break;
     }
 }
 
@@ -191,33 +188,18 @@ void Game::mousePressEvent(QMouseEvent *event)
 
 void Game::mainMenu()
 {
-    if (player_key != Qt::Key_0) {
-        switch (player_key) {
-        case Qt::Key_A:
-            my_engine->setPlayer(ARCHER);
-            break;
-        case Qt::Key_B:
-            my_engine->setPlayer(BARBARO);
-            break;
-        case Qt::Key_R:
-            my_engine->setPlayer(ROGUE);
-            break;
-        case Qt::Key_U:
-            my_engine->setPlayer(URUKHAY);
-            break;
-        case Qt::Key_T:
-            my_engine->setPlayer(TROLL);
-            break;
-        case Qt::Key_M:
-            my_engine->setPlayer(MAGE);
-            break;
-        default:
-            return;
-            break;
-        }
+    if (interactive_button) {
+        my_engine->setPlayer(my_GUI->getSelectedOptionMM());
         disconnect(clock, SIGNAL(timeout()), this, SLOT(mainMenu()));
         connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
         current_painter_option = P_MAP;
+    } else {
+        if (my_GUI->moveCursorMM(atual_direction)) {
+            instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
+            instant_sfx->play();
+        }
+        atual_direction = SLEEP;
+        repaint();
     }
 }
 
