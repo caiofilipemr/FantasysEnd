@@ -1,15 +1,15 @@
 #include "mainmenu.h"
 
-const char * MainMenu::img_way[10] = {"Menu/back.png", "Menu/archer.png",
-                                     "Menu/barbaro.png", "Menu/mage.png",
-                                     "Menu/rogue.png", "Menu/troll.png",
-                                     "Menu/urukhay.png", "Menu/back_after.png",
-                                     "Menu/back_before.png", "Menu/back_ok.png",
+const char * MainMenu::img_way[10] = {"Menu/archer.png", "Menu/barbaro.png",
+                                      "Menu/mage.png", "Menu/rogue.png",
+                                      "Menu/troll.png", "Menu/urukhay.png",
+                                      "Menu/back.png", "Menu/back_after.png",
+                                      "Menu/back_before.png", "Menu/back_ok.png",
                                     };
 int MainMenu::width = 480;
 int MainMenu::height = 352;
 int MainMenu::selected_option = 0;
-int MainMenu::selected_option = 6;
+int MainMenu::n_class_options = 6;
 
 MainMenu::MainMenu()
 {
@@ -18,7 +18,8 @@ MainMenu::MainMenu()
 void MainMenu::drawMainMenu(int x, int y, QPainter *painter)
 {
     painter->drawPixmap(x, y, width, height, QPixmap(img_way[BACKGROUND]));
-    QPixmap name(img_way[selected_option])
+    QPixmap name(img_way[selected_option]);
+    painter->drawPixmap(width/2 - name.width()/2, 12, name.width(), name.height(), name);
 }
 
 bool MainMenu::moveCursor(Direction dir)

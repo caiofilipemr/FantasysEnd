@@ -261,11 +261,11 @@ void Game::myBattle()
         }
 
         if (interactive_button) {
-            int ret = my_engine->battle(my_GUI->getSelectedOption(), exc_atk, exc_def);
+            int ret = my_engine->battle(my_GUI->getSelectedOptionBattle(), exc_atk, exc_def);
 
             switch (exc_atk) {
             case HIT:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
                 instant_sfx->play();
                 my_GUI->battleDelayCont();
 
@@ -273,7 +273,7 @@ void Game::myBattle()
                 my_GUI->setBattleText(QString::number(ret),is_player_battle);
                 break;
             case CRITICAL:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
                 instant_sfx->play();
                 my_GUI->battleDelayCont();
                 my_GUI->setBattleText(CRITICAL, is_player_battle);
@@ -295,18 +295,20 @@ void Game::myBattle()
             case HIT:
                 break;
             case GAME_OVER:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
                 instant_sfx->play();
                 disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
                 connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleGO()));
                 current_transiction = CLOSE;
                 break;
             case CHARACTER_DIE:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOption()])).absoluteFilePath()));
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
                 instant_sfx->play();
                 disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
                 connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleMap()));
                 current_transiction = CLOSE;
+                break;
+            default:
                 break;
             }
             my_GUI->battleDelayCont();
