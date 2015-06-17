@@ -18,7 +18,7 @@ int MainMenu::selected_option = 0;
 int MainMenu::n_class_options = 6;
 int MainMenu::delay_cont = 0;
 int MainMenu::max_delay = 16;
-int MainMenu::back_selected = 0;
+int MainMenu::back_selected = -1;
 
 //void GUIQT::battleDelayCont()
 //{
@@ -38,6 +38,14 @@ int MainMenu::att_ini_class[6][3] = { Archer::arc_agility, Archer::arc_strenght,
                                       Urukhay::hay_agility, Urukhay::hay_strenght, Urukhay::hay_intelligence,
                                     };
 
+int MainMenu::getBackSelectedRow()
+{
+    int row = selected_option + back_selected;
+    if (row >= 0 && row < n_class_options) return row;
+    if (row == n_class_options) return 0;
+    return n_class_options - 1;
+}
+
 MainMenu::MainMenu()
 {
 }
@@ -46,11 +54,21 @@ void MainMenu::drawMainMenu(int x, int y, QPainter *painter)
 {
     painter->drawPixmap(x, y, width, height, QPixmap(img_way[BACKGROUND]));
     QPixmap name(img_way[selected_option]);
-    int central = width/2 - name.width()/2, w = (width - central) / max_delay, bw = width;
+    int central = width/2 - name.width()/2, w = (width - central) / max_delay, bw = width, wb = w * delay_cont * (back_selected);
     if (isDelay()) {
-        if (back_selected > 0) bw = 0;
-        painter->drawPixmap(bw + w * delay_cont * (back_selected), 12, name.width(), name.height(), name);
-        painter->drawPixmap(central + w * delay_cont * (back_selected), 12, name.width(), name.height(), QPixmap(img_way[selected_option + back_selected]));
+        if (back_selected > 0) painter->drawPixmap(20, 285, 24, 47, QPixmap(img_way[BACK_BEFORE]));
+        else painter->drawPixmap(436, 285, 24, 47, QPixmap(img_way[BACK_AFTER]));
+
+//Before: x = 20, y = 285, w = 24, h = 47
+//After: x = 436, y = 285, w = 24, h = 47
+
+        QPixmap back_name(img_way[getBackSelectedRow()]);
+        if (back_selected > 0) {
+            bw = 0;
+            wb = ((width - (width - central) + name.width()) / max_delay) * delay_cont * (back_selected) - name.width();
+        }
+        painter->drawPixmap(bw + wb, 12, name.width(), name.height(), name);
+        painter->drawPixmap((width/2 - back_name.width()/2) + w * delay_cont * (back_selected), 12, back_name.width(), back_name.height(), back_name);
     }
     else painter->drawPixmap(central, 12, name.width(), name.height(), name);
     Bar agi(125, 16, 20, "green"), str(125, 16, 20, "red"), itl(125, 16, 20, "blue");

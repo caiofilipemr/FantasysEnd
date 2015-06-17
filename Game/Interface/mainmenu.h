@@ -14,6 +14,7 @@ protected:
     static int selected_option, n_class_options, delay_cont, max_delay, back_selected;
     static int att_ini_class[6][3];
     enum MenuImgs { ARCHER_WORD, BARBARO_WORD, MAGE_WORD, ROGUE_WORD, TROLL_WORD, URUKHAY_WORD, BACKGROUND, BACK_AFTER, BACK_BEFORE, BACK_OK };
+    static int getBackSelectedRow();
 public:
     MainMenu();
     static void drawMainMenu(int x, int y, QPainter *painter);
