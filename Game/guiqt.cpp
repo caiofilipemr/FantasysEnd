@@ -294,12 +294,12 @@ PlayerClass GUIQT::getSelectedOptionMM()
     return MainMenu::whoIsSelected();
 }
 
-BattleOptions GUIQT::getSelectedOption()
+BattleOptions GUIQT::getSelectedOptionBattle()
 {
     return BattleOptions(selected_option);
 }
 
-void GUIQT::resetSelectedOptionBattle()
+void GUIQT::resetSelectedOption()
 {
     selected_option = 0;
 }
