@@ -19,10 +19,10 @@ Game::Game(QWidget *parent) :
     painter = new QPainter(this);
     my_GUI = new GUIQT();
     my_engine = new Engine((GUI *)my_GUI);
-
+    player_key = Qt::Key_0;
     clock = new QTimer(this);
     clock->setInterval(1000/60);
-    connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+    connect(clock, SIGNAL(timeout()), this, SLOT(mainMenu()));
     clock->start();
     atual_direction = SLEEP;
     my_GUI->setQPainter(painter);
@@ -40,7 +40,7 @@ Game::Game(QWidget *parent) :
     temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     battle_music->setPlaylist(temp_playlist);
     world_music->play();
-    current_painter_option = P_MAP;
+    current_painter_option = P_MAIN_MENU;
     current_transiction = NONE;
 }
 
@@ -89,7 +89,8 @@ void Game::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Space:
         interactive_button = true;
         break;
-    case Qt::Key_0:
+    default:
+        player_key = Qt::Key(event->key());
         break;
     }
 }
@@ -116,7 +117,9 @@ void Game::paintEvent(QPaintEvent *)
     case P_INVENTORY:
         my_GUI->drawInventory();
         break;
-
+    case P_MAIN_MENU:
+        my_GUI->drawMainMenu();
+        break;
     default:
         break;
     }
@@ -177,7 +180,34 @@ void Game::mousePressEvent(QMouseEvent *event)
 
 void Game::mainMenu()
 {
-
+    if (player_key != Qt::Key_0) {
+        switch (player_key) {
+        case Qt::Key_A:
+            my_engine->setPlayer(ARCHER);
+            break;
+        case Qt::Key_B:
+            my_engine->setPlayer(BARBARO);
+            break;
+        case Qt::Key_R:
+            my_engine->setPlayer(ROGUE);
+            break;
+        case Qt::Key_U:
+            my_engine->setPlayer(URUKHAY);
+            break;
+        case Qt::Key_T:
+            my_engine->setPlayer(TROLL);
+            break;
+        case Qt::Key_M:
+            my_engine->setPlayer(MAGE);
+            break;
+        default:
+            return;
+            break;
+        }
+        disconnect(clock, SIGNAL(timeout()), this, SLOT(mainMenu()));
+        connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+        current_painter_option = P_MAP;
+    }
 }
 
 void Game::myUpdate()
@@ -205,6 +235,12 @@ void Game::myUpdate()
         my_engine->update();
         is_battle = false;
         repaint();
+    }
+    if (interactive_button) {
+        try {
+            my_engine->interation();
+        } catch(Exceptions e){ cerr << "e\n";}
+        interactive_button = false;
     }
 
 }

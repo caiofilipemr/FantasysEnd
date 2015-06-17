@@ -4,15 +4,9 @@ const int Engine::number_of_mobs = 3;
 Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
 {
     CellArray::instance();
-    my_player = new Archer(40, 60, DOWN);
     my_map = new Map("Maps/mapa.txt", "Images/roguelikeSheet_transparent.png");
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
-    mobs.push_back(new Stalker(1, 1, 30, 55, "Monster/monster_black.png","Battle/0 [updated].png", DOWN));
-    mobs.push_back(new Walker(1, 1, 35, 60, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
-    mobs.push_back(new Sleeper(1, 1, 30, 60, "Monster/monster_red.png","Battle/0 [updated].png", DOWN));
-    for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
 
-    engine_GUI->setDrawPlayer(my_player);
     engine_GUI->setDrawMap(my_map);
     engine_GUI->setDrawMobs(&mobs);
     my_battle = NULL;
@@ -167,4 +161,55 @@ std::vector<string> Engine::getCommands(int index)
     std::vector<string> cmd_name;
     for (size_t i = 0; i < cmds.size(); i++) cmd_name[i] = cmds[i]->getCmdName();
     return cmd_name;
+}
+
+void Engine::interation()
+{
+    Cordenates player_eye = my_player->getCordenates() + my_player->getEyeDirection();
+    Object * stone = my_map->getObjectMap(player_eye);
+    try {
+        if (stone) stone->interate(my_player);
+    } catch(Exceptions e){
+        if (e == BROKEN_STONE) {
+            my_map->removeAColision(player_eye);
+            my_map->removeObjects(player_eye);
+        }
+        else throw;
+    }
+}
+
+void Engine::setPlayer(PlayerClass pc)
+{
+    switch (pc) {
+    case ARCHER:
+        my_player = new Archer(40, 60, DOWN);
+        break;
+    case BARBARO:
+        my_player = new Barbaro(40, 60, DOWN);
+        break;
+    case TROLL:
+        my_player = new Troll(40, 60, DOWN);
+        break;
+    case URUKHAY:
+        my_player = new Urukhay(40, 60, DOWN);
+        break;
+    case ROGUE:
+        my_player = new Rogue(40, 60, DOWN);
+        break;
+    case MAGE:
+        my_player = new Mage(40, 60, DOWN);
+        break;
+    default:
+        throw "This player class not exist!";
+        break;
+
+    }
+    engine_GUI->setDrawPlayer(my_player);
+    mobs.push_back(new Sleeper(5, 1, 29, 58, "Monster/monster_red.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Sleeper(4, 1, 33, 14, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Walker(2, 1, 51, 21, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Walker(1, 1, 19, 70, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Stalker(2, 1, 15, 12, "Monster/monster_black.png","Battle/0 [updated].png", DOWN));
+    mobs.push_back(new Stalker(3, 1, 56, 74, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
+    for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
 }

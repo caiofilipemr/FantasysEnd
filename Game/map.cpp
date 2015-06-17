@@ -251,6 +251,8 @@ void Map::addObjects(Object * new_object, Cordenates cord_object)
 
 void Map::removeObjects(Cordenates cord_remove)
 {
+    if (m_interation[cord_remove.i][cord_remove.j])
+        delete m_interation[cord_remove.i][cord_remove.j];
     m_interation[cord_remove.i][cord_remove.j] = NULL;
 }
 

@@ -49,12 +49,13 @@ private:
     Direction atual_direction;
     QPainter * painter;
     GUIQT * my_GUI;
+    Qt::Key player_key;
     QMediaPlayer *world_music, *instant_sfx, *battle_music;
     bool game_over, is_player_battle;
     bool is_battle, is_inventory, interactive_button, is_transiction;
     int x_mouse, y_mouse, i, trans_m_b_cont;
 
-    enum PainterOption {P_MAP, P_BATTLE, P_GAME_OVER, P_INVENTORY};
+    enum PainterOption {P_MAP, P_BATTLE, P_GAME_OVER, P_INVENTORY, P_MAIN_MENU};
     enum PainterTransiction {NONE, OPEN, CLOSE};
     PainterOption current_painter_option;
     PainterTransiction current_transiction;
