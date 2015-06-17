@@ -11,6 +11,6 @@ enum BattleOptions { ATTACK, MAGIC_SPECIAL, ITEM, RUN };
 enum Button { PRESS, RELEASE };
 enum Colision_Number{PLAYER = 2, MONSTER, OBJECT};
 //enum rand_itens { AXE, BOW, DAGGER, MACE, ROD, SWORD, ARMOR, SHIELD }
-enum PlayerClass{ ARCHER, BARBARO, ROGUE, URUKHAY, MAGE, TROLL };
+enum PlayerClass{ ARCHER, BARBARO, MAGE, ROGUE, URUKHAY, TROLL };
 
 #endif // ENUMS_H

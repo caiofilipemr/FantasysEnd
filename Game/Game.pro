@@ -67,7 +67,8 @@ SOURCES += main.cpp\
     Interface/Inventory/messagebox.cpp \
     Interface/Write/write.cpp \
     cordenates.cpp \
-    Item/randitens.cpp
+    Item/randitens.cpp \
+    Interface/mainmenu.cpp
     Item/randitens.cpp
 
 HEADERS  += game.h \
@@ -125,7 +126,8 @@ HEADERS  += game.h \
     Interface/Inventory/messagebox.h \
     Interface/Write/write.h \
     cordenates.h \
-    Item/randitens.h
+    Item/randitens.h \
+    Interface/mainmenu.h
     Item/randitens.h
 
 FORMS    += game.ui
