@@ -19,7 +19,7 @@ GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), 
 {
     selected_option = 0;
     battle_delay_cont = 0;
-    battle_text_color = Qt::white;
+    //battle_text_color = Qt::white;
 }
 
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
@@ -193,13 +193,13 @@ void GUIQT::drawBattle()
     player_image = player_image.copy(3 * 16, 2* 16, 16, 16);
     painter->drawPixmap(2*32, 6.5*32, 32, 32, player_image);
 
-    if (battle_text_color == Qt::red) //temptemptemptemp
+    if (mensage_type == MISS) //temptemptemptemp
         painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 26, 16, QPixmap("Battle/miss.png"));
-    else if (battle_text_color == Qt::blue)
+    else if (mensage_type == DODGE)
         painter->drawPixmap(text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, 38, 16, QPixmap("Battle/dodge.png"));
-    else if (battle_text_color == Qt::yellow) {
+    else if (mensage_type == CRITICAL) {
         Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter, true);
-        cerr << "teste";
+        //cerr << "teste";
     } else {
         Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter);
     }
@@ -302,7 +302,7 @@ void GUIQT::battleDelayCont()
     if (battle_delay_cont > battle_delay) {
         battle_delay_cont = 0;
         battle_text.clear();
-        battle_text_color = Qt::white;
+        //battle_text_color = Qt::white;
     }
 }
 
@@ -311,10 +311,15 @@ bool GUIQT::isBattleDelay()
     return battle_delay_cont;
 }
 
-void GUIQT::setBattleText(QString new_battle_text, QColor color, bool new_text_right)
+void GUIQT::setBattleText(QString new_battle_text, bool new_text_right)
 {
     battle_text = new_battle_text;
-    battle_text_color = color;
+    text_right = new_text_right;
+}
+
+void GUIQT::setBattleText(Exceptions type, bool new_text_right)
+{
+    mensage_type = type;
     text_right = new_text_right;
 }
 

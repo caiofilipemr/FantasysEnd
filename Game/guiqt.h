@@ -20,7 +20,8 @@ protected:
     QPixmap bg_battle, cursor_battle;
     int selected_option, battle_delay_cont;
     QString battle_text;
-    QColor battle_text_color;
+    //QColor battle_text_color;
+    Exceptions mensage_type;
     bool text_right;
     const QPixmap bg_black;
 
@@ -50,7 +51,8 @@ public:
     void resetSelectedOption();
     void battleDelayCont();
     bool isBattleDelay();
-    void setBattleText(QString new_battle_text, QColor color = Qt::white, bool new_text_right = true);
+    void setBattleText(QString new_battle_text, bool new_text_right = true);
+    void setBattleText(Exceptions type, bool new_text_right = true);
     void rightButton();
     void leftButton();
     bool messageColision();
