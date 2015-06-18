@@ -38,7 +38,6 @@ public:
   int getNumberItemInv();
   int getNumberItemChest();
   void setPlayer(Player *player);
-  Inventory *getInventory();
 
 private:
   static const int inv_i, inv_j, chest_i;
@@ -47,7 +46,6 @@ private:
   Rectangle *inv, *chest;
   QPixmap *squary, *back, *img_inventory[15];
   MessageBox *messagebox;
-  Inventory *list;
   bool message, current;
   Player* player;
 };

@@ -10,7 +10,6 @@ InventInterface::InventInterface(int width, int height, int widthGUI, int height
   widthGUI(widthGUI), heightGUI(heightGUI), player(player)
 {
   messagebox = new MessageBox(0, 0, player);
-  list = new Inventory();
   squary = new QPixmap("Inventory/squary_press.png");
   back = new QPixmap("Inventory/inventory.png");
   inv = new Rectangle(width*0.503 + x, height*0.25 + y, width*0.467, height*0.4505);
@@ -52,11 +51,6 @@ void InventInterface::setPlayer(Player *player)
     this->player = player;
 }
 
-Inventory *InventInterface::getInventory()
-{
-    return list;
-}
-
 InventInterface::~InventInterface()
 {}
 
@@ -82,7 +76,7 @@ void InventInterface::draw(QPainter *obj)
 
   if(inv->is_colision(x_mouse, y_mouse)){
     setNumberItemInv(line*5 + (column%5));
-    if(getNumberItemInv() < list->size()) {
+    if(getNumberItemInv() < player->getInventory()->size()) {
         obj->drawPixmap(column*w + inv->getX() + margin*column, line*h + inv->getY() + line*margin, w, h, *squary);
     }
 
@@ -111,7 +105,7 @@ bool InventInterface::positionIsItem(int x, int y)
 {
     const int margin = width*0.0078, h = height*0.144145, w = width*0.088889;
     int column = (x - inv->getX())/(w + margin), line = (y - inv->getY())/(h + margin);
-    if(line*5 + (column%5) < list->size()){
+    if(line*5 + (column%5) < player->getInventory()->size()){
         return true;
     }
     return false;
@@ -120,7 +114,7 @@ bool InventInterface::positionIsItem(int x, int y)
 void InventInterface::removeItem()
 {
   //Por enquanto
-  list->removeItem(getNumberItemInv());
+  player->getInventory()->removeItem(getNumberItemInv());
 }
 
 void InventInterface::drawMessage(QPainter *obj)
