@@ -94,6 +94,7 @@ void Game::keyPressEvent(QKeyEvent *event)
         interactive_button = true;
         break;
     }
+
 }
 
 void Game::keyReleaseEvent(QKeyEvent *)
