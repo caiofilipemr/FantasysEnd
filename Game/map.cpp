@@ -177,8 +177,11 @@ void Map::updateColision(Character *update_character)
 {
     Cordenates temp_cord = update_character->getCordenates();
     Direction temp_dir = update_character->getDirection();
+    if(m_col[temp_cord.i][temp_cord.j] == 1)
+        cerr <<"Deu merda";
     m_col[(temp_cord - temp_dir).i][(temp_cord - temp_dir).j] = 0;
     m_col[temp_cord.i][temp_cord.j] = 2;
+
 }
 
 void Map::setAColision(Cordenates new_col)

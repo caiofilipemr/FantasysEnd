@@ -39,6 +39,16 @@ int Character::attack()
     return (random(dam_max - dam_min + 1) + dam_min);
 }
 
+void Character::setSpecialHp()
+{
+    hp = hp_max;
+}
+
+void Character::setSpecialDamage()
+{
+    damage = damage + 100;
+}
+
 void Character::defense(int attack, Exceptions &exc)
 {
     if ((random(100) + 1) <= dodge){
