@@ -21,6 +21,9 @@ GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), 
     battle_delay_cont = 0;
     //battle_text_color = Qt::white;
     mensage_type = BUFFER;
+    //Zuado isso aqui da message
+    messageGUI = new MessageBox(-76,-76,draw_player);
+    inventory = new InventInterface(400,246,15*32,11*32, draw_player);
 }
 
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
@@ -231,7 +234,8 @@ void GUIQT::drawMainMenu()
 void GUIQT::setDrawPlayer(Player *new_draw_player)
 {
     this->draw_player = new_draw_player;
-    inventory = new InventInterface(400,246,15*32,11*32, draw_player);
+    inventory->setPlayer(draw_player);
+    draw_player->setInventory(inventory->getInventory());
     draw_player->addItemInventory(new Mace(0));
     draw_player->addItemInventory(new Bow(0));
     draw_player->addItemInventory(new HealfMP());
@@ -264,6 +268,32 @@ void GUIQT::setQPainter(QPainter *new_painter)
 void GUIQT::setCursor(int x, int y)
 {
     this->inventory->setCursor(x, y);
+}
+
+void GUIQT::setCursor(int x, int y, ButtonCursor button)
+{
+  if(button == BUTTON_LEFT){
+    if(messageGUI->isOpen() && messageGUI->isColision(x,y)){
+      if(messageGUI->Click(x,y) == EQUIP_USE){
+        std::cerr << "Equip";
+      }else{
+        inventory->removeItem();
+        std::cerr << "Drop";
+      }
+        //se equipar
+          //inventInterface equipar
+        //senao se drop
+          //inventInterface dropar
+    }else{
+      this->inventory->setCursor(x, y);
+      messageOff();
+    }
+  }else{
+    if(inventoryIsOpen() && inventory->invColision(x,y)){
+      this->inventory->setCursor(x, y);
+      newMessage(x,y);
+    }
+  }
 }
 
 int GUIQT::getIndexItemInventory()
@@ -350,6 +380,41 @@ void GUIQT::setBattleText(Exceptions type, bool new_text_right)
     text_right = new_text_right;
 }
 
+bool GUIQT::inventoryIsOpen()
+{
+  return inventory->isOpen();
+}
+
+void GUIQT::inventoryOn()
+{
+  inventory->on();
+}
+
+void GUIQT::inventoryOff()
+{
+    inventory->off();
+}
+
+bool GUIQT::messageIsOpen()
+{
+    return messageGUI->isOpen();
+}
+
+void GUIQT::messageOn()
+{
+    messageGUI->on();
+}
+
+void GUIQT::messageOff()
+{
+    messageGUI->off();
+}
+
+void GUIQT::newMessage(int x, int y)
+{
+    messageGUI = new MessageBox(x, y, draw_player);
+}
+
 void GUIQT::rightButton()
 {
     inventory->isMessage();
@@ -367,13 +432,5 @@ bool GUIQT::messageColision()
 
 void GUIQT::drawMessage()
 {
-    inventory->drawMessage(painter);
-//    if(message){
-////        try{
-////          std::cerr << "kk";
-////          player->removeItemInventory(item);
-////        }catch(const char * what){
-////          std::cout << what;
-////        }
-//    }
+    messageGUI->draw(painter);
 }

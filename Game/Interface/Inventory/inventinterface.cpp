@@ -15,16 +15,16 @@ InventInterface::InventInterface(int width, int height, int widthGUI, int height
   back = new QPixmap("Inventory/inventory.png");
   inv = new Rectangle(width*0.503 + x, height*0.25 + y, width*0.467, height*0.4505);
   chest = new Rectangle(width*0.503 + x, height*0.811 + y, width*0.467, height*0.1441);
-  message = false;
+  message = current = false;
 }
 
 void InventInterface::setCursor(int x, int y)
 {
   this->x_mouse = x;
   this->y_mouse = y;
-  if(message) {
-    messagebox->setCursor(x,y);
-  }
+//  if(message) {
+//    messagebox->setCursor(x,y);
+//  }
 }
 
 void InventInterface::setNumberItemInv(int number)
@@ -45,6 +45,16 @@ int InventInterface::getNumberItemInv()
 int InventInterface::getNumberItemChest()
 {
     return number_item[CHEST];
+}
+
+void InventInterface::setPlayer(Player *player)
+{
+    this->player = player;
+}
+
+Inventory *InventInterface::getInventory()
+{
+    return list;
 }
 
 InventInterface::~InventInterface()
@@ -71,8 +81,10 @@ void InventInterface::draw(QPainter *obj)
   }
 
   if(inv->is_colision(x_mouse, y_mouse)){
-    obj->drawPixmap(column*w + inv->getX() + margin*column, line*h + inv->getY() + line*margin, w, h, *squary);
     setNumberItemInv(line*5 + (column%5));
+    if(getNumberItemInv() < list->size()) {
+        obj->drawPixmap(column*w + inv->getX() + margin*column, line*h + inv->getY() + line*margin, w, h, *squary);
+    }
 
   }else if(chest->is_colision(x_mouse, y_mouse)){
     obj->drawPixmap(column*w + chest->getX() + margin*column, chest->getY(), w, h, *squary);
@@ -80,11 +92,32 @@ void InventInterface::draw(QPainter *obj)
   }
 }
 
+void InventInterface::on()
+{
+  current = true;
+}
+
+void InventInterface::off()
+{
+  current = false;
+}
+
+bool InventInterface::isOpen()
+{
+    return current;
+}
+
+void InventInterface::removeItem()
+{
+  //Por enquanto
+  list->removeItem(getNumberItemInv());
+}
+
 void InventInterface::drawMessage(QPainter *obj)
 {
     if(message) {
       if(inv->is_colision(x_mouse, y_mouse)){
-        messagebox->draw(obj, x_mouse, y_mouse);
+        messagebox->draw(obj);
       }else if(chest->is_colision(x_mouse, y_mouse)){
         //Primeiro arrumar chest
         //messagebox->draw(obj, getNumberItemChest());
@@ -116,5 +149,10 @@ bool InventInterface::messageColision()
 
 void InventInterface::newMessage()
 {
-  messagebox = new MessageBox(x_mouse, y_mouse, player);
+    messagebox = new MessageBox(x_mouse, y_mouse, player);
+}
+
+bool InventInterface::invColision(int x, int y)
+{
+    return inv->is_colision(x,y);
 }

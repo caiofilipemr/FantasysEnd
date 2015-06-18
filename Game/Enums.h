@@ -12,5 +12,7 @@ enum Button { PRESS, RELEASE };
 enum Colision_Number{PLAYER = 2, MONSTER, OBJECT};
 //enum rand_itens { AXE, BOW, DAGGER, MACE, ROD, SWORD, ARMOR, SHIELD }
 enum PlayerClass{ ARCHER, BARBARO, MAGE, ROGUE, URUKHAY, TROLL };
+enum ButtonCursor { BUTTON_LEFT, BUTTON_RIGHT };
+enum doThis { EQUIP_USE, DROP };
 
 #endif // ENUMS_H

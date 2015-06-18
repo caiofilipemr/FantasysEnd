@@ -13,16 +13,21 @@ public:
   MessageBox(int x, int y, Player* player);
   ~MessageBox();
   void setCursor(int x, int y);
-  void draw(QPainter* painter, int x, int y);
+  void draw(QPainter* painter);
   void setPosition(int x, int y);
   bool isColision();
-  void isEquipUse();
+  bool isColision(int x, int y);
+  doThis Click(int x, int y);
+  bool isOpen();
+  void on();
+  void off();
 
 private:
   QPixmap *back, *squary;
   Rectangle *rect;
   Player *player;
   int x, y;
+  bool current;
 };
 
 #endif // MESSAGEBOX_H

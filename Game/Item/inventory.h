@@ -22,6 +22,7 @@ public:
     Item * getItem(int item_index);
     int getMaxWeight();
     int getWeight();
+    int size();
     bool canCarry(Item * can_carry_item);
 };
 

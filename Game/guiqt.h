@@ -23,6 +23,7 @@ protected:
     Exceptions mensage_type;
     bool text_right;
     const QPixmap bg_black;
+    MessageBox * messageGUI;
 
     static const int size_x, size_y, range_i, range_j, pix_per_tile, n_battle_options, width_options[4], text_position[2];
 public:
@@ -44,6 +45,8 @@ public:
     void drawTransictionMapBattle(int px_to_black);
     void setQPainter(QPainter * new_painter);
     void setCursor(int x, int y);
+    //Tive que fazer sobrecarga de função deu erro no qt, why?
+    void setCursor(int x, int y, ButtonCursor button);
     int getIndexItemInventory();
     bool moveCursorBattle(Direction dir);
     bool moveCursorMM(Direction dir);
@@ -56,6 +59,15 @@ public:
     bool isMMDelay();
     void setBattleText(Exceptions type, QString new_battle_text, bool new_text_right = true);
     void setBattleText(Exceptions type, bool new_text_right = true);
+
+    bool inventoryIsOpen();
+    void inventoryOn();
+    void inventoryOff();
+    bool messageIsOpen();
+    void messageOn();
+    void messageOff();
+    void newMessage(int x, int y);
+
     void rightButton();
     void leftButton();
     bool messageColision();

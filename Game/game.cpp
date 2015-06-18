@@ -76,14 +76,14 @@ void Game::keyPressEvent(QKeyEvent *event)
         clock->start();
         break;
      case Qt::Key_I:
-        if(is_inventory) {
-            is_inventory = false;
+        if(my_GUI->inventoryIsOpen()) {
+            my_GUI->inventoryOff();
             //clock->start();
             disconnect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
             connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
         }
         else {
-            is_inventory = true;
+            my_GUI->inventoryOn();
             disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
             connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
             //clock->stop();
@@ -153,21 +153,22 @@ void Game::paintEvent(QPaintEvent *)
 
 //    }
 
-   if(is_inventory){
+   if(my_GUI->inventoryIsOpen()){
      my_GUI->drawInventory();
-     my_GUI->drawMessage();
+     if(my_GUI->messageIsOpen())
+        my_GUI->drawMessage();
    }
    painter->end();
 }
 
 void Game::mousePressEvent(QMouseEvent *event)
 {
-    if (is_inventory) {
+    if (my_GUI->inventoryIsOpen()) {
         this->x_mouse = event->x();
         this->y_mouse = event->y();
-        my_GUI->setCursor(x_mouse, y_mouse);
         if(event->button() == Qt::RightButton) {
-            my_GUI->rightButton();
+            my_GUI->setCursor(x_mouse, y_mouse, BUTTON_RIGHT);
+            //my_GUI->rightButton();
             //        if (is_inventory) {
             //            try {
             //                std::vector<string> cmd_name = my_engine->getCommands(my_GUI->getIndexItemInventory()); //Zé, esse metodo retorna dum std::vector<string> que contem os nomes dos comandos, pra poder passar pra interface do inventario
@@ -179,9 +180,10 @@ void Game::mousePressEvent(QMouseEvent *event)
             //            }
             //        }
         } else {
-            if(!my_GUI->messageColision()) {
-                my_GUI->leftButton();
-            }
+//            if(!my_GUI->messageColision()) {
+//                my_GUI->leftButton();
+//            }
+            my_GUI->setCursor(x_mouse, y_mouse, BUTTON_LEFT);
         }
         repaint();
     }

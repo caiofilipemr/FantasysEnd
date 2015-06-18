@@ -133,7 +133,7 @@ Item* Player::removeItemInventory(int item_index){
 }
 
 Inventory* Player::getInventory(){
-    return inventory;
+  return inventory;
 }
 
 Item *Player::removeItemInventory(Item * remove_item)
@@ -193,6 +193,11 @@ void Player::die(Map *)
 Cordenates Player::getBackCordenates()
 {
     return back_cordenates;
+}
+
+void Player::setInventory(Inventory *inv)
+{
+    inventory = inv;
 }
 
 Player::Player(Weapon * new_weapon,

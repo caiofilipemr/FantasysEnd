@@ -60,6 +60,7 @@ public:
     void update(Map * my_map);
     void die(Map *);
     Cordenates getBackCordenates();
+    void setInventory(Inventory *inv);
     Inventory* getInventory();
 };
 
