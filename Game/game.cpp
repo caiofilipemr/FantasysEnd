@@ -139,20 +139,6 @@ void Game::paintEvent(QPaintEvent *)
         break;
     }
 
-//    if (game_over) {
-//        my_GUI->drawGameOver();
-//    } else if (is_transiction) {
-//        my_GUI->drawTransictionMapBattle(trans_m_b_cont);
-//    } else if (is_inventory) {
-//      my_GUI->drawInventory();
-//    } else if (is_battle) {
-//        my_GUI->drawBattle();
-//        if (trans_m_b_cont) my_GUI->drawTransictionMapBattle(trans_m_b_cont);
-//    } else {
-//        my_GUI->drawMap();
-
-//    }
-
    if(my_GUI->inventoryIsOpen()){
      my_GUI->drawInventory();
      if(my_GUI->messageIsOpen())
