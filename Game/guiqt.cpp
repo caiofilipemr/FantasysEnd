@@ -319,13 +319,22 @@ void GUIQT::battleDelayCont()
         battle_delay_cont = 0;
         battle_text.clear();
         mensage_type = BUFFER;
-        //battle_text_color = Qt::white;
     }
+}
+
+void GUIQT::MMDelayCont()
+{
+    MainMenu::delayCont();
 }
 
 bool GUIQT::isBattleDelay()
 {
     return battle_delay_cont;
+}
+
+bool GUIQT::isMMDelay()
+{
+    return MainMenu::isDelay();
 }
 
 void GUIQT::setBattleText(Exceptions type, QString new_battle_text, bool new_text_right)

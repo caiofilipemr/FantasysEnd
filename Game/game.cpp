@@ -189,17 +189,24 @@ void Game::mousePressEvent(QMouseEvent *event)
 
 void Game::mainMenu()
 {
-    if (interactive_button) {
-        my_engine->setPlayer(my_GUI->getSelectedOptionMM());
-        disconnect(clock, SIGNAL(timeout()), this, SLOT(mainMenu()));
-        connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-        current_painter_option = P_MAP;
-    } else {
-        if (my_GUI->moveCursorMM(atual_direction)) {
-            instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
-            instant_sfx->play();
+    if (!my_GUI->isMMDelay()) {
+        if (interactive_button) {
+            my_engine->setPlayer(my_GUI->getSelectedOptionMM());
+            disconnect(clock, SIGNAL(timeout()), this, SLOT(mainMenu()));
+            connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+            current_painter_option = P_MAP;
+        } else {
+            if (my_GUI->moveCursorMM(atual_direction)) {
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
+                instant_sfx->play();
+                my_GUI->MMDelayCont();
+            }
+            atual_direction = SLEEP;
+            repaint();
         }
-        atual_direction = SLEEP;
+    }
+    else {
+        my_GUI->MMDelayCont();
         repaint();
     }
 }
