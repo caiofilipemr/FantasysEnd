@@ -7,8 +7,8 @@ const int Mage::mage_strenght_level = 1;
 const int Mage::mage_agility_level = 0;
 const int Mage::mage_intelligence_level = 2;
 const int Mage::mage_bonus = AGILITY;
-std::string Mage::mage_img_way = "Images/characters_1.png";
-std::string Mage::mage_img_battle = "";
+std::string Mage::mage_img_way = "Character/mage.png";
+std::string Mage::mage_img_battle = "Character/mage.png";
 
 Mage::Mage(int new_pos_i, int new_pos_j,
            Direction new_eye_direction = DOWN) : Elf(new Rod(1),

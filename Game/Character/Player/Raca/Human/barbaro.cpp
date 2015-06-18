@@ -7,8 +7,8 @@ const int Barbaro::barb_strenght_level = 2;
 const int Barbaro::barb_intelligence_level = 0;
 const int Barbaro::barb_agility_level = 1;
 const int Barbaro::barb_bonus = INTELLIGENCE;
-std::string Barbaro::barbaro_img_way = "Images/characters_1.png";
-std::string Barbaro::barbaro_img_battle= "Images/characters_1.png";
+std::string Barbaro::barbaro_img_way = "Character/barbaro.png";
+std::string Barbaro::barbaro_img_battle= "Character/barbaro.png";
 
 Barbaro::Barbaro(int new_pos_i, int new_pos_j,
                  Direction new_eye_direction = DOWN): Human(new Axe(1),

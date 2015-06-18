@@ -19,7 +19,8 @@ void EquipWeapon::doThis(Player &player) //Temp int ? Pois para o comando Catch 
         } else {
             Weapon * pt = player.getWeapon(); //Else troca os ponteiros, ou seja, o ponteiro que apontava para arma equipada,
             player.setWeapon((Weapon *)do_in_this_item); //agora aponta para a nova arma a ser equipada e
-            do_in_this_item = pt; //o ponteiro do inventory aponta para a antiga arma equipada
+            player.removeItemInventory(do_in_this_item);
+            player.addItemInventory(pt); //o ponteiro do inventory aponta para a antiga arma equipada
         }
     } else throw "Player can't equip the item, is too heavy!";
 }

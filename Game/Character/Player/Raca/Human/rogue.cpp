@@ -7,8 +7,8 @@ const int Rogue::rog_strenght_level = 0;
 const int Rogue::rog_intelligence_level = 1;
 const int Rogue::rog_agility_level = 2;
 const int Rogue::rog_bonus = STRENGHT;
-std::string Rogue::rogue_img_way = "Images/characters_1.png";
-std::string Rogue::rogue_img_battle = "";
+std::string Rogue::rogue_img_way = "Character/rogue.png";
+std::string Rogue::rogue_img_battle = "Character/rogue.png";
 
 Rogue::Rogue(int new_pos_i, int new_pos_j,
              Direction new_eye_direction = DOWN): Human(new Dagger(1),

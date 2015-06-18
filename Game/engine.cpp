@@ -220,6 +220,10 @@ void Engine::setPlayer(PlayerClass pc)
     my_player->addItemInventory(new Bow(0));
     my_player->addItemInventory(new HealfMP());
     my_player->addItemInventory(new HealfHP());
+    my_player->addItemInventory(new HealfHP());
+    my_player->addItemInventory(new HealfHP());
+    my_player->addItemInventory(new HealfHP());
+    my_player->addItemInventory(new HealfHP());
     my_player->addItemInventory(new Dagger(0));
     my_player->addItemInventory(new Rod(0));
 }

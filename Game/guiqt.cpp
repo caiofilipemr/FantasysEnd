@@ -96,7 +96,7 @@ void GUIQT::drawMap()
 
     QPixmap *tile = new QPixmap(QString::fromStdString(draw_map->getImgWay()));
     QPixmap player_image(QString::fromStdString(draw_player->getImgWay()));
-    player_image = player_image.copy((3 + (cont_frames / (Character::getLimit() / 3) % 3)) * 16, int(player_direction) * 16, 16, 16);
+    player_image = player_image.copy((0 + (cont_frames / (Character::getLimit() / 3) % 3)) * 32, int(player_direction) * 32, 32, 32);
     QPixmap mobs_images[draw_mobs->size()];
     for (i = 0; i < int(draw_mobs->size()); i++) {
         mobs_images[i] = QString::fromStdString((*draw_mobs)[i]->getImgWay());
@@ -147,7 +147,7 @@ void GUIQT::drawMap()
     int row_monster = 0, column_monster = 0;
 
     //Desenha a metade de baixo do jogador e mobs
-    painter->drawPixmap((range_j + dif_j) * ppt, (range_i + dif_i) * ppt, ppt, 16, player_image.copy(0,8,16,8));
+    painter->drawPixmap((range_j + dif_j) * ppt, (range_i + dif_i) * ppt, ppt, 16, player_image.copy(0,16,32,16));
     cont_frames = Monster::getContMonster();
     for (i = 0; i < int(draw_mobs->size()); i++) {
         mob_cordenates[i] = (*draw_mobs)[i]->getCordenates();
@@ -166,7 +166,7 @@ void GUIQT::drawMap()
     }
 
     //Desenha a metade de cima do jogador e mobs
-    painter->drawPixmap(((range_j) + dif_j) * ppt, (((range_i) + dif_i) - 1) * ppt + ppt / 2, ppt, 16, player_image.copy(0,0,16,8));//cabeça
+    painter->drawPixmap(((range_j) + dif_j) * ppt, (((range_i) + dif_i) - 1) * ppt + ppt / 2, ppt, 16, player_image.copy(0,0,32,16));//cabeça
     for (i = 0; i < int(draw_mobs->size()); i++) {
         if (hasPoint(mob_cordenates[i].i, mob_cordenates[i].j)) {
             setMoveMapDirection((*draw_mobs)[i]->getDirection(), column_monster, row_monster, cont_frames, limit);
@@ -194,7 +194,7 @@ void GUIQT::drawBattle()
     painter->drawPixmap(1, width_options[selected_option], 22, 21, cursor_battle);
     painter->drawPixmap(5*32, 1.5*32, 320, 192,QPixmap(QString::fromStdString(Battle::getImgWayMonster())));
     QPixmap player_image(QString::fromStdString(draw_player->getImgWay()));
-    player_image = player_image.copy(3 * 16, 2* 16, 16, 16);
+    player_image = player_image.copy(0 * 32, 2* 32, 32, 32);
     painter->drawPixmap(2*32, 6.5*32, 32, 32, player_image);
 
     switch (mensage_type) {

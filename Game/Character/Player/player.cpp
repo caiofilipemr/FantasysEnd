@@ -113,7 +113,7 @@ void Player::walk()
 }
 
 bool Player::canEquipWeapon(int weight){
-    return strenght /3 > weight;
+    return strenght > weight;
 }
 
 bool Player::canEquipShield(int weight){
