@@ -67,6 +67,8 @@ public:
     std::vector<string> getCommands(int index);
     void interation();
     void setPlayer(PlayerClass pc);
+    void setSpecialX();
+    void setSpecialZ();
 };
 
 #endif // ENGINE_H

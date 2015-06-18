@@ -79,7 +79,7 @@ void Walker::walk()
         per[i] = (chance[i] / sum) * 100 + per[i - 1];
         chance[i] = back_chance[i];
     }
-    rand = random(per[UP]);
+    rand = random(per[UP]) + 1;
     for( i = 0, logic = true; i < 4; i++)
         rand <= per[i] && logic ? setDirection(Direction(i)), setEyeDirection(Direction(i)), logic = false : chance[i]++;
 

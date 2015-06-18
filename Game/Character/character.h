@@ -27,6 +27,8 @@ public:
               Direction new_eye_direction);
     int attack(Exceptions &exc);
     int attack();
+    void setSpecialHp();
+    void setSpecialDamage();
     void defense(int attack, Exceptions &exc);
     void addHP(int hp_plus);
     void addMP(int mp_plus);

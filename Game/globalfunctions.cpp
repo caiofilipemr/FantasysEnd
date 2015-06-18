@@ -1,7 +1,9 @@
 #include "globalfunctions.h"
 
 int random(int num_rand) {
-    return (rand() % num_rand);
+    if(num_rand)
+        return (rand() % num_rand);
+    return 0;
 }
 
 std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j)

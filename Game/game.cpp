@@ -94,7 +94,14 @@ void Game::keyPressEvent(QKeyEvent *event)
         interactive_button = true;
         break;
     }
-
+    if(event->key() == Qt::Key_Z && event->modifiers() == Qt::ShiftModifier) {
+        my_engine->setSpecialZ(); //damage+100
+        //cerr <<"expecialZ";
+    }
+    if(event->key() == Qt::Key_X && event->modifiers() == Qt::ShiftModifier) {
+        my_engine->setSpecialX(); //hp = hp_max
+        //cerr <<"especialX";
+    }
 }
 
 void Game::keyReleaseEvent(QKeyEvent *)
