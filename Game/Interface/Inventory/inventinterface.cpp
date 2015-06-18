@@ -123,6 +123,11 @@ void InventInterface::removeItem()
   list->removeItem(getNumberItemInv());
 }
 
+void InventInterface::equipItem()
+{
+  player->getInventory()->getItem(getNumberItemInv())->getCommands()[0]->doThis(*player);
+}
+
 void InventInterface::drawMessage(QPainter *obj)
 {
     if(message) {

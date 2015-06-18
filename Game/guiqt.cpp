@@ -275,6 +275,7 @@ void GUIQT::setCursor(int x, int y, ButtonCursor button)
   if(button == BUTTON_LEFT){
     if(messageGUI->isOpen() && messageGUI->isColision(x,y)){
       if(messageGUI->Click(x,y) == EQUIP_USE){
+        inventory->equipItem();
         std::cerr << "Equip";
       }else{
         inventory->removeItem();

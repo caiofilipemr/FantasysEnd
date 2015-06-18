@@ -22,7 +22,7 @@ public:
   bool isOpen();
   bool positionIsItem(int x, int y);
   void removeItem();
-  void equipItem(int x, int y);
+  void equipItem();
 
   void drawMessage(QPainter *obj);
   void isMessage();
