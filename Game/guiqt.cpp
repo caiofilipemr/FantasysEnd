@@ -236,7 +236,7 @@ void GUIQT::setDrawPlayer(Player *new_draw_player)
     this->draw_player = new_draw_player;
     inventory->setPlayer(draw_player);
     draw_player->setInventory(inventory->getInventory());
-    draw_player->addItemInventory(new Mace(0));
+    draw_player->addItemInventory(new Sword(0));
     draw_player->addItemInventory(new Bow(0));
     draw_player->addItemInventory(new HealfMP());
     draw_player->addItemInventory(new HealfHP());
@@ -280,6 +280,7 @@ void GUIQT::setCursor(int x, int y, ButtonCursor button)
         inventory->removeItem();
         std::cerr << "Drop";
       }
+      messageOff();
         //se equipar
           //inventInterface equipar
         //senao se drop
@@ -289,7 +290,7 @@ void GUIQT::setCursor(int x, int y, ButtonCursor button)
       messageOff();
     }
   }else{
-    if(inventoryIsOpen() && inventory->invColision(x,y)){
+    if(inventoryIsOpen() && inventory->invColision(x,y) && inventory->positionIsItem(x,y)){
       this->inventory->setCursor(x, y);
       newMessage(x,y);
     }

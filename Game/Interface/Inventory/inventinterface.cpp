@@ -107,6 +107,16 @@ bool InventInterface::isOpen()
     return current;
 }
 
+bool InventInterface::positionIsItem(int x, int y)
+{
+    const int margin = width*0.0078, h = height*0.144145, w = width*0.088889;
+    int column = (x - inv->getX())/(w + margin), line = (y - inv->getY())/(h + margin);
+    if(line*5 + (column%5) < list->size()){
+        return true;
+    }
+    return false;
+}
+
 void InventInterface::removeItem()
 {
   //Por enquanto
