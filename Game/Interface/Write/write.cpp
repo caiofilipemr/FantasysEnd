@@ -87,7 +87,6 @@ void Write::writeText(QString text, int x, int y, int width, int height, QPainte
     for (int i = 0; i < text.size(); i++) {
         if (text[i].isDigit()) actual_char[i] = text[i].digitValue();
         else actual_char[i] = text[i].unicode() - '0';
-        std::cerr << actual_char[i] << '\n';
         size_of_text_px += QPixmap(letters_and_numbers[actual_char[i]]).width();
     }
     int w = width / 2 - size_of_text_px / 2, h = height / 2 - all_number_height / 2;

@@ -1,8 +1,7 @@
 #include "randitens.h"
 
 std::vector<Item *> RandItens::itens_list;
-const int RandItens::qtd_itens_rand = 20;
-
+const int RandItens::qtd_itens_rand = 30;
 RandItens::RandItens()
 {
 }
@@ -56,4 +55,15 @@ void RandItens::randItensMap()
         }
         k++;
     }
+}
+
+Item *RandItens::getRandItem()
+{
+    Item * temp_item;
+    if( itens_list.size() > 0) {
+        temp_item = itens_list.back();
+        itens_list.pop_back();
+        return temp_item;
+    }
+    throw "Item not found!";
 }

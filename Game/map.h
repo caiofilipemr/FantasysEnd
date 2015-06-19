@@ -11,6 +11,7 @@
 
 class Character;
 class Stone;
+class Monster;
 
 using namespace std;
 
@@ -19,15 +20,16 @@ class Map
 private:
     string img_way;
     int size_i, size_j;
-    int **m_base, **m_s_base, **m_obj, **m_iso, **m_s_iso, **m_col;
+    int **m_base, **m_s_base, **m_obj, **m_iso, **m_s_iso, **m_col, qtd_chest, qtd_stone;
     static const int max_chest, min_chest, max_stone, min_stone;
     Object ***m_interation;
     Chest **chest_list;
     Stone **stone_list;
     bool *can_go;
+    vector<Monster *> * mobs;
 
 public:
-    Map(string new_arch_map, string new_img_way);
+    Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mobs);
     ~Map();
     Cordenates getCordenates();
     bool hasColision(Cordenates cord);
@@ -47,6 +49,7 @@ public:
     int ** getIsometric();
     int ** getSuperIsometric();
     Object ***getMatIteration();
+    void distributeItensMap();
     std::string getImgWay();
 };
 

@@ -25,6 +25,7 @@ private:
 public:
     RandItens();
     static void randItensMap();
+    static Item * getRandItem();
 };
 
 #endif // RANDITENS_H

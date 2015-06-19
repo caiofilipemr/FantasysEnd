@@ -12,9 +12,9 @@ Chest::Chest(int new_pos_i, int new_pos_j) : Object(new_pos_i, new_pos_j, chest_
 
 }
 
-Chest::Chest(int new_pos_i, int new_pos_j, std::string new_img_way) : Object(new_pos_i,new_pos_j,new_img_way)
+Chest::Chest(int new_pos_i, int new_pos_j, std::string new_img_way,std::vector<Item*> new_item_list) : Object(new_pos_i,new_pos_j,new_img_way)
 {
-
+    itens_list = new_item_list;
 }
 
 Chest::~Chest()
@@ -48,6 +48,13 @@ bool Chest::addItem(Item *new_item)
 void Chest::interate(Player *interate_player)
 {
     throw OPEN_CHEST;
+}
+
+bool Chest::canAddItem()
+{
+    if((itens_list.size() + 1) < max_item)
+        return true;
+    return false;
 }
 
 void Chest::setImgWay(std::string new_img_way)
