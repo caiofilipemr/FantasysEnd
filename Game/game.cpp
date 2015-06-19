@@ -42,6 +42,7 @@ Game::Game(QWidget *parent) :
     world_music->play();
     current_painter_option = P_MAIN_MENU;
     current_transiction = NONE;
+    current_over = O_NONE;
 }
 
 Game::~Game()
@@ -56,6 +57,14 @@ Game::~Game()
 
 void Game::keyPressEvent(QKeyEvent *event)
 {
+    if (current_over == PAUSE) {
+        if  (event->key() == Qt::Key_P) {
+            clock->start();
+            current_over = O_NONE;
+            repaint();
+        }
+        return;
+    }
     switch (event->key()) {
     case Qt::Key_Up:
        atual_direction = UP;
@@ -70,30 +79,23 @@ void Game::keyPressEvent(QKeyEvent *event)
        atual_direction = RIGHT;
         break;
     case Qt::Key_P:
-        if (current_transiction == PAUSE) {
-            clock->start();
-            current_transiction = NONE;
-        } else {
-            clock->stop();
-            current_transiction = PAUSE;
-        }
+        clock->stop();
+        current_over = PAUSE;
         repaint();
-        break;
-    case Qt::Key_Enter:
         break;
      case Qt::Key_I:
         if (current_painter_option == P_MAP){
-            if(my_GUI->inventoryIsOpen()) {
+            if(current_transiction == INVENTORY) {
                 my_GUI->inventoryOff();
-                //clock->start();
                 disconnect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
                 connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+                current_transiction = NONE;
             }
             else {
                 my_GUI->inventoryOn();
                 disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
                 connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
-                //clock->stop();
+                current_transiction = INVENTORY;
                 repaint();
             }
         }
@@ -131,9 +133,6 @@ void Game::paintEvent(QPaintEvent *)
     case P_GAME_OVER:
         my_GUI->drawGameOver();
         break;
-    case INVENTORY:
-        //my_GUI->drawInventory();
-        break;
     case P_MAIN_MENU:
         my_GUI->drawMainMenu();
         break;
@@ -150,6 +149,16 @@ void Game::paintEvent(QPaintEvent *)
     case CLOSE:
         my_GUI->drawTransictionMapBattle(trans_m_b_cont);
         break;
+    case INVENTORY:
+        my_GUI->drawInventory();
+        if(my_GUI->messageIsOpen())
+           my_GUI->drawMessage();
+        break;
+    default:
+        break;
+    }
+
+    switch (current_over) {
     case PAUSE:
         my_GUI->drawPauseScreen();
         break;
@@ -157,17 +166,12 @@ void Game::paintEvent(QPaintEvent *)
         break;
     }
 
-   if(my_GUI->inventoryIsOpen()){
-     my_GUI->drawInventory();
-     if(my_GUI->messageIsOpen())
-        my_GUI->drawMessage();
-   }
    painter->end();
 }
 
 void Game::mousePressEvent(QMouseEvent *event)
 {
-    if (my_GUI->inventoryIsOpen()) {
+    if (current_transiction == INVENTORY && current_over != PAUSE) {
         this->x_mouse = event->x();
         this->y_mouse = event->y();
         if(event->button() == Qt::RightButton) {
@@ -251,6 +255,7 @@ void Game::myUpdate()
 void Game::myBattle()
 {
     Exceptions exc_atk, exc_def = HIT;
+//    BattleOptions
     if (!(my_GUI->isBattleDelay())) {
         if(!is_player_battle) {
             interactive_button = true;
