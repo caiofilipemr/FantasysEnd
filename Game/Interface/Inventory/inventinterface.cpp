@@ -80,6 +80,12 @@ void InventInterface::draw(QPainter *obj)
     }
     i++;
   }
+  if (chestrandom) {
+      for (int i = 0, size = chestrandom->getSize(); i < size; i++) {
+          obj->drawPixmap(width*0.505 + x + margin*(i%5) + 35*(i%5), height*0.81 + y + 35*(i/5) + margin*(i/5),
+                          32,32,QPixmap(QString::fromStdString(chestrandom->getItem(i)->getImg_way())));
+      }
+  }
 
   if(player->getWeapon()){
     obj->drawPixmap(width*0.397 + x, height*0.305 + y,32,32,QPixmap(QString::fromStdString(player->getWeapon()->getImg_way())));
@@ -111,6 +117,7 @@ void InventInterface::on()
 void InventInterface::off()
 {
   current = false;
+  chestNULL();
 }
 
 bool InventInterface::isOpen()
@@ -185,3 +192,20 @@ bool InventInterface::invColision(int x, int y)
 {
     return inv->is_colision(x,y);
 }
+
+bool InventInterface::isChest(int x, int y)
+{
+    return chest->is_colision(x,y);
+}
+
+void InventInterface::positionChest(int x, int y)
+{
+    const int margin = width*0.0078, w = width*0.088889;
+    int column = (x - chest->getX())/(w + margin);
+    if(chestrandom && column%5 < chestrandom->getSize()) {
+        player->getInventory()->addItem(chestrandom->removeItem(column%5));
+        if (!chestrandom)
+            chestNULL();
+    }
+}
+

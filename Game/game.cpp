@@ -243,12 +243,17 @@ void Game::myUpdate()
         is_battle = false;
         repaint();
     }
-    if (interactive_button) {
+    if (interactive_button && current_painter_option == P_MAP) {
         try {
             try {
                 my_engine->interation();
             } catch(Chest * temp_chest){
+                my_GUI->inventoryOn();
                 my_GUI->setChest(temp_chest);
+                disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+                connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
+                current_transiction = INVENTORY;
+                repaint();
             }
         }catch(Exceptions e){cerr << "Erro";};
         interactive_button = false;

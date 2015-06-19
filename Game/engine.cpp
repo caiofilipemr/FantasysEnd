@@ -221,6 +221,7 @@ void Engine::setPlayer(PlayerClass pc)
     mobs.push_back(new Stalker(1, 1, 42, 35, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
     for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
 
+    my_map->distributeItensMap();
 }
 
 void Engine::setSpecialX()

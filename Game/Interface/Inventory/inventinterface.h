@@ -31,6 +31,8 @@ public:
   void newMessage();
 
   bool invColision(int x, int y);
+  bool isChest(int x, int y);
+  void positionChest(int x, int y);
   bool chesColision(int x, int y);
   bool messageColision();
 

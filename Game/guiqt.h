@@ -64,6 +64,7 @@ public:
     bool inventoryIsOpen();
     void inventoryOn();
     void inventoryOff();
+    void setChest(Chest * new_chest);
     bool messageIsOpen();
     void messageOn();
     void messageOff();

@@ -24,6 +24,7 @@ public:
     bool canAddItem();
     static void setImgWay(std::string new_img_way);
     Chest *getChest();
+    int getSize();
 };
 
 #endif // CHEST_H

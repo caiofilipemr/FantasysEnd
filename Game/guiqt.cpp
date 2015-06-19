@@ -295,6 +295,10 @@ void GUIQT::setCursor(int x, int y, ButtonCursor button)
       this->inventory->setCursor(x, y);
       newMessage(x,y);
     }
+    if (inventory->isChest(x, y)){
+        inventory->positionChest(x, y);
+    }
+
   }
 }
 
@@ -397,9 +401,9 @@ void GUIQT::inventoryOff()
     inventory->off();
 }
 
-void GUIQT::setChest(Chest *chest)
+void GUIQT::setChest(Chest *new_chest)
 {
-    inventory->setChest(chest);
+    inventory->setChest(new_chest);
 }
 
 bool GUIQT::messageIsOpen()

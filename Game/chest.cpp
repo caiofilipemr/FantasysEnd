@@ -52,9 +52,7 @@ void Chest::interate(Player *interate_player)
 
 bool Chest::canAddItem()
 {
-    if((itens_list.size() + 1) < max_item)
-        return true;
-    return false;
+    return (itens_list.size() + 1) < max_item;
 }
 
 void Chest::setImgWay(std::string new_img_way)
@@ -65,5 +63,10 @@ void Chest::setImgWay(std::string new_img_way)
 Chest *Chest::getChest()
 {
     return this;
+}
+
+int Chest::getSize()
+{
+    return itens_list.size();
 }
 
