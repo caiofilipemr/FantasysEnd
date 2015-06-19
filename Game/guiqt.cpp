@@ -231,6 +231,12 @@ void GUIQT::drawMainMenu()
     MainMenu::drawMainMenu(0, 0, painter);
 }
 
+void GUIQT::drawPauseScreen()
+{
+    painter->drawPixmap(0, 0, pix_per_tile * size_y, pix_per_tile * size_x, QPixmap("Inventory/squary_press.png"));
+    Write::writeText("PAUSE", 0, 0, 15 * 32, 11 * 32, painter);
+}
+
 void GUIQT::setDrawPlayer(Player *new_draw_player)
 {
     this->draw_player = new_draw_player;

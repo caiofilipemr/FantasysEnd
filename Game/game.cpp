@@ -69,25 +69,33 @@ void Game::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Right:
        atual_direction = RIGHT;
         break;
-    case Qt::Key_Pause:
-        clock->stop();
+    case Qt::Key_P:
+        if (current_transiction == PAUSE) {
+            clock->start();
+            current_transiction = NONE;
+        } else {
+            clock->stop();
+            current_transiction = PAUSE;
+        }
+        repaint();
         break;
     case Qt::Key_Enter:
-        clock->start();
         break;
      case Qt::Key_I:
-        if(my_GUI->inventoryIsOpen()) {
-            my_GUI->inventoryOff();
-            //clock->start();
-            disconnect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
-            connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-        }
-        else {
-            my_GUI->inventoryOn();
-            disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-            connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
-            //clock->stop();
-            repaint();
+        if (current_painter_option == P_MAP){
+            if(my_GUI->inventoryIsOpen()) {
+                my_GUI->inventoryOff();
+                //clock->start();
+                disconnect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
+                connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+            }
+            else {
+                my_GUI->inventoryOn();
+                disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+                connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
+                //clock->stop();
+                repaint();
+            }
         }
         break;
     case Qt::Key_Space:
@@ -123,7 +131,7 @@ void Game::paintEvent(QPaintEvent *)
     case P_GAME_OVER:
         my_GUI->drawGameOver();
         break;
-    case P_INVENTORY:
+    case INVENTORY:
         //my_GUI->drawInventory();
         break;
     case P_MAIN_MENU:
@@ -141,6 +149,9 @@ void Game::paintEvent(QPaintEvent *)
         break;
     case CLOSE:
         my_GUI->drawTransictionMapBattle(trans_m_b_cont);
+        break;
+    case PAUSE:
+        my_GUI->drawPauseScreen();
         break;
     default:
         break;

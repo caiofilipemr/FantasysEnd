@@ -56,8 +56,8 @@ private:
     bool is_battle, is_inventory, interactive_button, is_transiction;
     int x_mouse, y_mouse, i, trans_m_b_cont;
 
-    enum PainterOption {P_MAP, P_BATTLE, P_GAME_OVER, P_INVENTORY, P_MAIN_MENU};
-    enum PainterTransiction {NONE, OPEN, CLOSE};
+    enum PainterOption {P_MAP, P_BATTLE, P_GAME_OVER, P_MAIN_MENU};
+    enum PainterTransiction {NONE, OPEN, CLOSE, PAUSE, INVENTORY};
     PainterOption current_painter_option;
     PainterTransiction current_transiction;
 };

@@ -3,6 +3,7 @@
 
 #include <QPixmap>
 #include <QPainter>
+#include <iostream>
 
 class Write
 {
@@ -13,6 +14,7 @@ public:
     Write();
     static void writeHPorMP(QString p, QString p_max, int bar_x, int bar_y, int bar_w, int bar_h, QPainter *painter);
     static void writeText(QString text, int x, int y, QPainter *painter, bool red = false);
+    static void writeText(QString text, int x, int y, int width, int height, QPainter *painter, bool red = false);
 };
 
 #endif // WRITE_H

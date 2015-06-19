@@ -71,9 +71,29 @@ void Write::writeText(QString text, int x, int y, QPainter *painter, bool red)
     if (red) mod = 43;
 
     for (i = 0, size = text.length(); i < size; i++) {
-        actual_char= QPixmap(letters_and_numbers[text[i].digitValue() + mod]);
+        actual_char = QPixmap(letters_and_numbers[text[i].digitValue() + mod]);
         w = actual_char.width();
         painter->drawPixmap(x, y, w, all_number_height, actual_char);
         x = x + w;
+    }
+}
+
+void Write::writeText(QString text, int x, int y, int width, int height, QPainter *painter, bool red)
+{
+    int mod = 0, actual_char[text.size()], size_of_text_px = 0;
+    if (red) mod = 43;
+
+
+    for (int i = 0; i < text.size(); i++) {
+        if (text[i].isDigit()) actual_char[i] = text[i].digitValue();
+        else actual_char[i] = text[i].unicode() - '0';
+        std::cerr << actual_char[i] << '\n';
+        size_of_text_px += QPixmap(letters_and_numbers[actual_char[i]]).width();
+    }
+    int w = width / 2 - size_of_text_px / 2, h = height / 2 - all_number_height / 2;
+    for (int i = 0; i < text.size(); i++) {
+        QPixmap actual_px_map(letters_and_numbers[actual_char[i] + mod]);
+        painter->drawPixmap(x + w, y + h, actual_px_map.width(), all_number_height, QPixmap(letters_and_numbers[actual_char[i]]));
+        w += actual_px_map.width();
     }
 }
