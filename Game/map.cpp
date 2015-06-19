@@ -1,5 +1,8 @@
 #include "map.h"
 #include "Character/Player/player.h"
+#include "Item/randitens.h"
+#include "Character/Monster/monster.h"
+
 //Adicionar os metodos addObject e removeObject
 
 const int Map::min_chest = 5;
@@ -7,10 +10,11 @@ const int Map::max_chest = 8;
 const int Map::min_stone = 7;
 const int Map::max_stone = 10;
 
-Map::Map(string new_arch_map, string new_img_way)
+Map::Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mobs)
 {
+    qtd_chest = qtd_stone = 0;
     can_go = new bool[4];
-
+    mobs = new_mobs;
     ifstream arch_map;
 
     img_way = new_img_way;
@@ -148,6 +152,29 @@ Object ***Map::getMatIteration()
     return m_interation;
 }
 
+void Map::distributeItensMap()
+{
+    int qtd_obj = mobs->size() + qtd_chest;
+    int rand_index = 0;
+    Item * temp_item;
+    try {
+        while(1) {
+            rand_index = random(qtd_obj);
+            if(rand_index < qtd_chest) {
+                if (chest_list[rand_index]->canAddItem()) {
+                    temp_item = RandItens::getRandItem();
+                    chest_list[rand_index]->addItem(temp_item);
+                }
+            } else {
+                if ((*mobs)[(rand_index - qtd_chest)]->canAddItem()) {
+                    temp_item = RandItens::getRandItem();
+                    (*mobs)[(rand_index - qtd_chest)]->addItens(temp_item);
+                }
+            }
+        }
+    }catch(const char *e){ };
+}
+
 string Map::getImgWay()
 {
     return img_way;
@@ -195,7 +222,6 @@ void Map::removeAColision(Cordenates remove_col)
 
 void Map::randMapInteration()
 {
-    int qtd_chest, qtd_stone;
     int obj_pos_i, obj_pos_j, k;
     qtd_chest = (random((max_chest + 1) - min_chest) + min_chest);
     chest_list = new Chest*[qtd_chest];
