@@ -55,3 +55,8 @@ void Chest::setImgWay(std::string new_img_way)
     chest_img_way = new_img_way;
 }
 
+Chest *Chest::getChest()
+{
+    return this;
+}
+

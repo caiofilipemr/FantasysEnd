@@ -22,6 +22,7 @@ public:
     bool addItem(Item * new_item);
     void interate(Player * interate_player);
     static void setImgWay(std::string new_img_way);
+    Chest *getChest();
 };
 
 #endif // CHEST_H

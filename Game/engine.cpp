@@ -216,16 +216,6 @@ void Engine::setPlayer(PlayerClass pc)
     mobs.push_back(new Stalker(1, 1, 42, 35, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
     for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
 
-    my_player->addItemInventory(new Sword(0));
-    my_player->addItemInventory(new Bow(0));
-    my_player->addItemInventory(new HealfMP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new Dagger(0));
-    my_player->addItemInventory(new Rod(0));
 }
 
 void Engine::setSpecialX()
