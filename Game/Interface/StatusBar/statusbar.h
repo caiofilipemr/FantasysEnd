@@ -8,7 +8,7 @@ class StatusBar
     static const int x, y, width, height;
 public:
 
-    void draw(QPainter * painter, int str, int agi, int itl);
+    static void draw(QPainter * painter, int str, int agi, int itl);
 };
 
 #endif // STATUSBAR_H
