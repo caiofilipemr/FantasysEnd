@@ -1,4 +1,5 @@
 #include "guiqt.h"
+#include "Interface/StatusBar/statusbar.h"
 
 const int GUIQT::size_x = 11;
 const int GUIQT::size_y = 15;
@@ -235,6 +236,11 @@ void GUIQT::drawPauseScreen()
 {
     painter->drawPixmap(0, 0, pix_per_tile * size_y, pix_per_tile * size_x, QPixmap("Inventory/squary_press.png"));
     Write::writeText("PAUSE", 0, 0, 15 * 32, 11 * 32, painter);
+}
+
+void GUIQT::drawStatusBar()
+{
+    StatusBar::draw(painter, draw_player->getStrenght(), draw_player->getAgility(), draw_player->getIntelligence());
 }
 
 void GUIQT::setDrawPlayer(Player *new_draw_player)

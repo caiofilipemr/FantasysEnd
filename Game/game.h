@@ -30,7 +30,7 @@ public:
     explicit Game(QWidget *parent = 0);
     ~Game();
     void keyPressEvent(QKeyEvent * event);
-    void keyReleaseEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent *event);
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent * event);
 
@@ -56,9 +56,9 @@ private:
     bool is_battle, is_inventory, interactive_button, is_transiction;
     int x_mouse, y_mouse, i, trans_m_b_cont;
 
-    enum PainterOption { P_NONE, P_MAP, P_BATTLE, P_GAME_OVER, P_MAIN_MENU};
-    enum PainterTransiction { NONE, OPEN, CLOSE, INVENTORY};
-    enum PainterOver { O_NONE, PAUSE };
+    enum PainterOption { P_NONE, P_MAP, P_BATTLE, P_GAME_OVER, P_MAIN_MENU };
+    enum PainterTransiction { NONE, OPEN, CLOSE, INVENTORY };
+    enum PainterOver { O_NONE, PAUSE, STATUS_BAR };
     PainterOption current_painter_option;
     PainterTransiction current_transiction;
     PainterOver current_over;
