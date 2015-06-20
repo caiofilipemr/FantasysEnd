@@ -255,65 +255,70 @@ void Game::myUpdate()
 void Game::myBattle()
 {
     Exceptions exc_atk, exc_def = HIT;
-//    BattleOptions
+    BattleOptions selected_option;
+
     if (!(my_GUI->isBattleDelay())) {
         if(!is_player_battle) {
             interactive_button = true;
+            selected_option = ATTACK;
+        } else {
+            selected_option = my_GUI->getSelectedOptionBattle();
         }
 
         if (interactive_button) {
-            int ret = my_engine->battle(my_GUI->getSelectedOptionBattle(), exc_atk, exc_def);
+            int ret = my_engine->battle(selected_option, exc_atk, exc_def);
 
-            switch (exc_atk) {
-            case HIT:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
-                instant_sfx->play();
+                switch (exc_atk) {
+                case HIT:
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
+                    instant_sfx->play();
+                    my_GUI->battleDelayCont();
+                    my_GUI->setBattleText(exc_atk, QString::number(ret), is_player_battle);
+                    break;
+                case CRITICAL:
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
+                    instant_sfx->play();
+                    my_GUI->battleDelayCont();
+                    my_GUI->setBattleText(exc_atk, is_player_battle);
+                    my_GUI->setBattleText(exc_atk, QString::number(ret), is_player_battle);
+                    break;
+                case DODGE:
+                    my_GUI->setBattleText(exc_atk,is_player_battle);
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
+                    instant_sfx->play();
+                    break;
+                case MISS:
+                    my_GUI->setBattleText(exc_atk, !is_player_battle);
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
+                    instant_sfx->play();
+                    break;
+                default:
+                    break;
+                }
+                switch (exc_def) {
+                case HIT:
+                    break;
+                case GAME_OVER:
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
+                    instant_sfx->play();
+                    disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+                    connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleGO()));
+                    current_transiction = CLOSE;
+                    break;
+                case CHARACTER_DIE:
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
+                    instant_sfx->play();
+                    disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
+                    connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleMap()));
+                    current_transiction = CLOSE;
+                    break;
+                default:
+                    break;
+                }
                 my_GUI->battleDelayCont();
-                my_GUI->setBattleText(exc_atk, QString::number(ret), is_player_battle);
-                break;
-            case CRITICAL:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
-                instant_sfx->play();
-                my_GUI->battleDelayCont();
-                my_GUI->setBattleText(exc_atk, is_player_battle);
-                my_GUI->setBattleText(exc_atk, QString::number(ret), is_player_battle);
-                break;
-            case DODGE:
-                my_GUI->setBattleText(exc_atk,is_player_battle);
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
-                instant_sfx->play();
-                break;
-            case MISS:
-                my_GUI->setBattleText(exc_atk, !is_player_battle);
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo("Music/swing3.wav").absoluteFilePath()));
-                instant_sfx->play();
-                break;
-            default:
-                break;
-            }
-            switch (exc_def) {
-            case HIT:
-                break;
-            case GAME_OVER:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
-                instant_sfx->play();
-                disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
-                connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleGO()));
-                current_transiction = CLOSE;
-                break;
-            case CHARACTER_DIE:
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::options_sounds[my_GUI->getSelectedOptionBattle()])).absoluteFilePath()));
-                instant_sfx->play();
-                disconnect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
-                connect(clock, SIGNAL(timeout()), this, SLOT(transictionBattleMap()));
-                current_transiction = CLOSE;
-                break;
-            default:
-                break;
-            }
-            my_GUI->battleDelayCont();
-            interactive_button = false;
-            is_player_battle = !is_player_battle;
+                interactive_button = false;
+                is_player_battle = !is_player_battle;
+
         } else if (my_GUI->moveCursorBattle(atual_direction)) {
             instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
             instant_sfx->play();
