@@ -33,6 +33,7 @@ Item *Inventory::removeItem(int item_index)
 {
     if (item_index >= index) throw "Out of Range! (INVENTORY)";
     Item * temp_item = itens_list[item_index];
+    weight -= temp_item->getWeight();
     itens_list.erase(itens_list.begin() + item_index);
     index--;
     return temp_item;
