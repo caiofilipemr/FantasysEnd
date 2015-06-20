@@ -95,6 +95,7 @@ void Game::keyPressEvent(QKeyEvent *event)
             if(current_transiction == INVENTORY) {
                 my_GUI->inventoryOff();
                 disconnect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
+                interactive_button = false;
                 connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
                 current_transiction = NONE;
             }

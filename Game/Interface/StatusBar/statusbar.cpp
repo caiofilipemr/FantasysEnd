@@ -12,5 +12,6 @@ void StatusBar::draw(QPainter *painter, int str, int agi, int itl)
     Write::writeText("AGILITY " + QString::number(agi), x, y, width, division, painter);
     Write::writeText("STRENGHT " + QString::number(str), x, y + division, width, division, painter);
     Write::writeText("INTELLIGENCE " + QString::number(itl), x, y + division * 2, width, division, painter);
+    painter->drawPixmap(x, y, width, height, QPixmap("Inventory/squary_press.png"));
 }
 
