@@ -240,7 +240,7 @@ void GUIQT::drawPauseScreen()
 
 void GUIQT::drawStatusBar()
 {
-    //StatusBar::draw(painter, draw_player->getStrenght(), draw_player->getAgility(), draw_player->getIntelligence());
+    StatusBar::draw(painter, draw_player->getStrenght(), draw_player->getAgility(), draw_player->getIntelligence());
 }
 
 void GUIQT::setDrawPlayer(Player *new_draw_player)
