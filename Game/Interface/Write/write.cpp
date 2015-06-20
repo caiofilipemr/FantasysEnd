@@ -5,7 +5,7 @@ const QString Write::letters_and_numbers[53] = {"Bebas Neueu - Caracteres/0.png"
                                                 "Bebas Neueu - Caracteres/4.png", "Bebas Neueu - Caracteres/5.png",
                                                 "Bebas Neueu - Caracteres/6.png", "Bebas Neueu - Caracteres/7.png",
                                                 "Bebas Neueu - Caracteres/8.png", "Bebas Neueu - Caracteres/9.png",
-                                                "", "", "", "", "", "", "",
+                                                "Bebas Neueu - Caracteres/space.png", "", "", "", "", "", "",
                                                 "Bebas Neueu - Caracteres/a.png", "Bebas Neueu - Caracteres/b.png",
                                                 "Bebas Neueu - Caracteres/c.png", "Bebas Neueu - Caracteres/d.png",
                                                 "Bebas Neueu - Caracteres/e.png", "Bebas Neueu - Caracteres/f.png",
@@ -85,6 +85,11 @@ void Write::writeText(QString text, int x, int y, int width, int height, QPainte
 
 
     for (int i = 0; i < text.size(); i++) {
+        if (text[i] == ' ') {
+            actual_char[i] = 10;
+            size_of_text_px += QPixmap(letters_and_numbers[actual_char[i]]).width();
+            continue;
+        }
         if (text[i].isDigit()) actual_char[i] = text[i].digitValue();
         else actual_char[i] = text[i].unicode() - '0';
         size_of_text_px += QPixmap(letters_and_numbers[actual_char[i]]).width();

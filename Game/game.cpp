@@ -84,8 +84,11 @@ void Game::keyPressEvent(QKeyEvent *event)
         repaint();
         break;
     case Qt::Key_Tab:
-        if (current_painter_option == P_MAP) current_over = STATUS_BAR;
-        repaint();
+        if (current_transiction == STATUS_BAR) current_transiction = NONE;
+        else if (current_painter_option == P_MAP) {
+            current_transiction = STATUS_BAR;
+            repaint();
+        }
         break;
      case Qt::Key_I:
         if (current_painter_option == P_MAP){
@@ -118,13 +121,9 @@ void Game::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void Game::keyReleaseEvent(QKeyEvent *event)
+void Game::keyReleaseEvent(QKeyEvent *)
 {
     if (current_painter_option == P_MAP) atual_direction = SLEEP;
-    if (event->key() == Qt::Key_Tab) {
-        current_over = O_NONE;
-        repaint();
-    }
 }
 
 void Game::paintEvent(QPaintEvent *)
@@ -161,6 +160,9 @@ void Game::paintEvent(QPaintEvent *)
         my_GUI->drawInventory();
         if(my_GUI->messageIsOpen())
            my_GUI->drawMessage();
+        break;
+    case STATUS_BAR:
+        my_GUI->drawStatusBar();
         break;
     default:
         break;
