@@ -203,7 +203,10 @@ void InventInterface::positionChest(int x, int y)
     const int margin = width*0.0078, w = width*0.088889;
     int column = (x - chest->getX())/(w + margin);
     if(chestrandom && column%5 < chestrandom->getSize()) {
-        player->getInventory()->addItem(chestrandom->removeItem(column%5));
+        if(player->getInventory()->addItem(chestrandom->getItem(column%5)))
+            chestrandom->removeItem(column%5);
+        else
+            cerr << "Player can't equip the item, is too heavy!Equip";
         if (!chestrandom)
             chestNULL();
     }
