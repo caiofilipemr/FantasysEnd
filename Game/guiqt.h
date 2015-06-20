@@ -38,6 +38,7 @@ public:
     void drawGameOver();
     void drawMainMenu();
     void drawPauseScreen();
+    void drawStatusBar();
 
     void setDrawPlayer(Player * new_draw_player);
     void setDrawMap(Map * new_draw_map);

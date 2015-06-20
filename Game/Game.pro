@@ -68,7 +68,8 @@ SOURCES += main.cpp\
     Interface/Write/write.cpp \
     cordenates.cpp \
     Item/randitens.cpp \
-    Interface/mainmenu.cpp
+    Interface/mainmenu.cpp \
+    Interface/StatusBar/statusbar.cpp
     Item/randitens.cpp
 
 HEADERS  += game.h \
@@ -127,7 +128,8 @@ HEADERS  += game.h \
     Interface/Write/write.h \
     cordenates.h \
     Item/randitens.h \
-    Interface/mainmenu.h
+    Interface/mainmenu.h \
+    Interface/StatusBar/statusbar.h
     Item/randitens.h
 
 FORMS    += game.ui
