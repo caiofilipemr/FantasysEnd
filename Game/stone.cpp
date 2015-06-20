@@ -3,6 +3,7 @@
 
 const int Stone::hp = 200;
 std::string Stone::stone_img_way = "Images/stone1.png";
+std::string Stone::broken_stone_img = "Images/stone1_2.png";
 Stone::Stone(int new_pos_i, int new_pos_j) : Object(new_pos_i, new_pos_j, stone_img_way)
 {
     hp_var = hp;
@@ -24,5 +25,10 @@ void Stone::interate(Player * interate_player)
 void Stone::setImgWay(std::string new_img_way)
 {
     stone_img_way = new_img_way;
+}
+
+string Stone::getImgBrokenStone()
+{
+    return broken_stone_img;
 }
 

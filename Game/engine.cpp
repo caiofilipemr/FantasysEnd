@@ -4,7 +4,7 @@ const int Engine::number_of_mobs = 3;
 Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
 {
     CellArray::instance();
-    my_map = new Map("Maps/mapa.txt", "Images/roguelikeSheet_transparent.png");
+    my_map = new Map("Maps/mapa.txt", "Images/roguelikeSheet_transparent.png", &mobs);
     CellArray::instance()->setCell(my_map->getCordenates().i, my_map->getCordenates().j, my_map->getColision());
 
     engine_GUI->setDrawMap(my_map);
@@ -166,15 +166,20 @@ std::vector<string> Engine::getCommands(int index)
 void Engine::interation()
 {
     Cordenates player_eye = my_player->getCordenates() + my_player->getEyeDirection();
-    Object * stone = my_map->getObjectMap(player_eye);
+    Object * object = my_map->getObjectMap(player_eye);
     try {
-        if (stone) stone->interate(my_player);
+        if (object) object->interate(my_player);
     } catch(Exceptions e){
         if (e == BROKEN_STONE) {
             my_map->removeAColision(player_eye);
             my_map->removeObjects(player_eye);
+            player_eye = object->getCordenates();
+            Object * broken_stone = new Object(player_eye.i,player_eye.j,Stone::getImgBrokenStone());
+            my_map->addObjects(broken_stone,player_eye);
         }
-        else throw;
+        else if (e == OPEN_CHEST) {
+            throw (Chest*)object;
+        } else throw;
     }
 }
 
@@ -216,16 +221,6 @@ void Engine::setPlayer(PlayerClass pc)
     mobs.push_back(new Stalker(1, 1, 42, 35, "Monster/monster_grey.png","Battle/0 [updated].png", DOWN));
     for (size_t i = 0; i < mobs.size(); i++) mobs[i]->setStalk(my_player);
 
-    my_player->addItemInventory(new Sword(0));
-    my_player->addItemInventory(new Bow(0));
-    my_player->addItemInventory(new HealfMP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new HealfHP());
-    my_player->addItemInventory(new Dagger(0));
-    my_player->addItemInventory(new Rod(0));
 }
 
 void Engine::setSpecialX()

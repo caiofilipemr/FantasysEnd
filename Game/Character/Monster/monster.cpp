@@ -4,6 +4,7 @@ std::string Monster::img_monster_die = "Images/PNG/cursorSword_bronze.png";
 int Monster::quantity_monster = 0;
 int Monster::all_is_walking = 0;
 int Monster::cont_monster = 0;
+int Monster::max_item = 5;
 
 Monster::Monster(int new_level_monster,
                  int new_hp, int new_mp,
@@ -32,6 +33,15 @@ Monster::~Monster() {
     quantity_monster --;
 }
 
+bool Monster::addItens(Item *new_item)
+{
+    if (itens_list.size() + 1 < max_item) {
+        itens_list.push_back(new_item);
+        return true;
+    }
+    return false;
+}
+
 void Monster::update(Map *my_map)
 {
     if (all_is_walking) {
@@ -51,16 +61,21 @@ int Monster::getDropXP()
     return drop_xp;
 }
 
+bool Monster::canAddItem()
+{
+    if((itens_list.size() + 1) < max_item)
+        return true;
+    return false;
+}
+
+std::vector<Item *> Monster::dropItens()
+{
+    return itens_list;
+}
+
 int Monster::getMonsterLevel()
 {
     return monster_level;
-}
-
-Inventory *Monster::getDrop()
-{
-    Inventory *temp_drop = drop;
-    drop = NULL;
-    return temp_drop;
 }
 
 void Monster::setStalk(Object *player)
@@ -99,7 +114,7 @@ void Monster::setCanGo(bool * can)
 void Monster::die(Map *my_map)
 {
     my_map->removeAColision(Cordenates(this->pos_i, this->pos_j));
-    Chest * chest_temp = new Chest(this->pos_i,this->pos_j,img_monster_die);
+    Chest * chest_temp = new Chest(this->pos_i,this->pos_j,img_monster_die,dropItens());
     my_map->addObjects(chest_temp,Cordenates(this->pos_i,this->pos_j));
 }
 

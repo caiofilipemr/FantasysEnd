@@ -15,15 +15,13 @@ InventInterface::InventInterface(int width, int height, int widthGUI, int height
   inv = new Rectangle(width*0.503 + x, height*0.25 + y, width*0.467, height*0.4505);
   chest = new Rectangle(width*0.503 + x, height*0.811 + y, width*0.467, height*0.1441);
   message = current = false;
+  chestNULL();
 }
 
 void InventInterface::setCursor(int x, int y)
 {
   this->x_mouse = x;
   this->y_mouse = y;
-//  if(message) {
-//    messagebox->setCursor(x,y);
-//  }
 }
 
 void InventInterface::setNumberItemInv(int number)
@@ -51,6 +49,16 @@ void InventInterface::setPlayer(Player *player)
     this->player = player;
 }
 
+void InventInterface::chestNULL()
+{
+    chestrandom = NULL;
+}
+
+void InventInterface::setChest(Chest *chest)
+{
+    chestrandom = chest;
+}
+
 InventInterface::~InventInterface()
 {}
 
@@ -62,16 +70,25 @@ void InventInterface::draw(QPainter *obj)
   const int margin = width*0.0078, h = height*0.144145, w = width*0.088889;
   int column = (x_mouse - inv->getX())/(w + margin), line = (y_mouse - inv->getY())/(h + margin);
 
-  Inventory *inven = player->getInventory();
   int i = 0;
   while((player->getInventory())->isItem(i)){
     try{
       obj->drawPixmap(width*0.503 + x + margin*(i%5) + 35*(i%5), height*0.25 + y + 35*(i/5) + margin*(i/5),
-                      32,32,QPixmap(QString::fromStdString(inven->getItem(i)->getImg_way())));
+                      32,32,QPixmap(QString::fromStdString(player->getInventory()->getItem(i)->getImg_way())));
     }catch(const char * what){
       std::cout << what;
     }
     i++;
+  }
+
+  if(player->getWeapon()){
+    obj->drawPixmap(width*0.397 + x, height*0.305 + y,32,32,QPixmap(QString::fromStdString(player->getWeapon()->getImg_way())));
+  }
+  if(player->getArmor()){
+    obj->drawPixmap(width*0.397 + x, height*0.56 + y,32,32,QPixmap(QString::fromStdString(player->getArmor()->getImg_way())));
+  }
+  if(player->getShield()){
+    obj->drawPixmap(width*0.397 + x, height*0.82 + y,32,32,QPixmap(QString::fromStdString(player->getShield()->getImg_way())));
   }
 
   if(inv->is_colision(x_mouse, y_mouse)){
@@ -113,13 +130,16 @@ bool InventInterface::positionIsItem(int x, int y)
 
 void InventInterface::removeItem()
 {
-  //Por enquanto
   player->getInventory()->removeItem(getNumberItemInv());
 }
 
 void InventInterface::equipItem()
 {
-  player->getInventory()->getItem(getNumberItemInv())->getCommands()[0]->doThis(*player);
+    try{
+        player->getInventory()->getItem(getNumberItemInv())->getCommands()[0]->doThis(*player);
+    }catch(const char * what){
+        std::cerr << what;
+    }
 }
 
 void InventInterface::drawMessage(QPainter *obj)

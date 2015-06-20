@@ -397,6 +397,11 @@ void GUIQT::inventoryOff()
     inventory->off();
 }
 
+void GUIQT::setChest(Chest *chest)
+{
+    inventory->setChest(chest);
+}
+
 bool GUIQT::messageIsOpen()
 {
     return messageGUI->isOpen();

@@ -245,11 +245,14 @@ void Game::myUpdate()
     }
     if (interactive_button) {
         try {
-            my_engine->interation();
-        } catch(Exceptions e){ cerr << "e\n";}
+            try {
+                my_engine->interation();
+            } catch(Chest * temp_chest){
+                my_GUI->setChest(temp_chest);
+            }
+        }catch(Exceptions e){cerr << "Erro";};
         interactive_button = false;
     }
-
 }
 
 void Game::myBattle()

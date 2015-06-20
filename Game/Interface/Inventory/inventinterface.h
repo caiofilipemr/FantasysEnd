@@ -7,6 +7,7 @@
 #include "Enums.h"
 #include "Interface/Inventory/messagebox.h"
 #include "Character/Player/player.h"
+#include "chest.h"
 
 class InventInterface: public Mouse
 {
@@ -38,6 +39,8 @@ public:
   int getNumberItemInv();
   int getNumberItemChest();
   void setPlayer(Player *player);
+  void setChest(Chest *chest);
+  void chestNULL();
 
 private:
   static const int inv_i, inv_j, chest_i;
@@ -48,6 +51,7 @@ private:
   MessageBox *messagebox;
   bool message, current;
   Player* player;
+  Chest* chestrandom;
 };
 
 #endif // INVENTINTERFACE_H
