@@ -61,6 +61,7 @@ void GUIQT::drawHUD()
     mp_bar.draw(painter, 240, 9); //Desenha a barra de MP
     Write::writeHPorMP(QString::number(draw_player->getHP()), QString::number(draw_player->getHPMax()), 35, 9, hp_bar.getTotalW(), 18, painter);
     Write::writeHPorMP(QString::number(draw_player->getMP()), QString::number(draw_player->getMPMax()), 240, 9, mp_bar.getTotalW(), 18, painter);
+    Write::writeText("LVL " + QString::number(draw_player->getLevel()), 410, 0, 70, 36, painter);
 }
 
 GUIQT::~GUIQT()
@@ -240,7 +241,7 @@ void GUIQT::drawPauseScreen()
 
 void GUIQT::drawStatusBar()
 {
-    //StatusBar::draw(painter, draw_player->getStrenght(), draw_player->getAgility(), draw_player->getIntelligence());
+    StatusBar::draw(painter, draw_player->getStrenght(), draw_player->getAgility(), draw_player->getIntelligence());
 }
 
 void GUIQT::setDrawPlayer(Player *new_draw_player)
