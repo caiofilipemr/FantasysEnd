@@ -36,6 +36,7 @@ public:
     int getHPMax();
     int getMP();
     int getMPMax();
+    int getDamage();
     int getGuard();
     virtual void setDirection(Direction new_direction);
     void setEyeDirection(Direction new_eye_direction);

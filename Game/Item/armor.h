@@ -16,6 +16,7 @@ public:
     int getGuard();
     std::vector<Commands *> getCommands();
     static void setImgWay(std::string new_img_way);
+    Information getInfos();
 };
 
 #endif // ARMOR_H

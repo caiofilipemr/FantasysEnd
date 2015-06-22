@@ -61,6 +61,7 @@ public:
     bool isMMDelay();
     void setBattleText(Exceptions type, QString new_battle_text, bool new_text_right = true);
     void setBattleText(Exceptions type, bool new_text_right = true);
+    void resetStatusBar();
 
     bool inventoryIsOpen();
     void inventoryOn();

@@ -17,31 +17,31 @@ public:
 
 class EquipWeapon : public Commands {
 public:
-    EquipWeapon(Item * new_do_in_this_item) : Commands("Equip weapon", new_do_in_this_item) { }
+    EquipWeapon(Item * new_do_in_this_item) : Commands("EQUIP WEAPON", new_do_in_this_item) { }
     void doThis(Player &player);
 };
 
 class EquipShield: public Commands {
 public:
-    EquipShield(Item * new_do_in_this_item) : Commands("Equip weapon", new_do_in_this_item) { }
+    EquipShield(Item * new_do_in_this_item) : Commands("EQUIP SHIELD", new_do_in_this_item) { }
     void doThis(Player &player);
 };
 
 class EquipArmor : public Commands {
 public:
-    EquipArmor(Item * new_do_in_this_item) : Commands("Equip weapon", new_do_in_this_item) { }
+    EquipArmor(Item * new_do_in_this_item) : Commands("EQUIP ARMOR", new_do_in_this_item) { }
     void doThis(Player &player);
 };
 
 class Consume : public Commands {
 public:
-    Consume(Item * new_do_in_this_item) : Commands("Consume", new_do_in_this_item) { }
+    Consume(Item * new_do_in_this_item) : Commands("CONSUME", new_do_in_this_item) { }
     void doThis(Player &player);
 };
 
 class Drop : public Commands {
 public:
-    Drop(Item * new_do_in_this_item) : Commands("Drop item", new_do_in_this_item) { }
+    Drop(Item * new_do_in_this_item) : Commands("DROP ITEM", new_do_in_this_item) { }
     void doThis(Player &player);
 };
 

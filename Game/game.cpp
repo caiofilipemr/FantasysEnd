@@ -87,6 +87,7 @@ void Game::keyPressEvent(QKeyEvent *event)
         if (current_transiction == STATUS_BAR) current_transiction = NONE;
         else if (current_painter_option == P_MAP) {
             current_transiction = STATUS_BAR;
+            my_GUI->resetStatusBar();
             repaint();
         }
         break;
@@ -209,7 +210,7 @@ void Game::mousePressEvent(QMouseEvent *event)
 }
 
 void Game::mainMenu()
-{
+{    
     if (!my_GUI->isMMDelay()) {
         if (interactive_button) {
             my_engine->setPlayer(my_GUI->getSelectedOptionMM());

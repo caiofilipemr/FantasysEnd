@@ -20,3 +20,11 @@ std::vector<Commands *> Potion::getCommands()
     return list_of_cmd;
 }
 
+Information Potion::getInfos()
+{
+    Information info(2);
+    info.addInfo("WEIGHT", weight);
+    info.addInfo("ITEM LEVEL", item_level);
+    return info;
+}
+

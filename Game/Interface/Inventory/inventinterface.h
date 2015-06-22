@@ -8,15 +8,16 @@
 #include "Interface/Inventory/messagebox.h"
 #include "Character/Player/player.h"
 #include "chest.h"
+#include "Interface/Write/write.h"
 
 class InventInterface: public Mouse
 {
 public:
-  InventInterface(int width, int height, int widthGUI, int heightGUI, Player *player);
+  InventInterface(int width, int height, int widthGUI, int heightGUI, Player *player, QPainter *obj);
   ~InventInterface();
 
   void setCursor(int x, int y);
-  void draw(QPainter *obj);
+  void draw();
 
   void on();
   void off();
@@ -25,7 +26,7 @@ public:
   void removeItem();
   void equipItem();
 
-  void drawMessage(QPainter *obj);
+  void drawMessage();
   void isMessage();
   void notMessage();
   void newMessage();
@@ -48,12 +49,16 @@ private:
   static const int inv_i, inv_j, chest_i;
   enum{ INVENTORY, CHEST };
   int width, height, x, y, widthGUI, heightGUI, number_item[2];
-  Rectangle *inv, *chest;
+  Rectangle *inv, *chest, *weapon, *shield, *armor;
   QPixmap *squary, *back, *img_inventory[15];
   MessageBox *messagebox;
   bool message, current;
   Player* player;
   Chest* chestrandom;
+  QPainter *obj;
+  QString action_message;
+
+  void showInfos(Information info);
 };
 
 #endif // INVENTINTERFACE_H

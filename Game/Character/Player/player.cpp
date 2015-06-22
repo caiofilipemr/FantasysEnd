@@ -52,16 +52,20 @@ void Player::setIntelligence(int new_intelligence)
 void Player::setWeapon(Weapon * new_weapon)
 {
     weapon = new_weapon;
+    setDamage();
+    setGuard();
 }
 
 void Player::setShield(Shield *new_shield)
 {
     shield = new_shield;
+    setGuard();
 }
 
 void Player::setArmor(Armor *new_armor)
 {
     armor = new_armor;
+    setGuard();
 }
 
 void Player::setDirection(Direction new_direction)

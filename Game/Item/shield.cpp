@@ -32,3 +32,11 @@ void Shield::setImgWay(string new_img_way)
     shield_img_way = new_img_way;
 }
 
+Information Shield::getInfos()
+{
+    Information info(3);
+    info.addInfo("WEIGHT", weight);
+    info.addInfo("ITEM LEVEL", item_level);
+    info.addInfo("GUARD", getGuard());
+    return info;
+}

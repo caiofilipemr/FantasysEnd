@@ -11,161 +11,63 @@
 #include <queue>
 #include <iostream>
 
-template <typename T>
-
-class Node
-{
-public:
-    T x;
-    Node *prox;
-    Node *ant;
-    Node(T n, Node *ptp = 0, Node *pta = 0) : x(n), prox(ptp), ant(pta) { }
-};
-
-template <typename T>
-class myIterator {
-    Node<T> *pt;
-public:
-    myIterator() { }
-    virtual T next() = 0;
-    virtual bool has_next() = 0;
-};
-
-template <typename T>
-class Fila
-{
+class Information {
 private:
-    Node<T> ini, *fim;
-    int s;
+    int size, *info;
+    std::string *info_name;
+    int i;
 public:
-    //Métodos "padrão" da estrutura Fila!!!
-    Fila() : ini(0), fim(&ini), s(0) { }
+    Information(int size) : size(size), info(new int[size]), info_name(new std::string[size]), i(0) { }
 
-    void queue(T n) {
-        fim->prox = new Node<T>(n, NULL, fim);
-        fim = fim->prox;
-        s++;
-    }
+    Information(Information & other) {
+        size = other.size;
+        info_name = new std::string[size];
+        info = new int[size];
 
-    T dequeue() {
-        if (is_empty()) throw "Fila vazia, impossível desinfileirar!";
-        s--;
-        T x = ini.prox->x;
-        if (!ini.prox->prox) {
-            delete ini.prox;
-            ini.prox = NULL;
-            fim = &ini;
-            return x;
+        for (int i = 0; i < size; i++) {
+            info_name[i] = other.info_name[i];
+            info[i] = other.info[i];
         }
-        ini.prox = ini.prox->prox;
-        delete ini.prox->ant;
-        ini.prox->ant = &ini;
-        return x;
+        this->i = other.i;
     }
 
-    T first() {
-        if (is_empty()) throw "Fila vazia!";
-        return ini.prox->x;
-    }
+    Information(const Information & other) {
+        size = other.size;
+        info_name = new std::string[size];
+        info = new int[size];
 
-    T last() {
-        if (is_empty()) throw "Fila vazia!";
-        return fim->x;
-    }
-
-    int size() { return s; }
-
-    bool is_empty() { return !(bool)s; }
-
-    void clear() {
-        while (!is_empty()) dequeue();
-    }
-
-    ~Fila() { this->clear(); }
-};
-
-template <typename T>
-class Lista
-{
-private:
-    Node<T> ini, fim;
-    int s;
-
-    template <typename T1>
-    class myIteratorLista : public myIterator<T1> {
-        Node<T> *pt, *fim;
-    public:
-        myIteratorLista(Node<T> *it, Node<T> *fim) : pt(it), fim(fim) { }
-        T1 next() {
-            if (pt) {
-                T1 x = pt->x;
-                pt = pt->prox;
-                return x;
-            }
-            throw "Não existe próximo!";
+        for (int i = 0; i < size; i++) {
+            info_name[i] = other.info_name[i];
+            info[i] = other.info[i];
         }
-
-        bool has_next() {
-            if (pt != fim) return true;
-            return false;
-        }
-    };
-
-public:
-    //Métodos "padrão" da estrutura lista!!!
-    Lista(T n) : ini(n, &fim), fim(n, 0, &ini), s(0) { }
-
-    void add(T n) {
-        fim.ant->prox = new Node<T>(n, &fim, fim.ant);
-        fim.ant = fim.ant->prox;
-        s++;
+        this->i = other.i;
     }
 
-    T remove(int i) {
-        if (i < 0 || i >= s || !s) throw "Lista vazia, impossível remover elemento!";
-        T x;
-        Node<T> *pto;
-        if (i  < (s >> 1)) FOR_INI
-        else {
-            i = (s-1) - i;
-            FOR_FIM
-        }
-        pto->ant->prox = pto->prox;
-        pto->prox->ant = pto->ant;
-        x = pto->x;
-        delete pto;
-        s--;
-        return x;
+    ~Information() {
+        if (info_name) delete [] info_name;
+        if (info) delete [] info;
     }
 
-    T get(int i) {
-        if (i < 0 || i >= s) throw "Indice inválido!";
-        if (!s) throw "Lista vazia!";
-        Node<T> *pto;
-        if (i  < (s >> 1)) FOR_INI
-        else {
-            i = (s-1) - i;
-            FOR_FIM
-        }
-        return pto->x;
+    void addInfo(std::string info_name, int info) {
+        if (i < size) {
+            this->info_name[i] = info_name;
+            this->info[i++] = info;
+        } else throw "Information full!";
     }
 
-    int size() { return s; }
-
-    bool is_empty() { return !(bool)s; }
-
-    void clear() {
-        Node<T> *pto;
-        for (pto = ini.prox->prox; !is_empty(); pto = pto->prox, s--){
-            delete pto->ant;
-        }
+    std::string getInfoName(int index) {
+        if (index < size) {
+            return info_name[index];
+        } else throw "Out of range!";
     }
 
-    myIterator<T> * getIterator() {
-        return new myIteratorLista<T>(ini.prox, &fim);
+    int getInfo(int index) {
+        if (index < size) {
+            return info[index];
+        } else throw "Out of range!";
     }
 
-    ~Lista() { this->clear(); }
+    int getSize() { return size; }
 };
 
 int random(int num_rand);

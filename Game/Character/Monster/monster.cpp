@@ -35,7 +35,7 @@ Monster::~Monster() {
 
 bool Monster::addItens(Item *new_item)
 {
-    if (itens_list.size() + 1 < max_item) {
+    if (int(itens_list.size()) + 1 < max_item) {
         itens_list.push_back(new_item);
         return true;
     }
@@ -63,7 +63,7 @@ int Monster::getDropXP()
 
 bool Monster::canAddItem()
 {
-    if((itens_list.size() + 1) < max_item)
+    if(int(itens_list.size() + 1) < max_item)
         return true;
     return false;
 }

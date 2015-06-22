@@ -16,7 +16,7 @@ const int GUIQT::width_options[4] = {245, 271, 297, 323};
 //	Items - x = 5, y = 300.
 //	Run - x = 5, y = 326.
 
-GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), bg_black("Battle/img_preta.png")
+GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), bg_black("Battle/img_preta.png"), inventory(NULL)
 {
     selected_option = 0;
     battle_delay_cont = 0;
@@ -24,7 +24,6 @@ GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), 
     mensage_type = BUFFER;
     //Zuado isso aqui da message
     messageGUI = new MessageBox(-76,-76,draw_player);
-    inventory = new InventInterface(400,246,15*32,11*32, draw_player);
 }
 
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
@@ -67,7 +66,6 @@ void GUIQT::drawHUD()
 GUIQT::~GUIQT()
 {
     delete inventory;
-    delete width_options;
 }
 
 void GUIQT::drawMap()
@@ -187,7 +185,7 @@ void GUIQT::drawMap()
 
 void GUIQT::drawInventory()
 {
-  inventory->draw(painter);
+  inventory->draw();
 }
 
 void GUIQT::drawBattle()
@@ -212,6 +210,8 @@ void GUIQT::drawBattle()
         break;
     case HIT:
         Write::writeText(battle_text, text_position[int(text_right)], 5 * 32 - battle_delay_cont * 5, painter);
+        break;
+    default:
         break;
     }
 
@@ -241,7 +241,7 @@ void GUIQT::drawPauseScreen()
 
 void GUIQT::drawStatusBar()
 {
-    StatusBar::draw(painter, draw_player->getStrenght(), draw_player->getAgility(), draw_player->getIntelligence());
+    StatusBar::draw(painter, draw_player->getStrenght(), draw_player->getAgility(), draw_player->getIntelligence(), draw_player->getDamage(), draw_player->getGuard());
 }
 
 void GUIQT::setDrawPlayer(Player *new_draw_player)
@@ -270,6 +270,8 @@ void GUIQT::drawTransictionMapBattle(int px_to_black)
 void GUIQT::setQPainter(QPainter *new_painter)
 {
     painter = new_painter;
+    if (inventory) delete inventory;
+    inventory = new InventInterface(400,246,15*32,11*32, draw_player, painter);
 }
 
 void GUIQT::setCursor(int x, int y)
@@ -391,6 +393,11 @@ void GUIQT::setBattleText(Exceptions type, bool new_text_right)
 {
     mensage_type = type;
     text_right = new_text_right;
+}
+
+void GUIQT::resetStatusBar()
+{
+    StatusBar::reset();
 }
 
 bool GUIQT::inventoryIsOpen()

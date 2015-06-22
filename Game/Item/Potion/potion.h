@@ -14,6 +14,7 @@ public:
     ~Potion();
     virtual void doEffect(Player & player) = 0;
     std::vector<Commands *> getCommands();
+    Information getInfos();
 };
 
 #endif // POTION_H

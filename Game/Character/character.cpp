@@ -102,6 +102,11 @@ int Character::getMPMax()
     return mp_max;
 }
 
+int Character::getDamage()
+{
+    return damage;
+}
+
 int Character::getGuard()
 {
     return guard;

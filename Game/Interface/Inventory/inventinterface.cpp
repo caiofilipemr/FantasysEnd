@@ -5,15 +5,18 @@ const int InventInterface::inv_i = 3;
 const int InventInterface::inv_j = 5;
 const int InventInterface::chest_i = 5;
 
-InventInterface::InventInterface(int width, int height, int widthGUI, int heightGUI, Player *player):
+InventInterface::InventInterface(int width, int height, int widthGUI, int heightGUI, Player *player, QPainter *obj):
   width(width), height(height), x(widthGUI/2 - width/2), y(heightGUI/2 - height/2),
-  widthGUI(widthGUI), heightGUI(heightGUI), player(player)
+  widthGUI(widthGUI), heightGUI(heightGUI), player(player), obj(obj)
 {
   messagebox = new MessageBox(0, 0, player);
   squary = new QPixmap("Inventory/squary_press.png");
   back = new QPixmap("Inventory/inventory.png");
   inv = new Rectangle(width*0.503 + x, height*0.25 + y, width*0.467, height*0.4505);
   chest = new Rectangle(width*0.503 + x, height*0.811 + y, width*0.467, height*0.1441);
+  weapon = new Rectangle(width*0.397 + x, height*0.305 + y, 36, 36);
+  shield = new Rectangle(width*0.397 + x, height*0.56 + y, 36, 36);
+  armor = new Rectangle(width*0.397 + x, height*0.82 + y, 36, 36);
   message = current = false;
   chestNULL();
 }
@@ -22,6 +25,7 @@ void InventInterface::setCursor(int x, int y)
 {
   this->x_mouse = x;
   this->y_mouse = y;
+    action_message.clear();
 }
 
 void InventInterface::setNumberItemInv(int number)
@@ -54,6 +58,19 @@ void InventInterface::chestNULL()
     chestrandom = NULL;
 }
 
+void InventInterface::showInfos(Information info)
+{
+    QString info_msg = "   ";
+
+    for (int i = 0; i < info.getSize(); i++) {
+        info_msg += QString::fromStdString(info.getInfoName(i));
+        info_msg += "  ";
+        info_msg += QString::number(info.getInfo(i));
+        info_msg += "   ";
+    }
+    Write::writeText(info_msg, 0, y + height, 15 * 32, heightGUI - (y + height), obj);
+}
+
 void InventInterface::setChest(Chest *chest)
 {
     chestrandom = chest;
@@ -62,7 +79,7 @@ void InventInterface::setChest(Chest *chest)
 InventInterface::~InventInterface()
 {}
 
-void InventInterface::draw(QPainter *obj)
+void InventInterface::draw()
 {
   obj->drawPixmap(0, 0, widthGUI, heightGUI, *(this->squary));
   obj->drawPixmap(x, y, width, height, *(this->back));
@@ -87,25 +104,46 @@ void InventInterface::draw(QPainter *obj)
       }
   }
 
+  if (!action_message.isEmpty())
+      Write::writeText(action_message, 0, y + height, 15 * 32, heightGUI - (y + height), obj);
+
   if(player->getWeapon()){
     obj->drawPixmap(width*0.397 + x, height*0.305 + y,32,32,QPixmap(QString::fromStdString(player->getWeapon()->getImg_way())));
-  }
-  if(player->getArmor()){
-    obj->drawPixmap(width*0.397 + x, height*0.56 + y,32,32,QPixmap(QString::fromStdString(player->getArmor()->getImg_way())));
+    if (weapon->is_colision(x_mouse, y_mouse)) {
+        obj->drawPixmap(width*0.397 + x, height*0.305 + y, 36, 36, *squary);
+        showInfos(player->getWeapon()->getInfos());
+    }
   }
   if(player->getShield()){
-    obj->drawPixmap(width*0.397 + x, height*0.82 + y,32,32,QPixmap(QString::fromStdString(player->getShield()->getImg_way())));
+    obj->drawPixmap(width*0.397 + x, height*0.56 + y,32,32,QPixmap(QString::fromStdString(player->getShield()->getImg_way())));
+    if (shield->is_colision(x_mouse, y_mouse)) {
+        obj->drawPixmap(width*0.397 + x, height*0.56 + y, 36, 36, *squary);
+        showInfos(player->getShield()->getInfos());
+    }
+  }
+  if(player->getArmor()){
+    obj->drawPixmap(width*0.397 + x, height*0.82 + y,32,32,QPixmap(QString::fromStdString(player->getArmor()->getImg_way())));
+    if (armor->is_colision(x_mouse, y_mouse)) {
+        obj->drawPixmap(width*0.397 + x, height*0.82 + y, 36, 36, *squary);
+        showInfos(player->getArmor()->getInfos());
+    }
   }
 
   if(inv->is_colision(x_mouse, y_mouse)){
     setNumberItemInv(line*5 + (column%5));
     if(getNumberItemInv() < player->getInventory()->size()) {
         obj->drawPixmap(column*w + inv->getX() + margin*column, line*h + inv->getY() + line*margin, w, h, *squary);
+
+        showInfos(player->getInventory()->getItem(getNumberItemInv())->getInfos());
     }
 
   }else if(chest->is_colision(x_mouse, y_mouse)){
-    obj->drawPixmap(column*w + chest->getX() + margin*column, chest->getY(), w, h, *squary);
     setNumberItemChest(column%5);
+    if (getNumberItemChest() < chestrandom->getSize()) {
+        obj->drawPixmap(column*w + chest->getX() + margin*column, chest->getY(), w, h, *squary);
+        showInfos(chestrandom->getItem(getNumberItemChest())->getInfos());
+
+    }
   }
 }
 
@@ -138,18 +176,24 @@ bool InventInterface::positionIsItem(int x, int y)
 void InventInterface::removeItem()
 {
   player->getInventory()->removeItem(getNumberItemInv());
+  setCursor(0, 0);
+  action_message = "DROP";
 }
 
 void InventInterface::equipItem()
 {
     try{
-        player->getInventory()->getItem(getNumberItemInv())->getCommands()[0]->doThis(*player);
+        int i = getNumberItemInv();
+        setCursor(0, 0);
+        action_message = QString::fromStdString(player->getInventory()->getItem(i)->getCommands()[0]->getCmdName());
+        player->getInventory()->getItem(i)->getCommands()[0]->doThis(*player);
     }catch(const char * what){
-        std::cerr << what;
+        setCursor(0, 0);
+      action_message = what;
     }
 }
 
-void InventInterface::drawMessage(QPainter *obj)
+void InventInterface::drawMessage()
 {
     if(message) {
       if(inv->is_colision(x_mouse, y_mouse)){

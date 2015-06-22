@@ -32,3 +32,11 @@ void Armor::setImgWay(string new_img_way)
     armor_img_way = new_img_way;
 }
 
+Information Armor::getInfos()
+{
+    Information info(3);
+    info.addInfo("WEIGHT", weight);
+    info.addInfo("ITEM LEVEL", item_level);
+    info.addInfo("GUARD", getGuard());
+    return info;
+}

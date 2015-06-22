@@ -16,6 +16,7 @@ public:
     int getGuard();
     int getDamage();
     std::vector<Commands *> getCommands();
+    Information getInfos();
 };
 
 #endif // WEAPON_H

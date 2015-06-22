@@ -22,6 +22,7 @@ public:
     int getItemId();
     int getLevelItem();
     virtual std::vector<Commands *> getCommands() = 0;
+    virtual Information getInfos() = 0;
 };
 
 #endif // ITEM_H

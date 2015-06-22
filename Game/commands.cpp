@@ -22,7 +22,7 @@ void EquipWeapon::doThis(Player &player) //Temp int ? Pois para o comando Catch 
             player.removeItemInventory(do_in_this_item);
             player.addItemInventory(pt); //o ponteiro do inventory aponta para a antiga arma equipada
         }
-    } else throw "Player can't equip the item, is too heavy!";
+    } else throw "PLAYER CANT EQUIP THE ITEM IS TOO HEAVY";
 }
 
 void EquipShield::doThis(Player &player)
@@ -36,7 +36,7 @@ void EquipShield::doThis(Player &player)
             player.setShield((Shield *)do_in_this_item); //agora aponta para o novo escudo a ser equipado e
             do_in_this_item = pt; //o ponteiro do inventory aponta para o antigo escudo equipada
         }
-    } else throw "Player can't equip the item, is too heavy!";
+    } else throw "PLAYER CANT EQUIP THE ITEM IS TOO HEAVY";
 }
 
 
@@ -51,7 +51,7 @@ void EquipArmor::doThis(Player &player)
             player.setArmor((Armor *)do_in_this_item); //agora aponta para a nova armadura a ser equipada e
             do_in_this_item = pt; //o ponteiro do inventory aponta para a antiga armadura equipada
         }
-    } else throw "Player can't equip the item, is too heavy!";
+    } else throw "PLAYER CANT EQUIP THE ITEM IS TOO HEAVY";
 }
 
 void Consume::doThis(Player &player) //Temp int ? Pois para o comando Catch não existiria tal int
