@@ -58,7 +58,7 @@ Game::~Game()
 void Game::keyPressEvent(QKeyEvent *event)
 {
     if (current_over == PAUSE) {
-        if  (event->key() == Qt::Key_P) {
+        if  (event->key() == Qt::Key_Q) {
             clock->start();
             current_over = O_NONE;
             repaint();
@@ -66,32 +66,34 @@ void Game::keyPressEvent(QKeyEvent *event)
         return;
     }
     switch (event->key()) {
-    case Qt::Key_Up:
+    case Qt::Key_W:
        atual_direction = UP;
         break;
-    case Qt::Key_Down:
+    case Qt::Key_S:
        atual_direction = DOWN;
         break;
-    case Qt::Key_Left:
+    case Qt::Key_A:
        atual_direction = LEFT;
         break;
-    case Qt::Key_Right:
+    case Qt::Key_D:
        atual_direction = RIGHT;
         break;
-    case Qt::Key_P:
-        clock->stop();
-        current_over = PAUSE;
-        repaint();
+    case Qt::Key_Q:
+        if (current_painter_option < P_GAME_OVER) {
+            clock->stop();
+            current_over = PAUSE;
+            repaint();
+        }
         break;
     case Qt::Key_Tab:
         if (current_transiction == STATUS_BAR) current_transiction = NONE;
-        else if (current_painter_option == P_MAP) {
+        else if (current_painter_option == P_MAP && current_transiction == NONE) {
             current_transiction = STATUS_BAR;
             my_GUI->resetStatusBar();
             repaint();
         }
         break;
-     case Qt::Key_I:
+     case Qt::Key_E:
         if (current_painter_option == P_MAP){
             if(current_transiction == INVENTORY) {
                 my_GUI->inventoryOff();
@@ -115,11 +117,9 @@ void Game::keyPressEvent(QKeyEvent *event)
     }
     if(event->key() == Qt::Key_Z && event->modifiers() == Qt::ShiftModifier) {
         my_engine->setSpecialZ(); //damage+100
-        //cerr <<"expecialZ";
     }
     if(event->key() == Qt::Key_X && event->modifiers() == Qt::ShiftModifier) {
         my_engine->setSpecialX(); //hp = hp_max
-        //cerr <<"especialX";
     }
 }
 
@@ -188,21 +188,7 @@ void Game::mousePressEvent(QMouseEvent *event)
         this->y_mouse = event->y();
         if(event->button() == Qt::RightButton) {
             my_GUI->setCursor(x_mouse, y_mouse, BUTTON_RIGHT);
-            //my_GUI->rightButton();
-            //        if (is_inventory) {
-            //            try {
-            //                std::vector<string> cmd_name = my_engine->getCommands(my_GUI->getIndexItemInventory()); //Zé, esse metodo retorna dum std::vector<string> que contem os nomes dos comandos, pra poder passar pra interface do inventario
-            //                //Zé, como vamos saber se não clicou em nada ?
-            //                //Zé responde: Colision na veia
-            //                cerr << cmd_name[0];
-            //            } catch (const char * err) {
-            //                cerr << err;
-            //            }
-            //        }
         } else {
-//            if(!my_GUI->messageColision()) {
-//                my_GUI->leftButton();
-//            }
             my_GUI->setCursor(x_mouse, y_mouse, BUTTON_LEFT);
         }
         repaint();

@@ -34,7 +34,8 @@ void EquipShield::doThis(Player &player)
         } else {
             Shield * pt = player.getShield(); //Else troca os ponteiros, ou seja, o ponteiro que apontava para o escudo equipada,
             player.setShield((Shield *)do_in_this_item); //agora aponta para o novo escudo a ser equipado e
-            do_in_this_item = pt; //o ponteiro do inventory aponta para o antigo escudo equipada
+            player.removeItemInventory(do_in_this_item);
+            player.addItemInventory(pt); //o ponteiro do inventory aponta para o antigo escudo equipada
         }
     } else throw "PLAYER CANT EQUIP THE ITEM IS TOO HEAVY";
 }
@@ -49,7 +50,8 @@ void EquipArmor::doThis(Player &player)
         } else {
             Armor * pt = player.getArmor(); //Else troca os ponteiros, ou seja, o ponteiro que apontava para armadura equipada,
             player.setArmor((Armor *)do_in_this_item); //agora aponta para a nova armadura a ser equipada e
-            do_in_this_item = pt; //o ponteiro do inventory aponta para a antiga armadura equipada
+            player.removeItemInventory(do_in_this_item);
+            player.addItemInventory(pt); //o ponteiro do inventory aponta para a antiga armadura equipada
         }
     } else throw "PLAYER CANT EQUIP THE ITEM IS TOO HEAVY";
 }

@@ -137,7 +137,7 @@ void InventInterface::draw()
         showInfos(player->getInventory()->getItem(getNumberItemInv())->getInfos());
     }
 
-  }else if(chest->is_colision(x_mouse, y_mouse)){
+  }else if(chest->is_colision(x_mouse, y_mouse) && chestrandom){
     setNumberItemChest(column%5);
     if (getNumberItemChest() < chestrandom->getSize()) {
         obj->drawPixmap(column*w + chest->getX() + margin*column, chest->getY(), w, h, *squary);
@@ -175,9 +175,15 @@ bool InventInterface::positionIsItem(int x, int y)
 
 void InventInterface::removeItem()
 {
-  player->getInventory()->removeItem(getNumberItemInv());
-  setCursor(0, 0);
-  action_message = "DROP";
+    if (chestrandom) {
+        chestrandom->addItem(player->getInventory()->removeItem(getNumberItemInv()));
+    }
+    else {
+
+        player->getInventory()->removeItem(getNumberItemInv());
+    }
+    setCursor(0, 0);
+    action_message = "DROP";
 }
 
 void InventInterface::equipItem()
