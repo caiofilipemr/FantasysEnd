@@ -82,6 +82,7 @@ bool Engine::isBattle()
                 }
                 if (is_battle) {
                     my_battle = new Battle(my_player, mobs[i]);
+                    is_player_turn = true;
                     return is_battle;
                 }
             }
@@ -90,10 +91,17 @@ bool Engine::isBattle()
     return is_battle;
 }
 
+bool Engine::isPlayerTurn()
+{
+    if (!is_battle) throw "IS NOT BATTLE!";
+    return is_player_turn;
+}
+
 int Engine::battle(BattleOptions op, Exceptions &exc_atk, Exceptions &exc_def)
 {
     if (is_battle) {
         int atk;
+        is_player_turn = !is_player_turn;
         switch (op) {
         case ATTACK:
             atk = my_battle->attack(exc_atk, exc_def);

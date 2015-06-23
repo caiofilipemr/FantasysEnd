@@ -156,6 +156,7 @@ void InventInterface::off()
 {
   current = false;
   chestNULL();
+  action_message.clear();
 }
 
 bool InventInterface::isOpen()

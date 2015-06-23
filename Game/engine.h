@@ -48,11 +48,10 @@ private:
     vector<Monster *> mobs;
     Player *my_player;
     Stone *my_stones;
-//    Chest *my_chests;
     Monster *battle_mob;
     GUI *engine_GUI;
     Battle *my_battle;
-    bool is_battle;
+    bool is_battle, is_player_turn;
 public:
     Engine(GUI * new_engine_GUI);
     ~Engine();
@@ -61,6 +60,7 @@ public:
     Cordenates getPlayerCordenates();
     Cordenates getTemp();
     bool isBattle();
+    bool isPlayerTurn();
     int battle(BattleOptions op, Exceptions &exc_atk, Exceptions &exc_def);
     void gameOver();
     bool isWalking();
