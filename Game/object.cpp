@@ -4,6 +4,11 @@ Object::Object(int new_pos_i, int new_pos_j, std::string new_img_way = "") : pos
 {
 }
 
+Object::~Object()
+{
+
+}
+
 Cordenates Object::getCordenates()
 {
     return Cordenates(pos_i, pos_j);

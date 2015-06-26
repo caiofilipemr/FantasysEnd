@@ -25,8 +25,8 @@ public:
 private:
   QPixmap *back, *squary;
   Rectangle *rect;
-  Player *player;
   int x, y;
+  Player *player;
   bool current;
 };
 

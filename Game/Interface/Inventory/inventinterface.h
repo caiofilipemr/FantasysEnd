@@ -10,11 +10,11 @@
 #include "chest.h"
 #include "Interface/Write/write.h"
 
-class InventInterface: public Mouse
+class InventInterface : public Mouse
 {
 public:
   InventInterface(int width, int height, int widthGUI, int heightGUI, Player *player, QPainter *obj);
-  ~InventInterface();
+  virtual ~InventInterface();
 
   void setCursor(int x, int y);
   void draw();

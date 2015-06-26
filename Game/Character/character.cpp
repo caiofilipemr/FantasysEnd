@@ -10,8 +10,8 @@ Character::Character(int new_speed, int new_accuracy,
                                       accuracy(new_accuracy), dodge(new_dodge),
                                       range_damage(new_range_damage), critical(new_critical),
                                       walk_direction(SLEEP), eye_direction(new_eye_direction),
-                                      cont(0), is_walking(false), img_battle(new_img_battle),
-                                      is_dead(false)
+                                      cont(0), is_walking(false), is_dead(false),
+                                      img_battle(new_img_battle)
 {
 }
 

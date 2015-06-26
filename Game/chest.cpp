@@ -2,11 +2,6 @@
 const int Chest::max_item = 5;
 std::string Chest::chest_img_way = "Images/new_chest.png";
 
-void Chest::randItem(int rand)
-{
-
-}
-
 Chest::Chest(int new_pos_i, int new_pos_j) : Object(new_pos_i, new_pos_j, chest_img_way)
 {
 
@@ -45,7 +40,7 @@ bool Chest::addItem(Item *new_item)
     return false;
 }
 
-void Chest::interate(Player *interate_player)
+void Chest::interate(Player *)
 {
     throw OPEN_CHEST;
 }

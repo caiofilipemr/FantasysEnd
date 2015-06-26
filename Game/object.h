@@ -42,6 +42,7 @@ protected:
     const std::string img_way;
 public:
     Object(int new_pos_i, int new_pos_j, std::string new_img_way);
+    virtual ~Object();
     Cordenates getCordenates();
     std::string getImgWay();
     virtual void interate(Player *) {}

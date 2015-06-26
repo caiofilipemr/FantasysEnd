@@ -249,7 +249,7 @@ bool InventInterface::isChest(int x, int y)
     return chest->is_colision(x,y);
 }
 
-void InventInterface::positionChest(int x, int y)
+void InventInterface::positionChest(int x, int)
 {
     const int margin = width*0.0078, w = width*0.088889;
     int column = (x - chest->getX())/(w + margin);

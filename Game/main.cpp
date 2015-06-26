@@ -13,5 +13,5 @@ int main(int argc, char *argv[])
         w.show();
 
         return a.exec();
-    } catch (std::bad_alloc e) { cerr << e.what(); }
+    } catch (std::bad_alloc e) { cerr << e.what(); return 0; }
 }

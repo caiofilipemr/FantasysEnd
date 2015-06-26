@@ -10,7 +10,6 @@ class Chest : public Object
 {
 private:
     std::vector<Item*> itens_list;
-    void randItem(int rand);
     static const int max_item;
     static std::string chest_img_way;
 public:

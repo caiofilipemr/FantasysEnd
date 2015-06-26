@@ -15,14 +15,14 @@ private:
     void drawHUD();
 protected:
     QPainter * painter;
-    InventInterface *inventory;
     QPixmap bg_battle, cursor_battle;
+    const QPixmap bg_black;
+    InventInterface *inventory;
     int selected_option, battle_delay_cont;
     QString battle_text;
     //QColor battle_text_color;
     Exceptions mensage_type;
     bool text_right;
-    const QPixmap bg_black;
     MessageBox * messageGUI;
 
     static const int size_x, size_y, range_i, range_j, pix_per_tile, n_battle_options, width_options[4], text_position[2];
