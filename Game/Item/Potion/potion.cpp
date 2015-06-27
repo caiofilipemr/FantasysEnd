@@ -2,7 +2,7 @@
 
 const int Potion::potion_weight = 1;
 
-Potion::Potion(std::string new_img_way, int new_item_level = 0) : Item(new_item_level, potion_weight, new_img_way)
+Potion::Potion(std::string new_img_way, std::string new_item_name, int new_item_level = 0) : Item(new_item_level, potion_weight, new_img_way, new_item_name + " POTION")
 {
 
 }

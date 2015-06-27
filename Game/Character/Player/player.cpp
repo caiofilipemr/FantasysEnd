@@ -116,16 +116,16 @@ void Player::walk()
     }
 }
 
-bool Player::canEquipWeapon(int weight){
-    return strenght > weight;
+bool Player::canEquipWeapon(Weapon *w){
+    return (w->getLevelItem() <= level && w->getWeight() <= strenght);
 }
 
-bool Player::canEquipShield(int weight){
-    return strenght/2 > weight;
+bool Player::canEquipShield(Shield *s){
+    return (s->getLevelItem() <= level && s->getWeight() <= strenght / 2);
 }
 
-bool Player::canEquipArmor(int weight){
-    return strenght > weight;
+bool Player::canEquipArmor(Armor *a){
+    return (a->getLevelItem() <= level && a->getWeight() <= strenght);
 }
 
 void Player::addItemInventory(Item * new_item){

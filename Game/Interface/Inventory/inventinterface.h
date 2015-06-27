@@ -58,7 +58,7 @@ private:
   QPainter *obj;
   QString action_message;
 
-  void showInfos(Information info);
+  void showInfos(Item *show_item);
 };
 
 #endif // INVENTINTERFACE_H

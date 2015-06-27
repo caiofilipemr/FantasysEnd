@@ -47,9 +47,9 @@ public:
     void setShield(Shield * new_shield);
     void setArmor(Armor * new_armor);
     void setDirection(Direction new_direction);
-    bool canEquipWeapon(int weight);
-    bool canEquipShield(int weight);
-    bool canEquipArmor(int weight);
+    bool canEquipWeapon(Weapon *w);
+    bool canEquipShield(Shield *s);
+    bool canEquipArmor(Armor *a);
     void addItemInventory(Item * new_item);
     Item * removeItemInventory(int item_index);
     Item * removeItemInventory(Item * remove_item);

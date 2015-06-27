@@ -58,8 +58,11 @@ void InventInterface::chestNULL()
     chestrandom = NULL;
 }
 
-void InventInterface::showInfos(Information info)
+void InventInterface::showInfos(Item *show_item)
 {
+    Write::writeText(QString::fromStdString(show_item->getItemName()), 0, 0, 15 * 32, y, obj);
+
+    Information info = show_item->getInfos();
     QString info_msg = "   ";
 
     for (int i = 0; i < info.getSize(); i++) {
@@ -111,21 +114,21 @@ void InventInterface::draw()
     obj->drawPixmap(width*0.397 + x, height*0.305 + y,32,32,QPixmap(QString::fromStdString(player->getWeapon()->getImg_way())));
     if (weapon->is_colision(x_mouse, y_mouse)) {
         obj->drawPixmap(width*0.397 + x, height*0.305 + y, 36, 36, *squary);
-        showInfos(player->getWeapon()->getInfos());
+        showInfos(player->getWeapon());
     }
   }
   if(player->getShield()){
     obj->drawPixmap(width*0.397 + x, height*0.56 + y,32,32,QPixmap(QString::fromStdString(player->getShield()->getImg_way())));
     if (shield->is_colision(x_mouse, y_mouse)) {
         obj->drawPixmap(width*0.397 + x, height*0.56 + y, 36, 36, *squary);
-        showInfos(player->getShield()->getInfos());
+        showInfos(player->getShield());
     }
   }
   if(player->getArmor()){
     obj->drawPixmap(width*0.397 + x, height*0.82 + y,32,32,QPixmap(QString::fromStdString(player->getArmor()->getImg_way())));
     if (armor->is_colision(x_mouse, y_mouse)) {
         obj->drawPixmap(width*0.397 + x, height*0.82 + y, 36, 36, *squary);
-        showInfos(player->getArmor()->getInfos());
+        showInfos(player->getArmor());
     }
   }
 
@@ -134,14 +137,14 @@ void InventInterface::draw()
     if(getNumberItemInv() < player->getInventory()->size()) {
         obj->drawPixmap(column*w + inv->getX() + margin*column, line*h + inv->getY() + line*margin, w, h, *squary);
 
-        showInfos(player->getInventory()->getItem(getNumberItemInv())->getInfos());
+        showInfos(player->getInventory()->getItem(getNumberItemInv()));
     }
 
   }else if(chest->is_colision(x_mouse, y_mouse) && chestrandom){
     setNumberItemChest(column%5);
     if (getNumberItemChest() < chestrandom->getSize()) {
         obj->drawPixmap(column*w + chest->getX() + margin*column, chest->getY(), w, h, *squary);
-        showInfos(chestrandom->getItem(getNumberItemChest())->getInfos());
+        showInfos(chestrandom->getItem(getNumberItemChest()));
 
     }
   }

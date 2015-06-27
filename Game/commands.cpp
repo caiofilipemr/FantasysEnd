@@ -12,7 +12,7 @@ std::string Commands::getCmdName()
 
 void EquipWeapon::doThis(Player &player) //Temp int ? Pois para o comando Catch não existiria tal int
 {
-    if (player.canEquipWeapon(do_in_this_item->getWeight())) {
+    if (player.canEquipWeapon((Weapon *)do_in_this_item)) {
         if (!player.getWeapon()) {
             player.setWeapon((Weapon *)do_in_this_item); //Seta a arma do jogador!!!
             player.removeItemInventory(do_in_this_item); //Remove a mesma do inventory do player
@@ -27,7 +27,7 @@ void EquipWeapon::doThis(Player &player) //Temp int ? Pois para o comando Catch 
 
 void EquipShield::doThis(Player &player)
 {
-    if (player.canEquipShield(do_in_this_item->getWeight())) {
+    if (player.canEquipShield((Shield *)do_in_this_item)) {
         if (!player.getShield()) {
             player.setShield((Shield *)do_in_this_item); //Seta o escudo do jogador!!!
             player.removeItemInventory(do_in_this_item); //Remove o mesmo do inventory do player
@@ -43,7 +43,7 @@ void EquipShield::doThis(Player &player)
 
 void EquipArmor::doThis(Player &player)
 {
-    if (player.canEquipArmor(do_in_this_item->getWeight())) {
+    if (player.canEquipArmor((Armor *)do_in_this_item)) {
         if (!player.getArmor()) {
             player.setArmor((Armor *)do_in_this_item); //Seta a armadura do jogador!!!
             player.removeItemInventory(do_in_this_item); //Remove a mesma do inventory do player

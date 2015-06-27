@@ -2,7 +2,7 @@
 
 std::string AgilityUP::agility_img_way = "Inventory/Items/agilityup.png";
 
-AgilityUP::AgilityUP() : Potion(agility_img_way, 0)
+AgilityUP::AgilityUP() : Potion(agility_img_way, "AGILITY", 0)
 {
 
 }

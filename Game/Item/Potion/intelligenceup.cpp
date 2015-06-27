@@ -1,7 +1,7 @@
 #include "intelligenceup.h"
 std::string IntelligenceUP::int_img_way = "Inventory/Items/intelligenceup.png";
 
-IntelligenceUP::IntelligenceUP() : Potion(int_img_way, 0)
+IntelligenceUP::IntelligenceUP() : Potion(int_img_way, "INTELLIGENCE", 0)
 {
 
 }

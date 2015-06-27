@@ -1,7 +1,7 @@
 #include "weapon.h"
 
 Weapon::Weapon(int new_item_level, int new_damage,
-               int new_guard, int new_weight, std::string new_img_way) : Item(new_item_level, new_weight, new_img_way)
+               int new_guard, int new_weight, std::string new_img_way, std::string new_item_name) : Item(new_item_level, new_weight, new_img_way, new_item_name)
 {
     damage = new_damage * item_level;
     guard = new_guard * item_level;

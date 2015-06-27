@@ -10,7 +10,7 @@ class Potion : public Item
 private:
     static const int potion_weight;
 public:
-    Potion(std::string new_img_way, int new_item_level);
+    Potion(std::string new_img_way, std::string new_item_name, int new_item_level);
     ~Potion();
     virtual void doEffect(Player & player) = 0;
     std::vector<Commands *> getCommands();
