@@ -69,7 +69,8 @@ SOURCES += main.cpp\
     cordenates.cpp \
     Item/randitens.cpp \
     Interface/mainmenu.cpp \
-    Interface/StatusBar/statusbar.cpp
+    Interface/StatusBar/statusbar.cpp \
+    directionvector.cpp
     Item/randitens.cpp
 
 HEADERS  += game.h \
@@ -129,7 +130,8 @@ HEADERS  += game.h \
     cordenates.h \
     Item/randitens.h \
     Interface/mainmenu.h \
-    Interface/StatusBar/statusbar.h
+    Interface/StatusBar/statusbar.h \
+    directionvector.h
     Item/randitens.h
 
 FORMS    += game.ui

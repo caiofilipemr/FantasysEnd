@@ -17,6 +17,7 @@
 #include "engine.h"
 #include "guiqt.h"
 #include "Interface/Inventory/inventinterface.h"
+#include "directionvector.h"
 
 namespace Ui {
 class Game;
@@ -30,7 +31,7 @@ public:
     explicit Game(QWidget *parent = 0);
     ~Game();
     void keyPressEvent(QKeyEvent * event);
-    void keyReleaseEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent * event);
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent * event);
 
@@ -47,16 +48,14 @@ private:
     Ui::Game *ui;
     QTimer *clock;
     Engine *my_engine;
-    Direction atual_direction;
     QPainter * painter;
     GUIQT * my_GUI;
     Qt::Key player_key;
     QMediaPlayer *world_music, *instant_sfx, *battle_music;
-    //bool game_over, is_player_battle, aux_inv;
     bool is_battle, is_inventory, interactive_button, is_transiction;
     int x_mouse, y_mouse, i, trans_m_b_cont;
     vector <Direction> movement_stack;
-    //bool *
+    DirectionVector directions;
 
 
     enum PainterOption { P_NONE, P_MAP, P_BATTLE, P_GAME_OVER, P_MAIN_MENU };

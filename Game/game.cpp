@@ -8,40 +8,42 @@ Game::Game(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Game)
 {
-    x_mouse = y_mouse = trans_m_b_cont = 0;
 
     ui->setupUi(this);
+
+    //Tamanho da window
     static const int w = 15*32, h = 11*32;
-    this->setMaximumHeight(h);
-    this->setMinimumHeight(h);
-    this->setMaximumWidth(w);
-    this->setMinimumWidth(w);
-    painter = new QPainter(this);
-    my_GUI = new GUIQT();
-    my_engine = new Engine((GUI *)my_GUI);
-    player_key = Qt::Key_0;
-    clock = new QTimer(this);
-    clock->setInterval(1000/60);
-    connect(clock, SIGNAL(timeout()), this, SLOT(mainMenu()));
-    clock->start();
-    atual_direction = SLEEP;
-    my_GUI->setQPainter(painter);
-    is_battle = is_inventory = interactive_button = is_transiction = false;
-    world_music = new QMediaPlayer;
-    instant_sfx = new QMediaPlayer;
-    battle_music = new QMediaPlayer;
-    QMediaPlaylist *temp_playlist = new QMediaPlaylist;
-    temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
-    temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
-    world_music->setPlaylist(temp_playlist);
-    temp_playlist = new QMediaPlaylist;
-    temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
-    temp_playlist->setPlaybackMode(QMediaPlaylist::Loop);
-    battle_music->setPlaylist(temp_playlist);
+
+    //Setando tamanho máximo
+    this->setMaximumHeight(h); this->setMinimumHeight(h);
+    this->setMaximumWidth(w); this->setMinimumWidth(w);
+
+    //Iniciando o QPainter, GUIQT, Engine e o QTimer!!!
+    painter = new QPainter(this); my_GUI = new GUIQT(); my_GUI->setQPainter(painter); my_engine = new Engine((GUI *)my_GUI); clock = new QTimer(this);
+
+    //Iniciando o QTimer em 60 FPS, conectando o sinal TIMEOUT() do QTimer com a função SLOT mainMenu() e startando ele!!!
+    clock->setInterval(1000/60); connect(clock, SIGNAL(timeout()), this, SLOT(mainMenu())); clock->start();
+
+    //Instanciando os objetos de SOM!!!
+    world_music = new QMediaPlayer; instant_sfx = new QMediaPlayer; battle_music = new QMediaPlayer;
+
+    //Instanciando uma playlist para poder loopar as músicas de fundo, adicionando o caminho para a música de fundo principal do jogo na playlist, setando o modo loop e adicionando a playlist ao QMediaPlayer!!
+    QMediaPlaylist *temp_playlist = new QMediaPlaylist; temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Music/Stairway to Heaven - Symphonic Led Zeppelin.mp3").absoluteFilePath()));
+    temp_playlist->setPlaybackMode(QMediaPlaylist::Loop); world_music->setPlaylist(temp_playlist);
+
+    //Instanciando uma playlist para poder loopar as músicas de fundo, adicionando o caminho para a música de fundo da batalha na playlist, setando o modo loop e adicionando a playlist ao QMediaPlayer!!
+    temp_playlist = new QMediaPlaylist; temp_playlist->addMedia(QUrl::fromLocalFile(QFileInfo("Battle/The Last Encounter (90s RPG Version) Full Loop.wav").absoluteFilePath()));
+    temp_playlist->setPlaybackMode(QMediaPlaylist::Loop); battle_music->setPlaylist(temp_playlist);
+
+    //Startando a música de fundo principal!!
     world_music->play();
-    current_painter_option = P_MAIN_MENU;
-    current_transiction = NONE;
-    current_over = O_NONE;
+
+    //Iniciando os valores em falso ou 0!!!
+    player_key = Qt::Key_0; is_battle = is_inventory = interactive_button = is_transiction = false;
+    x_mouse = y_mouse = trans_m_b_cont = 0;
+
+    //Iniciando as opções de tela com seus devidos valores iniciais!!!
+    current_painter_option = P_MAIN_MENU; current_transiction = NONE; current_over = O_NONE;
 }
 
 Game::~Game()
@@ -66,16 +68,28 @@ void Game::keyPressEvent(QKeyEvent *event)
     }
     switch (event->key()) {
     case Qt::Key_W:
-       atual_direction = UP;
+        if (!directions[UP]) {
+            movement_stack.push_back(UP);
+            directions[UP] = true;
+        }
         break;
     case Qt::Key_S:
-       atual_direction = DOWN;
+        if (!directions[DOWN]) {
+            movement_stack.push_back(DOWN);
+            directions[DOWN] = true;
+        }
         break;
     case Qt::Key_A:
-       atual_direction = LEFT;
+        if (!directions[LEFT]) {
+            movement_stack.push_back(LEFT);
+            directions[LEFT] = true;
+        }
         break;
     case Qt::Key_D:
-       atual_direction = RIGHT;
+        if (!directions[RIGHT]) {
+            movement_stack.push_back(RIGHT);
+            directions[RIGHT] = true;
+        }
         break;
     case Qt::Key_Q:
         if (current_painter_option < P_GAME_OVER) {
@@ -122,9 +136,33 @@ void Game::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void Game::keyReleaseEvent(QKeyEvent *)
+void Game::keyReleaseEvent(QKeyEvent * event)
 {
-    if (current_painter_option == P_MAP) atual_direction = SLEEP;
+    if (current_painter_option == P_MAP) {
+        Direction dir;
+        switch (event->key()) {
+        case Qt::Key_W:
+            dir = UP;
+            break;
+        case Qt::Key_S:
+            dir = DOWN;
+            break;
+        case Qt::Key_A:
+            dir = LEFT;
+            break;
+        case Qt::Key_D:
+            dir = RIGHT;
+            break;
+        default:
+            return;
+        }
+        int i, s = movement_stack.size();
+        for (i = 0; i < s && dir != movement_stack[i]; i++);
+        if (i < s) {
+            movement_stack.erase(movement_stack.begin() + i);
+            directions[dir] = false;
+        }
+    }
 }
 
 void Game::paintEvent(QPaintEvent *)
@@ -203,13 +241,16 @@ void Game::mainMenu()
             connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
             current_painter_option = P_MAP;
         } else {
-            if (my_GUI->moveCursorMM(atual_direction)) {
-                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
-                instant_sfx->play();
-                my_GUI->MMDelayCont();
+            if (!movement_stack.empty()) {
+                if (my_GUI->moveCursorMM(movement_stack.back())) {
+                    instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
+                    instant_sfx->play();
+                    my_GUI->MMDelayCont();
+                }
+                movement_stack.clear();
+                directions.clear();
+                repaint();
             }
-            atual_direction = SLEEP;
-            repaint();
         }
     }
     else {
@@ -223,7 +264,8 @@ void Game::myUpdate()
     is_battle = my_engine->isBattle();
     if (is_battle && !my_engine->isWalking()) {
         my_GUI->resetSelectedOption();
-        atual_direction = SLEEP;
+        movement_stack.clear();
+        directions.clear();
         clock->setInterval(1000/200);
         disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
         connect(clock, SIGNAL(timeout()), this, SLOT(transictionMapBattle()));
@@ -234,6 +276,7 @@ void Game::myUpdate()
         world_music->pause();
     }
     else {
+        Direction atual_direction = movement_stack.empty() ? SLEEP : movement_stack.back();
         my_engine->setPlayerDirection(atual_direction);
         my_engine->update();
         is_battle = false;
@@ -323,15 +366,18 @@ void Game::myBattle()
                 my_GUI->battleDelayCont();
                 interactive_button = false;
 
-        } else if (my_GUI->moveCursorBattle(atual_direction)) {
-            instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
-            instant_sfx->play();
+        } else if (!movement_stack.empty()) {
+            if (my_GUI->moveCursorBattle(movement_stack.back())) {
+                instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
+                instant_sfx->play();
+            }
         }
 
     } else {
         my_GUI->battleDelayCont();
     }
-    atual_direction = SLEEP;
+    movement_stack.clear();
+    directions.clear();
     repaint();
 }
 
@@ -356,7 +402,8 @@ void Game::transictionMapBattle()
         disconnect(clock, SIGNAL(timeout()), this, SLOT(transictionMapBattle()));
         connect(clock, SIGNAL(timeout()), this, SLOT(myBattle()));
         clock->setInterval(1000/7);
-        atual_direction = SLEEP;
+        movement_stack.clear();
+        directions.clear();
         current_transiction = NONE;
         interactive_button = false;
     }
