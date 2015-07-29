@@ -8,7 +8,7 @@ Game::Game(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Game)
 {
-
+    //Iniciando UI!!!
     ui->setupUi(this);
 
     //Tamanho da window
@@ -58,7 +58,7 @@ Game::~Game()
 
 void Game::keyPressEvent(QKeyEvent *event)
 {
-    if (current_over == PAUSE) {
+    if (current_over == PAUSE) {//Se estiver pausado nenhuma tecla apertada pode fazer efeito a não ser a própria tecla de PAUSE, no caso DESPAUSA o jogo!!!
         if  (event->key() == Qt::Key_Q) {
             clock->start();
             current_over = O_NONE;
@@ -98,7 +98,7 @@ void Game::keyPressEvent(QKeyEvent *event)
             repaint();
         }
         break;
-    case Qt::Key_Tab:
+    case Qt::Key_Tab: //Abre a STATUS BAR!!!
         if (current_transiction == STATUS_BAR) current_transiction = NONE;
         else if (current_painter_option == P_MAP && current_transiction == NONE) {
             current_transiction = STATUS_BAR;
@@ -106,17 +106,17 @@ void Game::keyPressEvent(QKeyEvent *event)
             repaint();
         }
         break;
-     case Qt::Key_E:
-        if (current_painter_option == P_MAP){
+     case Qt::Key_E: //Abre o INVENTARIO!!!
+        if (current_painter_option == P_MAP) {
             if(current_transiction == INVENTORY) {
-                my_GUI->inventoryOff();
+                my_engine->closeChest();
+                my_GUI->clearInventory();
                 disconnect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
                 interactive_button = false;
                 connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
                 current_transiction = NONE;
             }
             else {
-                my_GUI->inventoryOn();
                 disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
                 connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
                 current_transiction = INVENTORY;
@@ -128,8 +128,10 @@ void Game::keyPressEvent(QKeyEvent *event)
         interactive_button = true;
         break;
     }
+
+    //CHEATS!!
     if(event->key() == Qt::Key_Z && event->modifiers() == Qt::ShiftModifier) {
-        my_engine->setSpecialZ(); //damage+100
+        my_engine->setSpecialZ(); //damage + 100
     }
     if(event->key() == Qt::Key_X && event->modifiers() == Qt::ShiftModifier) {
         my_engine->setSpecialX(); //hp = hp_max
@@ -197,8 +199,8 @@ void Game::paintEvent(QPaintEvent *)
         break;
     case INVENTORY:
         my_GUI->drawInventory();
-        if(my_GUI->messageIsOpen())
-           my_GUI->drawMessage();
+        //if(my_GUI->messageIsOpen())
+        //   my_GUI->drawMessage();
         break;
     case STATUS_BAR:
         my_GUI->drawStatusBar();
@@ -225,8 +227,21 @@ void Game::mousePressEvent(QMouseEvent *event)
         this->y_mouse = event->y();
         if(event->button() == Qt::RightButton) {
             my_GUI->setCursor(x_mouse, y_mouse, BUTTON_RIGHT);
+            try {
+                int i = my_GUI->takeItemChest();
+                my_engine->takeItemChest(i);
+                repaint();
+            } catch (const char * err) { //Tá zoado, verificar depois, pois o catch só serve como um "else"
+                if (my_GUI->currentInventorySelected() == IS_INVENTORY) {
+                    my_GUI->setCommands(my_engine->getCommands(my_GUI->rowItemChest()));
+                }
+            }
         } else {
             my_GUI->setCursor(x_mouse, y_mouse, BUTTON_LEFT);
+            if (my_GUI->isRowCommand()) {
+                my_engine->doCommand(my_GUI->rowItemChest(), my_GUI->rowCommand());
+                my_GUI->clearCursor();
+            }
         }
         repaint();
     }
@@ -286,15 +301,16 @@ void Game::myUpdate()
         try {
             try {
                 my_engine->interation();
-            } catch(Chest * temp_chest){
-                my_GUI->inventoryOn();
-                my_GUI->setChest(temp_chest);
-                disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
-                connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
-                current_transiction = INVENTORY;
-                repaint();
+            } catch(Exceptions e){
+                if (e == OPEN_CHEST) {
+                    my_GUI->setChest(my_engine->getOpenChest());
+                    disconnect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
+                    connect(clock, SIGNAL(timeout()), this, SLOT(myInventory()));
+                    current_transiction = INVENTORY;
+                    repaint();
+                }
             }
-        }catch(Exceptions e){cerr << "Erro";};
+        } catch (Exceptions e) { cerr << "Erro"; };
         interactive_button = false;
     }
 }

@@ -6,6 +6,7 @@
 #include "Colision/rectangle.h"
 #include "Mouse/mouse.h"
 #include "Character/Player/player.h"
+#include "Interface/Write/write.h"
 
 class MessageBox : public Mouse{
 public:
@@ -13,7 +14,7 @@ public:
   MessageBox(int x, int y, Player* player);
   ~MessageBox();
   void setCursor(int x, int y);
-  void draw(QPainter* painter);
+  void draw(QPainter* painter, vector<string> commands);
   void setPosition(int x, int y);
   bool isColision();
   bool isColision(int x, int y);
@@ -21,9 +22,10 @@ public:
   bool isOpen();
   void on();
   void off();
+  int getRowCommand();
 
 private:
-  QPixmap *back, *squary;
+  QPixmap *top, *middle, *bottom, *squary;
   Rectangle *rect;
   int x, y;
   Player *player;

@@ -10,9 +10,9 @@ enum Item_ID { ARMOR, SHIELD, WEAPON, POTION};
 enum BattleOptions { ATTACK, MAGIC_SPECIAL, ITEM, RUN };
 enum Button { PRESS, RELEASE };
 enum Colision_Number{PLAYER = 2, MONSTER, OBJECT};
-//enum rand_itens { AXE, BOW, DAGGER, MACE, ROD, SWORD, ARMOR, SHIELD }
 enum PlayerClass{ ARCHER, BARBARO, MAGE, ROGUE, TROLL, URUKHAY };
-enum ButtonCursor { BUTTON_LEFT, BUTTON_RIGHT };
+enum ButtonCursor { BUTTON_LEFT, BUTTON_RIGHT, BC_NONE };
 enum doThis { EQUIP_USE, DROP };
+enum InventorySelection { IS_INVENTORY, IS_CHEST, IS_WEAPON, IS_SHIELD, IS_ARMOR, IS_NONE };
 
 #endif // ENUMS_H

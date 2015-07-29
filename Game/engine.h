@@ -52,6 +52,7 @@ private:
     GUI *engine_GUI;
     Battle *my_battle;
     bool is_battle, is_player_turn;
+    Chest *open_chest;
 public:
     Engine(GUI * new_engine_GUI);
     ~Engine();
@@ -65,10 +66,14 @@ public:
     void gameOver();
     bool isWalking();
     std::vector<string> getCommands(int index);
+    void doCommand(int row_item, int row_command);
     void interation();
     void setPlayer(PlayerClass pc);
     void setSpecialX();
     void setSpecialZ();
+    Chest * getOpenChest();
+    void closeChest();
+    void takeItemChest(int i);
 };
 
 #endif // ENGINE_H

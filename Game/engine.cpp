@@ -10,6 +10,7 @@ Engine::Engine(GUI *new_engine_GUI) : engine_GUI(new_engine_GUI)
     engine_GUI->setDrawMap(my_map);
     engine_GUI->setDrawMobs(&mobs);
     my_battle = NULL;
+    open_chest = NULL;
     is_battle = false;
     RandItens::randItensMap();
     my_player = new Barbaro(30,30,DOWN);
@@ -155,20 +156,24 @@ void Engine::gameOver()
 
 bool Engine::isWalking() //talvez temp, estou com sono, nao sei kk
 {
-    if (my_player->getIsWalking()) return true;
-//    for (size_t i = 0; i < mobs.size(); i++) {
-//        if (mobs[i]->getIsWalking()) return true;
-//    }
-    //if (Monster::getMonsterIsWalking()) return true;
-    return false;
+    return (my_player->getIsWalking());
 }
 
 std::vector<string> Engine::getCommands(int index)
 {
     std::vector <Commands *> cmds = my_player->getCommands(index);
     std::vector<string> cmd_name;
-    for (size_t i = 0; i < cmds.size(); i++) cmd_name[i] = cmds[i]->getCmdName();
+    for (size_t i = 0; i < cmds.size(); i++) cmd_name.push_back(cmds[i]->getCmdName());
     return cmd_name;
+}
+
+void Engine::doCommand(int row_item, int row_command)
+{
+    try {
+        my_player->getCommands(row_item)[row_command]->doThis((*my_player));
+    } catch (const char *err) {
+        cerr << err;
+    }
 }
 
 void Engine::interation()
@@ -186,7 +191,8 @@ void Engine::interation()
             my_map->addObjects(broken_stone,player_eye);
         }
         else if (e == OPEN_CHEST) {
-            throw (Chest*)object;
+            open_chest = (Chest*)object;
+            throw;
         } else throw;
     }
 }
@@ -240,5 +246,21 @@ void Engine::setSpecialX()
 void Engine::setSpecialZ()
 {
     my_player->setSpecialDamage();
+}
+
+Chest *Engine::getOpenChest()
+{
+    return open_chest;
+}
+
+void Engine::closeChest()
+{
+    open_chest = NULL;
+}
+
+void Engine::takeItemChest(int i)
+{
+    if (i < 0 || i >= open_chest->getSize()) throw "Bad index";
+    my_player->addItemInventory(open_chest->removeItem(i)); //Remove o item do baú e adciona-o ao inventário do Player
 }
 

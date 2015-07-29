@@ -10,55 +10,40 @@
 #include "chest.h"
 #include "Interface/Write/write.h"
 
-class InventInterface : public Mouse
+class InventoryGUI
 {
-public:
-  InventInterface(int width, int height, int widthGUI, int heightGUI, Player *player, QPainter *obj);
-  virtual ~InventInterface();
-
-  void setCursor(int x, int y);
-  void draw();
-
-  void on();
-  void off();
-  bool isOpen();
-  bool positionIsItem(int x, int y);
-  void removeItem();
-  void equipItem();
-
-  void drawMessage();
-  void isMessage();
-  void notMessage();
-  void newMessage();
-
-  bool invColision(int x, int y);
-  bool isChest(int x, int y);
-  void positionChest(int x, int y);
-  bool chesColision(int x, int y);
-  bool messageColision();
-
-  void setNumberItemInv(int number);
-  void setNumberItemChest(int number);
-  int getNumberItemInv();
-  int getNumberItemChest();
-  void setPlayer(Player *player);
-  void setChest(Chest *chest);
-  void chestNULL();
-
 private:
-  static const int inv_i, inv_j, chest_i;
-  enum{ INVENTORY, CHEST };
-  int width, height, x, y, widthGUI, heightGUI, number_item[2];
-  Rectangle *inv, *chest, *weapon, *shield, *armor;
-  QPixmap *squary, *back, *img_inventory[15];
-  MessageBox *messagebox;
-  bool message, current;
-  Player* player;
-  Chest* chestrandom;
-  QPainter *obj;
-  QString action_message;
+    static const int inv_i, inv_j, chest_i;
+    int x_mouse, y_mouse, width, height, x, y, widthGUI, heightGUI, number_item[2], row_item, row_command, squary_width, squary_height, margin_width;
+    Rectangle *inv, *chest, *weapon, *shield, *armor;
+    ButtonCursor cur_click;
+    QPixmap *squary, *back;
+    MessageBox *messagebox;
+    bool message, is_row_command;
+    Player *player;
+    Chest *chestrandom;
+    QPainter *obj;
+    QString action_message;
+    InventorySelection current_IS;
+    vector<string> commands;
+    void showInfos(Item *show_item);
 
-  void showInfos(Item *show_item);
+public:
+    InventoryGUI(int width, int height, int widthGUI, int heightGUI, Player *player, QPainter *obj);
+
+    void setCursor(int x, int y, ButtonCursor click);
+    int getRowItem();
+    InventorySelection getInventorySelection();
+    int getRowCommand();
+    bool isRowCommand();
+    void draw();
+    void setPlayer(Player * player) { this->player = player; }
+    void setChest(Chest * new_chest);
+    void setCommands(vector<string> new_commands);
+    void clear();
+    void clearCursor();
+
+    int takeItemChest();
 };
 
 #endif // INVENTINTERFACE_H

@@ -10,6 +10,9 @@
 #include <stack>
 #include <queue>
 #include <iostream>
+#include <QString>
+
+class Commands;
 
 class Information {
 private:

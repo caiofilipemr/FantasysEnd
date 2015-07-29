@@ -3,10 +3,12 @@
 
 MessageBox::MessageBox(int x, int y, Player *player) : x(x), y(y), player(player)
 {
-  back = new QPixmap("Inventory/Message/back.png");
-  squary = new QPixmap("Inventory/Message/squary_press.png");
-  rect = new Rectangle(x, y, 76, 76);
-  current = true;
+    top = new QPixmap("Inventory/Message/Top2.png");
+    middle = new QPixmap("Inventory/Message/Middle2.png");
+    bottom = new QPixmap("Inventory/Message/Bottom2.png");
+    squary = new QPixmap("Inventory/Message/squary_press.png");
+    rect = new Rectangle(x, y, top->width(), top->height() + middle->height() + bottom->height()); //Organizar
+    current = true;
 }
 
 MessageBox::~MessageBox()
@@ -19,16 +21,28 @@ void MessageBox::setCursor(int x, int y)
   y_mouse = y;
 }
 
-void MessageBox::draw(QPainter* painter)
+void MessageBox::draw(QPainter* painter, vector<string> commands)
 {
-  setCursor(x,y);
-  painter->drawPixmap(x, y, 76, 76, *back);
-  if(y_mouse - rect->getY() < rect->getH()/2 && y_mouse - rect->getY() != 0){
-    painter->drawPixmap(x, y, 76, 38, *squary);
+    int size = commands.size(), i = 0;
+    setCursor(x, y);
 
-  }else if(y_mouse - rect->getY() != 0){
-    painter->drawPixmap(x, y + 38, 76, 38, *squary);
-  }
+    if (i < size) {
+        painter->drawPixmap(x, y, 149, 29, *top);
+        Write::writeText(QString::fromStdString(commands[i]), x, y + 9, 149, 24, painter);
+    }
+    y++;
+    for (i++; i < size; i++) {
+        painter->drawPixmap(x, y + (28 * i), 149, 28, *middle);
+        Write::writeText(QString::fromStdString(commands[i]), x, y + 8 + (28 * i), 149, 24, painter);
+    }
+    painter->drawPixmap(x, y + (28 * i), 149, 13, *bottom);
+
+    //if (y_mouse - rect->getY() < rect->getH()/2 && y_mouse - rect->getY() != 0) {
+        //painter->drawPixmap(x, y, 76, 38, *squary);
+
+    //} else if(y_mouse - rect->getY() != 0) {
+        //painter->drawPixmap(x, y + 38, 76, 38, *squary);
+    //}
 }
 
 void MessageBox::setPosition(int x, int y)
@@ -39,7 +53,7 @@ void MessageBox::setPosition(int x, int y)
 
 bool MessageBox::isColision()
 {
-    return rect->is_colision(x_mouse, y_mouse);
+    return rect->is_colision(x_mouse - x, y_mouse - y);
 }
 
 bool MessageBox::isColision(int x, int y)
@@ -73,4 +87,10 @@ void MessageBox::on()
 void MessageBox::off()
 {
     current = false;
+}
+
+int MessageBox::getRowCommand()
+{
+    if (!isColision()) throw "Is not colision!!!";
+    return int(y_mouse - y) / 35;
 }

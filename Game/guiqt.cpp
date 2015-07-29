@@ -16,14 +16,12 @@ const int GUIQT::width_options[4] = {245, 271, 297, 323};
 //	Items - x = 5, y = 300.
 //	Run - x = 5, y = 326.
 
-GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)), bg_black("Battle/img_preta.png"), inventory(NULL)
+GUIQT::GUIQT() : bg_battle(QString::fromStdString(Battle::background_img_way)), cursor_battle(QString::fromStdString(Battle::cursor_img_way)),
+                 bg_black("Battle/img_preta.png"), inventory(NULL)
 {
     selected_option = 0;
     battle_delay_cont = 0;
-    //battle_text_color = Qt::white;
     mensage_type = BUFFER;
-    //Zuado isso aqui da message
-    messageGUI = new MessageBox(-76,-76,draw_player);
 }
 
 void GUIQT::setMoveMapDirection(Direction dir, int &column, int &row, int &cont_frames, int &limit)
@@ -103,29 +101,6 @@ void GUIQT::drawMap()
         mobs_images[i] = mobs_images[i].copy((((*draw_mobs)[i]->getCont() / (Character::getLimit() / 3) % 3)) * 32, int((*draw_mobs)[i]->getEyeDirection()) * 32, 32, 32);
     }
 
-//    VERIFICAÇÃO DAS BORDAS. POR ENQUANTO NÃO USAREMOS
-//    if (pos_i - range_i <= 0) {//Verifica se não vai mostrar mapa inexistente (I NEGATIVO)
-//        begin_i = 0;
-//        dif_i = pos_i - range_i;
-//        //mov_map = false;
-//    }
-//    else if (pos_i + range_i > size_i) { //Verifica se não vai mostrar mapa inexistente (I MAIOR QUE O MAPA)
-//        begin_i = size_i - (2 * range_i + 1);
-//        dif_i = pos_i + range_i - size_i;
-//        //mov_map = false;
-//    } else begin_i = pos_i - (range_i + 1); //VERIFICAR O PORQUÊ DO + 1
-
-//    if (pos_j - range_j <= 0) { //Idem com o J (J NEGATIVO)
-//        begin_j = 0;
-//        dif_j = pos_j - range_j;
-//        //mov_map = false;
-//    }
-//    else if (pos_j + range_j >= size_j) { //Idem com o J (J MAIOR QUE O MAPA)
-//        begin_j = size_j - 2 * range_j;
-//        dif_j = pos_j + range_j - size_j;
-//        //mov_map = false;
-//    } else begin_j = pos_j - (range_j + 1); //VERIFICAR O PORQUÊ DO + 1
-
     begin_i = pos_i - (range_i + 1);
     begin_j = pos_j - (range_j + 1);
 
@@ -185,7 +160,8 @@ void GUIQT::drawMap()
 
 void GUIQT::drawInventory()
 {
-  inventory->draw();
+    //inventory->draw();
+    inventory->draw();
 }
 
 void GUIQT::drawBattle()
@@ -247,8 +223,8 @@ void GUIQT::drawStatusBar()
 void GUIQT::setDrawPlayer(Player *new_draw_player)
 {
     this->draw_player = new_draw_player;
+    //inventory->setPlayer(draw_player);
     inventory->setPlayer(draw_player);
-    //draw_player->setInventory(inventory->getInventory());
 }
 
 void GUIQT::setDrawMap(Map *new_draw_map)
@@ -271,49 +247,12 @@ void GUIQT::setQPainter(QPainter *new_painter)
 {
     painter = new_painter;
     if (inventory) delete inventory;
-    inventory = new InventInterface(400,246,15*32,11*32, draw_player, painter);
-}
-
-void GUIQT::setCursor(int x, int y)
-{
-    this->inventory->setCursor(x, y);
+    inventory = new InventoryGUI(400,246,15*32,11*32, draw_player, painter);
 }
 
 void GUIQT::setCursor(int x, int y, ButtonCursor button)
 {
-  if(button == BUTTON_LEFT){
-    if(messageGUI->isOpen() && messageGUI->isColision(x,y)){
-      if(messageGUI->Click(x,y) == EQUIP_USE){
-        inventory->equipItem();
-        std::cerr << "Equip";
-      }else{
-        inventory->removeItem();
-        std::cerr << "Drop";
-      }
-      messageOff();
-        //se equipar
-          //inventInterface equipar
-        //senao se drop
-          //inventInterface dropar
-    }else{
-      this->inventory->setCursor(x, y);
-      messageOff();
-    }
-  }else{
-    if(inventoryIsOpen() && inventory->invColision(x,y) && inventory->positionIsItem(x,y)){
-      this->inventory->setCursor(x, y);
-      newMessage(x,y);
-    }
-    if (inventory->isChest(x, y)){
-        inventory->positionChest(x, y);
-    }
-
-  }
-}
-
-int GUIQT::getIndexItemInventory()
-{
-    return inventory->getNumberItemInv();
+    inventory->setCursor(x, y, button);
 }
 
 bool GUIQT::moveCursorBattle(Direction dir)
@@ -400,19 +339,9 @@ void GUIQT::resetStatusBar()
     StatusBar::reset();
 }
 
-bool GUIQT::inventoryIsOpen()
+void GUIQT::clearInventory()
 {
-  return inventory->isOpen();
-}
-
-void GUIQT::inventoryOn()
-{
-  inventory->on();
-}
-
-void GUIQT::inventoryOff()
-{
-    inventory->off();
+    inventory->clear();
 }
 
 void GUIQT::setChest(Chest *new_chest)
@@ -420,42 +349,37 @@ void GUIQT::setChest(Chest *new_chest)
     inventory->setChest(new_chest);
 }
 
-bool GUIQT::messageIsOpen()
+int GUIQT::takeItemChest()
 {
-    return messageGUI->isOpen();
+    return inventory->takeItemChest();
 }
 
-void GUIQT::messageOn()
+int GUIQT::rowItemChest()
 {
-    messageGUI->on();
+    return inventory->getRowItem();
 }
 
-void GUIQT::messageOff()
+int GUIQT::rowCommand()
 {
-    messageGUI->off();
+    return inventory->getRowCommand();
 }
 
-void GUIQT::newMessage(int x, int y)
+InventorySelection GUIQT::currentInventorySelected()
 {
-    messageGUI = new MessageBox(x, y, draw_player);
+    return inventory->getInventorySelection();
 }
 
-void GUIQT::rightButton()
+void GUIQT::setCommands(vector<string> commands)
 {
-    inventory->isMessage();
+    inventory->setCommands(commands);
 }
 
-void GUIQT::leftButton()
+bool GUIQT::isRowCommand()
 {
-    inventory->notMessage();
+    return inventory->isRowCommand();
 }
 
-bool GUIQT::messageColision()
+void GUIQT::clearCursor()
 {
-    return inventory->messageColision();
-}
-
-void GUIQT::drawMessage()
-{
-    messageGUI->draw(painter);
+    inventory->clearCursor();
 }
