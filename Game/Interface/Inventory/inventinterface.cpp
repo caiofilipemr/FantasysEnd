@@ -1,4 +1,5 @@
 #include "inventinterface.h"
+#include "log.h"
 
 const int InventoryGUI::inv_i = 3;
 const int InventoryGUI::inv_j = 5;
@@ -31,7 +32,7 @@ void InventoryGUI::setCursor(int x, int y, ButtonCursor click)
 {
     x_mouse = x; y_mouse = y;
     cur_click = click;
-    action_message.clear();
+    Log::clear();
     is_row_command = false;
 
     if (cur_click == BUTTON_LEFT) {
@@ -126,8 +127,8 @@ void InventoryGUI::draw()
     if (player->getShield()) obj->drawPixmap(width*0.397 + x, height*0.56 + y,32,32,QPixmap(QString::fromStdString(player->getShield()->getImg_way())));
     if (player->getArmor()) obj->drawPixmap(width*0.397 + x, height*0.82 + y,32,32,QPixmap(QString::fromStdString(player->getArmor()->getImg_way())));
 
-    if (!action_message.isEmpty())
-        Write::writeText(action_message, 0, 0, 15 * 32, y, obj);
+    if (!Log::isEmpty())
+        Write::writeText(QString::fromStdString(Log::getLog()), 0, 0, 15 * 32, y, obj);
 
     switch (current_IS) {
     case IS_INVENTORY:
@@ -205,6 +206,6 @@ int InventoryGUI::takeItemChest()
 {
     if (cur_click != BUTTON_RIGHT || current_IS != IS_CHEST) throw "No item to take!";
     current_IS = IS_NONE;
-    action_message = "TOOK ITEM";
+    Log::setLog("TOOK ITEM");
     return row_item;
 }

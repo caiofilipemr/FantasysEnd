@@ -169,11 +169,11 @@ std::vector<string> Engine::getCommands(int index)
 
 void Engine::doCommand(int row_item, int row_command)
 {
-    try {
+    //try {
         my_player->getCommands(row_item)[row_command]->doThis((*my_player));
-    } catch (const char *err) {
-        cerr << err;
-    }
+    //} catch (const char *err) {
+    //    cerr << err;
+    //}
 }
 
 void Engine::interation()

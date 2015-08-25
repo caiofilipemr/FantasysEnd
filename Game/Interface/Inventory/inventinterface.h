@@ -23,7 +23,6 @@ private:
     Player *player;
     Chest *chestrandom;
     QPainter *obj;
-    QString action_message;
     InventorySelection current_IS;
     vector<string> commands;
     void showInfos(Item *show_item);

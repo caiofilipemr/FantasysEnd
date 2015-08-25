@@ -1,4 +1,5 @@
 #include "commands.h"
+#include "log.h"
 
 Commands::Commands(std::string new_cmd_name, Item *new_do_in_this_item) : cmd_name(new_cmd_name), do_in_this_item(new_do_in_this_item)
 {
@@ -22,7 +23,7 @@ void EquipWeapon::doThis(Player &player) //Temp int ? Pois para o comando Catch 
             player.removeItemInventory(do_in_this_item);
             player.addItemInventory(pt); //o ponteiro do inventory aponta para a antiga arma equipada
         }
-    } else throw "PLAYER CANT EQUIP THE ITEM IS TOO HEAVY";
+    }
 }
 
 void EquipShield::doThis(Player &player)
@@ -37,7 +38,7 @@ void EquipShield::doThis(Player &player)
             player.removeItemInventory(do_in_this_item);
             player.addItemInventory(pt); //o ponteiro do inventory aponta para o antigo escudo equipada
         }
-    } else throw "PLAYER CANT EQUIP THE ITEM IS TOO HEAVY";
+    }
 }
 
 
@@ -53,10 +54,10 @@ void EquipArmor::doThis(Player &player)
             player.removeItemInventory(do_in_this_item);
             player.addItemInventory(pt); //o ponteiro do inventory aponta para a antiga armadura equipada
         }
-    } else throw "PLAYER CANT EQUIP THE ITEM IS TOO HEAVY";
+    }
 }
 
-void Consume::doThis(Player &player) //Temp int ? Pois para o comando Catch não existiria tal int
+void Consume::doThis(Player &player)
 {
      Potion *pt = (Potion *)do_in_this_item;
      pt->doEffect(player);
@@ -65,10 +66,11 @@ void Consume::doThis(Player &player) //Temp int ? Pois para o comando Catch não
 }
 
 
-void Drop::doThis(Player &player) //Temp int ? Pois para o comando Catch não existiria tal int
+void Drop::doThis(Player &player)
 {
     player.removeItemInventory(do_in_this_item);
     delete do_in_this_item;
+    Log::setLog("ITEM DROPPED");
 }
 
 

@@ -239,8 +239,9 @@ void Game::mousePressEvent(QMouseEvent *event)
         } else {
             my_GUI->setCursor(x_mouse, y_mouse, BUTTON_LEFT);
             if (my_GUI->isRowCommand()) {
-                my_engine->doCommand(my_GUI->rowItemChest(), my_GUI->rowCommand());
+                int row_item = my_GUI->rowItemChest(), row_command = my_GUI->rowCommand();
                 my_GUI->clearCursor();
+                my_engine->doCommand(row_item, row_command);
             }
         }
         repaint();

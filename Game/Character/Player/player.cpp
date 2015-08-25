@@ -1,4 +1,5 @@
 #include "player.h"
+#include "log.h"
 
 const int Player::speed_player = 1;
 const int Player::mod_HP = 50;
@@ -117,15 +118,41 @@ void Player::walk()
 }
 
 bool Player::canEquipWeapon(Weapon *w){
-    return (w->getLevelItem() <= level && w->getWeight() <= strenght);
+    //return (w->getLevelItem() <= level && w->getWeight() <= strenght);
+
+    if (w->getLevelItem() > level) {
+        Log::setLog("YOU DONT HAVE LEVEL ENOUGH TO EQUIP THIS WEAPON");
+        return false;
+    } if (w->getWeight() > strenght) {
+        Log::setLog("YOU DONT HAVE STRENGHT ENOUGH TO EQUIP THIS WEAPON");
+        return false;
+    }
+    Log::setLog("WEAPON EQUIPPED");
+    return true;
 }
 
-bool Player::canEquipShield(Shield *s){
-    return (s->getLevelItem() <= level && s->getWeight() <= strenght / 2);
+bool Player::canEquipShield(Shield *s){    
+    if (s->getLevelItem() > level) {
+        Log::setLog("YOU DONT HAVE LEVEL ENOUGH TO EQUIP THIS SHIELD");
+        return false;
+    } if (s->getWeight() > strenght / 2) {
+        Log::setLog("YOU DONT HAVE STRENGHT ENOUGH TO EQUIP THIS SHIELD");
+        return false;
+    }
+    Log::setLog("SHIELD EQUIPPED");
+    return true;
 }
 
-bool Player::canEquipArmor(Armor *a){
-    return (a->getLevelItem() <= level && a->getWeight() <= strenght);
+bool Player::canEquipArmor(Armor *a){    
+    if (a->getLevelItem() > level) {
+        Log::setLog("YOU DONT HAVE LEVEL ENOUGH TO EQUIP THIS ARMOR");
+        return false;
+    } if (a->getWeight() > strenght) {
+        Log::setLog("YOU DONT HAVE STRENGHT ENOUGH TO EQUIP THIS ARMOR");
+        return false;
+    }
+    Log::setLog("ARMOR EQUIPPED");
+    return true;
 }
 
 void Player::addItemInventory(Item * new_item){
