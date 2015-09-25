@@ -52,7 +52,7 @@ private:
     GUIQT * my_GUI;
     Qt::Key player_key;
     QMediaPlayer *world_music, *instant_sfx, *battle_music;
-    bool is_battle, is_inventory, interactive_button, is_transiction;
+    bool is_battle, is_inventory, interactive_button, tutorial_buffer, is_transiction;
     int x_mouse, y_mouse, i, trans_m_b_cont;
     vector <Direction> movement_stack;
     DirectionVector directions;

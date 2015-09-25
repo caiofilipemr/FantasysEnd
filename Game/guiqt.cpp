@@ -243,6 +243,20 @@ void GUIQT::drawTransictionMapBattle(int px_to_black)
     painter->drawPixmap(size_y * pix_per_tile - px_to_black, 0, px_to_black, size_x * pix_per_tile, bg_black);
 }
 
+void GUIQT::drawTutorial()
+{
+    painter->drawPixmap(0, 0, pix_per_tile * size_y, pix_per_tile * size_x, QPixmap("Inventory/squary_press.png"));
+    Write::writeText("MINI TUTORIAL", 0, 0, 15 * 32, 5 * 32, painter);
+    Write::writeText("MOVE UP        W", 0, 8, 15 * 32, 6 * 32, painter);
+    Write::writeText("MOVE DOWN      S", 0, 16, 15 * 32, 7 * 32, painter);
+    Write::writeText("MOVE LEFT       A", 0, 24, 15 * 32, 8 * 32, painter);
+    Write::writeText("MOVE RIGHT      D", 0, 32, 15 * 32, 9 * 32, painter);
+    Write::writeText("PAUSE           Q", 0, 40, 15 * 32, 10 * 32, painter);
+    Write::writeText("OPEN INVENTORY  E", 0, 48, 15 * 32, 11 * 32, painter);
+    Write::writeText("ACTION      SPACE", 0, 56, 15 * 32, 12 * 32, painter);
+    Write::writeText("PRESS SPACE TO PLAY", 0, 128, 15 * 32, 13 * 32, painter);
+}
+
 void GUIQT::setQPainter(QPainter *new_painter)
 {
     painter = new_painter;

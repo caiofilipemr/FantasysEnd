@@ -39,7 +39,7 @@ Game::Game(QWidget *parent) :
     world_music->play();
 
     //Iniciando os valores em falso ou 0!!!
-    player_key = Qt::Key_0; is_battle = is_inventory = interactive_button = is_transiction = false;
+    player_key = Qt::Key_0; is_battle = is_inventory = interactive_button = is_transiction = tutorial_buffer = false;
     x_mouse = y_mouse = trans_m_b_cont = 0;
 
     //Iniciando as opções de tela com seus devidos valores iniciais!!!
@@ -183,6 +183,7 @@ void Game::paintEvent(QPaintEvent *)
         break;
     case P_MAIN_MENU:
         my_GUI->drawMainMenu();
+        if (!tutorial_buffer) my_GUI->drawTutorial();//mostra o tutorial!!!
         break;
     default:
         break;
@@ -252,12 +253,20 @@ void Game::mainMenu()
 {    
     if (!my_GUI->isMMDelay()) {
         if (interactive_button) {
+            if (!tutorial_buffer) {
+                tutorial_buffer = true;
+                interactive_button = false;
+                movement_stack.clear();
+                directions.clear();
+                repaint();
+                return;
+            }
             my_engine->setPlayer(my_GUI->getSelectedOptionMM());
             disconnect(clock, SIGNAL(timeout()), this, SLOT(mainMenu()));
             connect(clock, SIGNAL(timeout()), this, SLOT(myUpdate()));
             current_painter_option = P_MAP;
         } else {
-            if (!movement_stack.empty()) {
+            if (!movement_stack.empty() && tutorial_buffer) {
                 if (my_GUI->moveCursorMM(movement_stack.back())) {
                     instant_sfx->setMedia(QUrl::fromLocalFile(QFileInfo(QString::fromStdString(Battle::cursor_change_sound)).absoluteFilePath()));
                     instant_sfx->play();

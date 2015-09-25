@@ -39,6 +39,7 @@ public:
     void drawPauseScreen();
     void drawStatusBar();
     void drawTransictionMapBattle(int px_to_black);
+    void drawTutorial();
 
     //Set
     void setDrawPlayer(Player * new_draw_player);
