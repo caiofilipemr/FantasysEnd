@@ -7,6 +7,7 @@
 #include "object.h"
 #include "chest.h"
 #include "stone.h"
+#include "HashTable.h"
 //#include "interation.h"
 
 class Character;
@@ -21,6 +22,7 @@ private:
     string img_way;
     int size_i, size_j;
     int **m_base, **m_s_base, **m_obj, **m_iso, **m_s_iso, **m_col, qtd_chest, qtd_stone;
+    HashTable<bool, std::pair> *special_col;
     static const int max_chest, min_chest, max_stone, min_stone;
     Object ***m_interation;
     Chest **chest_list;
@@ -33,6 +35,7 @@ public:
     ~Map();
     Cordenates getCordenates();
     bool hasColision(Cordenates cord);
+    bool hasSpecialColision(Cordenates departure, Cordenates arrival);
     void updateColision(Character * update_character);
     void setAColision(Cordenates new_col);
     void removeAColision(Cordenates remove_col);

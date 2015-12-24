@@ -10,6 +10,14 @@ const int Map::max_chest = 8;
 const int Map::min_stone = 7;
 const int Map::max_stone = 10;
 
+size_t hash1(Cordenates key) {
+    return (key.i * 13.17 + key.j + 17);
+}
+
+size_t hash2(Cordenates key) {
+    return (key.i + 13.17 * key.j * 17);
+}
+
 Map::Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mobs)
 {
     qtd_chest = qtd_stone = 0;
@@ -72,6 +80,18 @@ Map::Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mo
         for (j = 0; j < size_j; j++) {
             arch_map >> m_s_iso[i][j];
         }
+    }
+    arch_map >> buffercleaner;
+    special_col = new HashTableDH<bool, std::pair>(hash1, hash2, (size_i * size_j * 0.37), false);
+    Cordenates dep, arr;
+    int size_sp;
+    arch_map >> size_sp;
+    for (i = 0; i < size_sp; i++){
+        arch_map >> dep.i;
+        arch_map >> dep.j;
+        arch_map >> arr.i;
+        arch_map >> arr.j;
+        special_col->put(std::pair, true);
     }
     arch_map >> buffercleaner;
     arch_map.close();
@@ -180,6 +200,11 @@ Cordenates Map::getCordenates()
 bool Map::hasColision(Cordenates cord)
 {
     return bool(m_col[cord.i][cord.j]);
+}
+
+bool Map::hasSpecialColision(Cordenates departure, Cordenates arrival)
+{
+    return
 }
 
 bool *Map::getCanGo(Cordenates cord)

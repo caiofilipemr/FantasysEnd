@@ -10,6 +10,7 @@ struct Cordenates {
     Cordenates operator+ (Direction dir);
     Cordenates operator- (Direction dir);
     bool operator== (Cordenates cord);
+    bool operator!= (Cordenates cord);
 };
 
 #endif // CORDENATES_H

@@ -56,3 +56,8 @@ bool Cordenates::operator==(Cordenates cord)
 {
     return (i == cord.i && j == cord.j);
 }
+
+bool Cordenates::operator!=(Cordenates cord)
+{
+    return !(operator ==(cord));
+}

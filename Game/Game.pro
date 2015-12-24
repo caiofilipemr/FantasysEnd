@@ -7,6 +7,8 @@
 QT       += core gui \
             multimedia
 
+CONFIG += c++11
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Game
@@ -71,7 +73,8 @@ SOURCES += main.cpp\
     Interface/mainmenu.cpp \
     Interface/StatusBar/statusbar.cpp \
     directionvector.cpp \
-    log.cpp
+    log.cpp \
+    movement.cpp
     Item/randitens.cpp
 
 HEADERS  += game.h \
@@ -133,7 +136,9 @@ HEADERS  += game.h \
     Interface/mainmenu.h \
     Interface/StatusBar/statusbar.h \
     directionvector.h \
-    log.h
+    log.h \
+    HashTable.h \
+    movement.h
     Item/randitens.h
 
 FORMS    += game.ui
