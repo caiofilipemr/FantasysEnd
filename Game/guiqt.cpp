@@ -70,14 +70,8 @@ void GUIQT::drawMap()
 {
     int begin_i, begin_j, index_i, index_j, i, j, ppt = pix_per_tile;
     int dif_i = 0, dif_j = 0;
-//    Direction aux = SLEEP;
-//    if (draw_player->getIsWalking()) {
-//        aux = draw_player->getEyeDirection();
-//    }
-    //Cordenates player_cordenates = draw_player->getCordenates();
+
     Cordenates back_player_cordenates = draw_player->getBackCordenates();
-    //Cordenates range(range_i, range_j);
-    //range = range + aux;
     int pos_i =(back_player_cordenates).i;
     int pos_j = (back_player_cordenates).j;
     int cont_frames = draw_player->getCont();
@@ -87,7 +81,6 @@ void GUIQT::drawMap()
         **m_obj = draw_map->getObjects(),
         **m_iso = draw_map->getIsometric(),
         **m_s_iso = draw_map->getSuperIsometric();
-        //**m_col = draw_map->getColision();
     Object *** m_itera = draw_map->getMatIteration();
 
     Direction player_direction = draw_player->getEyeDirection();
@@ -160,7 +153,6 @@ void GUIQT::drawMap()
 
 void GUIQT::drawInventory()
 {
-    //inventory->draw();
     inventory->draw();
 }
 

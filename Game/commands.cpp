@@ -11,7 +11,7 @@ std::string Commands::getCmdName()
 }
 
 
-void EquipWeapon::doThis(Player &player) //Temp int ? Pois para o comando Catch não existiria tal int
+void EquipWeapon::doThis(Player &player)
 {
     if (player.canEquipWeapon((Weapon *)do_in_this_item)) {
         if (!player.getWeapon()) {

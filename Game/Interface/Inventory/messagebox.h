@@ -14,7 +14,7 @@ public:
   MessageBox(int x, int y, Player* player);
   ~MessageBox();
   void setCursor(int x, int y);
-  void draw(QPainter* painter, vector<string> commands);
+  void draw(QPainter* painter, vector<string> commands, Rectangle mainWindow);
   void setPosition(int x, int y);
   bool isColision();
   bool isColision(int x, int y);

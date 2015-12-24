@@ -134,7 +134,7 @@ void InventoryGUI::draw()
     case IS_INVENTORY:
         obj->drawPixmap((row_item % 5) * squary_width + inv->getX() + margin_width * (row_item % 5), (row_item / 5) * squary_height + inv->getY() + (row_item / 5) * margin_width, squary_width, squary_height, *squary);
         showInfos(player->getInventory()->getItem(row_item));
-        if (message) messagebox->draw(obj, commands);
+        if (message) messagebox->draw(obj, commands, Rectangle(0, 0, widthGUI, heightGUI));
         break;
 
     case IS_CHEST:

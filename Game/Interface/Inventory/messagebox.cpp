@@ -21,9 +21,18 @@ void MessageBox::setCursor(int x, int y)
   y_mouse = y;
 }
 
-void MessageBox::draw(QPainter* painter, vector<string> commands)
+void MessageBox::draw(QPainter* painter, vector<string> commands, Rectangle mainWindow)
 {
     int size = commands.size(), i = 0;
+
+    if ((x + 149) > mainWindow.getW()) {
+        x = x - 149;
+    }
+
+    if ((y + (size * 28 + 14)) > mainWindow.getH()) {
+        y = y - (size * 28 + 14);
+    }
+
     setCursor(x, y);
 
     if (i < size) {
@@ -36,13 +45,6 @@ void MessageBox::draw(QPainter* painter, vector<string> commands)
         Write::writeText(QString::fromStdString(commands[i]), x, y + 8 + (28 * i), 149, 24, painter);
     }
     painter->drawPixmap(x, y + (28 * i), 149, 13, *bottom);
-
-    //if (y_mouse - rect->getY() < rect->getH()/2 && y_mouse - rect->getY() != 0) {
-        //painter->drawPixmap(x, y, 76, 38, *squary);
-
-    //} else if(y_mouse - rect->getY() != 0) {
-        //painter->drawPixmap(x, y + 38, 76, 38, *squary);
-    //}
 }
 
 void MessageBox::setPosition(int x, int y)

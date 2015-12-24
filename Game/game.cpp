@@ -200,8 +200,6 @@ void Game::paintEvent(QPaintEvent *)
         break;
     case INVENTORY:
         my_GUI->drawInventory();
-        //if(my_GUI->messageIsOpen())
-        //   my_GUI->drawMessage();
         break;
     case STATUS_BAR:
         my_GUI->drawStatusBar();

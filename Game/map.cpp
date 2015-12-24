@@ -76,14 +76,6 @@ Map::Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mo
     arch_map >> buffercleaner;
     arch_map.close();
     randMapInteration();
-
-//    for (i = 0; i < size_i; i++){
-//        for (j = 0; j < size_j; j++) {
-//            cerr << m_col[i][j] << " ";
-//        }
-//        cerr << endl;
-//    }
-
 }
 
 Map::~Map()
@@ -263,14 +255,6 @@ void Map::randMapInteration()
             k++;
         }
     }
-
-//    for (int i = 0; i < size_i; i++){
-//        for (int j = 0; j < size_j; j++) {
-//            cerr << m_col[i][j] << " ";
-//        }
-//        cerr << endl;
-//    }
-
 }
 
 void Map::addObjects(Object * new_object, Cordenates cord_object)

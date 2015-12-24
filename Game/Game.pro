@@ -138,5 +138,4 @@ HEADERS  += game.h \
 
 FORMS    += game.ui
 
-RESOURCES += \
-    Images.qrc
+RESOURCES +=
