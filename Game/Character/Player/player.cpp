@@ -1,5 +1,6 @@
 #include "player.h"
 #include "log.h"
+#include "movement.h"
 
 const int Player::speed_player = 1;
 const int Player::mod_HP = 50;
@@ -208,7 +209,7 @@ void Player::update(Map *my_map)
     }
     else {
         Cordenates cord = Cordenates(this->pos_i, this->pos_j) + walk_direction;
-        if (walk_direction != SLEEP && !my_map->hasColision(cord)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
+        if (walk_direction != SLEEP && !my_map->hasColision(cord) && !my_map->hasSpecialColision(Movement(Cordenates(this->pos_i, this->pos_j), cord))) { //Se vai andar para algum lugar e se esse lugar não tiver colisão e nem colisão especial, então:
             my_map->setAColision(cord);
             is_walking = true;
             this->walk();

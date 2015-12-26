@@ -13,6 +13,7 @@
 class Character;
 class Stone;
 class Monster;
+class Movement;
 
 using namespace std;
 
@@ -22,7 +23,7 @@ private:
     string img_way;
     int size_i, size_j;
     int **m_base, **m_s_base, **m_obj, **m_iso, **m_s_iso, **m_col, qtd_chest, qtd_stone;
-    HashTable<bool, std::pair> *special_col;
+    HashTable<bool, Movement> *special_col;
     static const int max_chest, min_chest, max_stone, min_stone;
     Object ***m_interation;
     Chest **chest_list;
@@ -35,7 +36,7 @@ public:
     ~Map();
     Cordenates getCordenates();
     bool hasColision(Cordenates cord);
-    bool hasSpecialColision(Cordenates departure, Cordenates arrival);
+    bool hasSpecialColision(Movement mov);
     void updateColision(Character * update_character);
     void setAColision(Cordenates new_col);
     void removeAColision(Cordenates remove_col);

@@ -2,6 +2,7 @@
 #include "Character/Player/player.h"
 #include "Item/randitens.h"
 #include "Character/Monster/monster.h"
+#include "movement.h"
 
 //Adicionar os metodos addObject e removeObject
 
@@ -10,12 +11,12 @@ const int Map::max_chest = 8;
 const int Map::min_stone = 7;
 const int Map::max_stone = 10;
 
-size_t hash1(Cordenates key) {
-    return (key.i * 13.17 + key.j + 17);
+size_t hash1(Movement key) {
+    return (key.first.i * 13.17 + key.first.j + 17);
 }
 
-size_t hash2(Cordenates key) {
-    return (key.i + 13.17 * key.j * 17);
+size_t hash2(Movement key) {
+    return (key.first.i + 13.17 * key.first.j * 17);
 }
 
 Map::Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mobs)
@@ -82,8 +83,9 @@ Map::Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mo
         }
     }
     arch_map >> buffercleaner;
-    special_col = new HashTableDH<bool, std::pair>(hash1, hash2, (size_i * size_j * 0.37), false);
+    special_col = new HashTableDH<bool, Movement>(hash1, hash2, (size_i * size_j * 0.37), false);
     Cordenates dep, arr;
+    std::pair<Cordenates, Cordenates> p;
     int size_sp;
     arch_map >> size_sp;
     for (i = 0; i < size_sp; i++){
@@ -91,7 +93,7 @@ Map::Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mo
         arch_map >> dep.j;
         arch_map >> arr.i;
         arch_map >> arr.j;
-        special_col->put(std::pair, true);
+        special_col->put(Movement(dep, arr), true);
     }
     arch_map >> buffercleaner;
     arch_map.close();
@@ -202,9 +204,9 @@ bool Map::hasColision(Cordenates cord)
     return bool(m_col[cord.i][cord.j]);
 }
 
-bool Map::hasSpecialColision(Cordenates departure, Cordenates arrival)
+bool Map::hasSpecialColision(Movement mov)
 {
-    return
+    return special_col->hasKey(mov);
 }
 
 bool *Map::getCanGo(Cordenates cord)

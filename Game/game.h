@@ -60,7 +60,7 @@ private:
 
     enum PainterOption { P_NONE, P_MAP, P_BATTLE, P_GAME_OVER, P_MAIN_MENU };
     enum PainterTransiction { NONE, OPEN, CLOSE, INVENTORY, STATUS_BAR };
-    enum PainterOver { O_NONE, PAUSE };
+    enum PainterOver { O_NONE, PAUSE, PLAYER_CORDENATES };
     PainterOption current_painter_option;
     PainterTransiction current_transiction;
     PainterOver current_over;

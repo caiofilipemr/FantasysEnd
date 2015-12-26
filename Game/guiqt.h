@@ -40,6 +40,7 @@ public:
     void drawStatusBar();
     void drawTransictionMapBattle(int px_to_black);
     void drawTutorial();
+    void drawPlayerCordenates();
 
     //Set
     void setDrawPlayer(Player * new_draw_player);
@@ -76,6 +77,8 @@ public:
     bool isRowCommand();
     void clearCursor();
     void clearInventory();
+
+    //Others
 };
 
 #endif // GUIQT_H
