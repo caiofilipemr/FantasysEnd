@@ -32,7 +32,7 @@ public:
     Map(string new_arch_map, string new_img_way, std::vector<Monster *> *new_mobs);
     ~Map();
     Cordenates getCordenates();
-    bool hasColision(Cordenates cord);
+    bool hasColision(Cordenates cord, Direction walk_direction);
     void updateColision(Character * update_character);
     void setAColision(Cordenates new_col);
     void removeAColision(Cordenates remove_col);

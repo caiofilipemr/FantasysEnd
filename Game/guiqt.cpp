@@ -105,7 +105,6 @@ void GUIQT::drawMap()
             if (m_base[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_base[i][j]-1) % 57) * 17, (m_base[i][j] / 57) * 17, 16, 16));
             if (m_s_base[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_s_base[i][j]-1) % 57) * 17, (m_s_base[i][j] / 57) * 17, 16, 16));
             if (m_obj[i][j]) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, tile->copy(((m_obj[i][j]-1) % 57) * 17, (m_obj[i][j] / 57) * 17, 16, 16));
-            if (m_itera[i][j] != NULL) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, QPixmap(QString::fromStdString(draw_map->getObjectMap(Cordenates(i,j))->getImgWay())));
         }
     }
 
@@ -129,8 +128,10 @@ void GUIQT::drawMap()
 
 //    OPÇÃO DE DESENHO DA ISOMETRICA !!!
     for (i = begin_i, index_i = -1; index_i < size_x + 1; index_i++, i++) {
-        for (j = begin_j, index_j = -1; index_j < size_y + 1; index_j++, j++)
+        for (j = begin_j, index_j = -1; index_j < size_y + 1; index_j++, j++) {
+            if (m_itera[i][j] != NULL) painter->drawPixmap(index_j * ppt + column , index_i * ppt + row, ppt, ppt, QPixmap(QString::fromStdString(draw_map->getObjectMap(Cordenates(i,j))->getImgWay())));
             if (m_iso[i][j]) painter->drawPixmap(index_j * ppt + column, index_i * ppt + row, ppt, ppt, tile->copy(((m_iso[i][j]-1) % 57) * 17, (m_iso[i][j] / 57) * 17, 16, 16));
+        }
     }
 
     //Desenha a metade de cima do jogador e mobs

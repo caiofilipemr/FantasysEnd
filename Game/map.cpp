@@ -177,9 +177,10 @@ Cordenates Map::getCordenates()
     return Cordenates(size_i, size_j);
 }
 
-bool Map::hasColision(Cordenates cord)
+bool Map::hasColision(Cordenates cord, Direction walk_direction)
 {
-    return bool(m_col[cord.i][cord.j]);
+
+    return bool((isVertical(walk_direction) && m_col[cord.i][cord.j]) || m_col[cord.i][cord.j] == 1 || m_col[cord.i][cord.j] == 2);
 }
 
 bool *Map::getCanGo(Cordenates cord)
@@ -187,8 +188,8 @@ bool *Map::getCanGo(Cordenates cord)
     can_go[UP] = can_go[DOWN] = can_go[RIGHT] = can_go[LEFT] = true;
     if (m_col[(cord + UP).i][(cord + UP).j]) can_go[UP] = false;
     if (m_col[(cord + DOWN).i][(cord + DOWN).j]) can_go[DOWN] = false;
-    if (m_col[(cord + RIGHT).i][(cord + RIGHT).j]) can_go[RIGHT] = false;
-    if (m_col[(cord + LEFT).i][(cord + LEFT).j]) can_go[LEFT] = false;
+    if (m_col[(cord + RIGHT).i][(cord + RIGHT).j] == 1 || m_col[(cord + RIGHT).i][(cord + RIGHT).j] == 2) can_go[RIGHT] = false;
+    if (m_col[(cord + LEFT).i][(cord + LEFT).j] == 1 || m_col[(cord + LEFT).i][(cord + LEFT).j] == 2) can_go[LEFT] = false;
     return can_go;
 }
 
@@ -236,7 +237,7 @@ void Map::randMapInteration()
         obj_pos_i = random(size_i);
         obj_pos_j = random(size_j);
         if(!m_col[obj_pos_i][obj_pos_j]) {
-            setAColision(Cordenates(obj_pos_i,obj_pos_j));
+            m_col[obj_pos_i][obj_pos_j] = 3;
             chest_list[k] = new Chest(obj_pos_i,obj_pos_j);
             m_interation[obj_pos_i][obj_pos_j] = chest_list[k];
             k++;

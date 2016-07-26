@@ -208,7 +208,7 @@ void Player::update(Map *my_map)
     }
     else {
         Cordenates cord = Cordenates(this->pos_i, this->pos_j) + walk_direction;
-        if (walk_direction != SLEEP && !my_map->hasColision(cord)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
+        if (walk_direction != SLEEP && !my_map->hasColision(cord, walk_direction)) { //Se vai andar para algum lugar e se esse lugar não tiver colisão, então:
             my_map->setAColision(cord);
             is_walking = true;
             this->walk();

@@ -77,6 +77,8 @@ int random(int num_rand);
 
 std::stack<Direction> shortPass(int begin_i, int begin_j, int end_i, int end_j);
 
+bool isVertical(Direction direction);
+
 //int randlevelitem();
 
 
