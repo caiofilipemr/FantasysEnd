@@ -350,6 +350,13 @@ void GUIQT::clearInventory()
     inventory->clear();
 }
 
+void GUIQT::drawPlayerCordenates()
+{
+    Cordenates cord = draw_player->getCordenates();
+    QString s = "X " + QString::number(cord.i) + " Y " + QString::number(cord.j);
+    Write::writeText(s, 15, 335, 50, 20, painter);
+}
+
 void GUIQT::setChest(Chest *new_chest)
 {
     inventory->setChest(new_chest);

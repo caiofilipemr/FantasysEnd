@@ -136,6 +136,9 @@ void Game::keyPressEvent(QKeyEvent *event)
     if(event->key() == Qt::Key_X && event->modifiers() == Qt::ShiftModifier) {
         my_engine->setSpecialX(); //hp = hp_max
     }
+    if(event->key() == Qt::Key_D && event->modifiers() == Qt::ShiftModifier) {
+        current_over = PLAYER_CORDENATES;
+    }
 }
 
 void Game::keyReleaseEvent(QKeyEvent * event)
@@ -211,6 +214,9 @@ void Game::paintEvent(QPaintEvent *)
     switch (current_over) {
     case PAUSE:
         my_GUI->drawPauseScreen();
+        break;
+    case PLAYER_CORDENATES:
+        my_GUI->drawPlayerCordenates();
         break;
     default:
         break;
